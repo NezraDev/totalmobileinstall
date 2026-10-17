@@ -191,6 +191,21 @@ export default function Home() {
               </figure>
             ))}
           </div>
+          {business.reviewUrl && (
+            <div className="reviews-more">
+              <p>Read more customer reviews and testimonials on Google.</p>
+              <a
+                className="text-link reviews-more__link"
+                href={business.reviewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Want to Read More Reviews? Opens Google Maps in a new tab"
+              >
+                Want to Read More Reviews?
+                <ArrowUpRight size={18} aria-hidden="true" />
+              </a>
+            </div>
+          )}
         </div>
       </section>
       <section className="section home-contact">

@@ -50,6 +50,33 @@
   flex-shrink: 0;
 }
 
+.reviews-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.reviews-more > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.reviews-more__link {
+  flex-shrink: 0;
+  gap: 9px;
+  min-height: 44px;
+  padding-block: 8px;
+}
+
+.reviews-more__link:hover {
+  gap: 13px;
+}
+
 @media (max-width: 700px) {
   .reviews-section .section-heading {
     flex-direction: column;
@@ -62,6 +89,12 @@
 
   .reviews-controls .comparison-button {
     flex: 1;
+  }
+
+  .reviews-more {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
   }
 
   .transformation-top {

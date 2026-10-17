@@ -131,6 +131,29 @@ export const data = {
     nextLabel: 'Next story',
     navigationHint: 'Use the buttons to read more customer stories.',
     label: 'Customer stories',
+    badgesLabel: 'Business badges',
+    badges: [
+      {
+        id: 'best-service',
+        src: '/images/badges/badge-best-service.webp',
+        alt: 'Awarded Best Service Provider',
+      },
+      {
+        id: 'locally-owned',
+        src: '/images/badges/badge-locally-owned.webp',
+        alt: 'Locally Owned',
+      },
+      {
+        id: 'premium-quality',
+        src: '/images/badges/badge-premium-quality.webp',
+        alt: 'Premium Quality Guaranteed',
+      },
+      {
+        id: 'satisfaction',
+        src: '/images/badges/badge-satisfaction.webp',
+        alt: '100% Customer Satisfaction Guaranteed',
+      },
+    ],
     items: [
       {
         id: 'deborah',

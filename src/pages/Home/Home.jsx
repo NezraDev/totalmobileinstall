@@ -191,6 +191,20 @@ export default function Home() {
               </figure>
             ))}
           </div>
+          <ul className="home-trust-badges" aria-label={d.reviews.badgesLabel}>
+            {d.reviews.badges.map((badge) => (
+              <li key={badge.id}>
+                <img
+                  src={badge.src}
+                  alt={badge.alt}
+                  width="160"
+                  height="160"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </li>
+            ))}
+          </ul>
           {business.reviewUrl && (
             <div className="reviews-more">
               <p>Read more customer reviews and testimonials on Google.</p>

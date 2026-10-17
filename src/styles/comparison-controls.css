@@ -50,6 +50,30 @@
   flex-shrink: 0;
 }
 
+.home-trust-badges {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  gap: clamp(10px, 2vw, 24px);
+  margin: 10px 0 20px;
+  padding: 12px 0 20px;
+  list-style: none;
+}
+
+.home-trust-badges li {
+  display: grid;
+  width: 100%;
+  justify-items: center;
+}
+
+.home-trust-badges img {
+  width: min(100%, 158px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
 .reviews-more {
   display: flex;
   align-items: center;
@@ -95,6 +119,16 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 6px;
+  }
+
+  .home-trust-badges {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px;
+    padding-block: 14px 18px;
+  }
+
+  .home-trust-badges img {
+    width: min(100%, 145px);
   }
 
   .transformation-top {

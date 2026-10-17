@@ -85,7 +85,8 @@ export function transformCartoRequest(url) {
         /([?&]key=)[^&]*/,
         (_match, prefix) => `${prefix}${keyValue}`,
       );
-    else secured = `${target}${target.includes('?') ? '&' : '?'}key=${keyValue}`;
+    else
+      secured = `${target}${target.includes('?') ? '&' : '?'}key=${keyValue}`;
     return { url: `${secured}${suffix}` };
   } catch {
     return { url };
@@ -105,7 +106,6 @@ export const mapConfig = Object.freeze({
   attribution: cartoAttribution,
   embedUrl: embedUrl.toString(),
   zoom: 14.5,
-  selectableZoom: 12.8,
   address: businessAddress,
   directionsUrl,
 });

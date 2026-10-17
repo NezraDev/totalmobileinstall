@@ -20,7 +20,7 @@ Present the family-owned business, show real supplied vehicle work, and collect 
 
 ## Capabilities and Constraints
 
-Six services, public routes, local photographs, genuine supplied before-and-after pairs, accessible forms and navigation, plus a manually selectable home-service map pin. External Resend endpoint only. No private credentials, custom backend, CMS, payments, uploads, or visitor geolocation. Service coverage and unsupported claims must not be invented.
+Six services, public routes, local photographs, genuine supplied before-and-after pairs, accessible forms and navigation, and an Our Work map with an anonymized New Orleans overview pin and photo-proof popups. External Resend endpoint only. No private credentials, custom backend, CMS, payments, uploads, client addresses, or visitor geolocation. Service coverage and unsupported claims must not be invented.
 
 ## Brand Commitments
 
@@ -39,4 +39,4 @@ Source: ../total-mobile-install-website-planning-prompt.md. Original logo export
 
 ## Accessibility & Inclusion
 
-Keyboard navigation, persistent form labels, visible focus, reduced motion, readable text, manual slideshow controls, responsive mobile layout.
+Keyboard navigation, persistent form labels, visible focus, reduced motion, readable text, automatically advancing hero, and responsive mobile layout.

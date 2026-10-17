@@ -18,6 +18,8 @@ The paired transformation viewer lets visitors inspect a genuine damaged/complet
 
 Soft 0.8-second hero photo crossfades, a brief route settling transition, precise button movement, and restrained photo hover effects. Visible content is the default. Reduced motion disables automatic slides and nonessential movement. Keyboard focus temporarily suspends hero rotation. Metric figures count to their sourced values once when entering the viewport, without repeated looping. Hidden tabs suspend the timer. Hovering the photographic hero does not stop automatic playback.
 
+The Our Work route uses a single city-level portfolio marker because verified job areas were not supplied. A compact project browser selects the case shown in the marker popup, including the real before-and-after photographs, while explicitly keeping client addresses private.
+
 ## Scope and risks
 
 Persuade mode. The homepage progresses from offer to real work, business story, services, reasons, transformations, reviews, and contact. Smaller routes share this visual system. Images, text, source truth, and browser-local interactions are complete. Email sending, CARTO credentials, policy approval, claim confirmation, final domain and service coverage remain external dependencies.

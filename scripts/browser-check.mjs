@@ -45,6 +45,8 @@ const paths = [
     'side-rear-glass',
   ].map((s) => `/services/${s}`),
   '/service-areas',
+  '/our-work',
+  '/home-service',
   '/gallery',
   '/faq',
   '/contact',
@@ -76,6 +78,32 @@ for (const route of paths) {
     );
   assert.equal(broken.length, 0, `Broken images ${route}`);
 }
+assert.equal(new URL(desktop.url()).pathname, '/services/unknown');
+await desktop.goto('http://localhost:5173/home-service', {
+  waitUntil: 'networkidle',
+});
+assert.equal(new URL(desktop.url()).pathname, '/our-work');
+assert.equal(await desktop.locator('.project-card').count(), 9);
+await desktop
+  .getByRole('button', { name: 'Show project on map' })
+  .nth(0)
+  .click();
+await desktop.locator('.project-map-popup > strong').waitFor();
+assert.equal(
+  await desktop.locator('.project-map-popup > strong').innerText(),
+  'Bentley windshield',
+);
+assert.equal(await desktop.locator('.project-map-popup__proof img').count(), 2);
+assert.ok(
+  (await desktop.locator('.projects-map__privacy').innerText()).includes(
+    'not an individual client location',
+  ),
+);
+await settlePhotos(desktop);
+await desktop.screenshot({
+  path: `${out}/projects-desktop.png`,
+  fullPage: true,
+});
 await desktop.goto('http://localhost:5173/contact', {
   waitUntil: 'networkidle',
 });

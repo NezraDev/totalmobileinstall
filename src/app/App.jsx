@@ -1,5 +1,11 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import Home from '../pages/Home/Home';
@@ -10,7 +16,7 @@ const ServiceDetail = lazy(
   () => import('../pages/ServiceDetail/ServiceDetail'),
 );
 const ServiceAreas = lazy(() => import('../pages/ServiceAreas/ServiceAreas'));
-const HomeService = lazy(() => import('../pages/HomeService/HomeService'));
+const Projects = lazy(() => import('../pages/Projects/Projects'));
 const Gallery = lazy(() => import('../pages/Gallery/Gallery'));
 const FAQ = lazy(() => import('../pages/FAQ/FAQ'));
 const Contact = lazy(() => import('../pages/Contact/Contact'));
@@ -51,7 +57,11 @@ function Shell() {
             <Route path="/services" element={<Services />} />
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/service-areas" element={<ServiceAreas />} />
-            <Route path="/home-service" element={<HomeService />} />
+            <Route path="/our-work" element={<Projects />} />
+            <Route
+              path="/home-service"
+              element={<Navigate to="/our-work" replace />}
+            />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />

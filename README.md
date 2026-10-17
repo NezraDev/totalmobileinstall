@@ -16,12 +16,12 @@ Open the Local URL printed by Vite. `npm run build` creates the static `dist` fo
 
 - White responsive navigation, supplied icon with an HTML wordmark, and a full-height photographic slideshow hero with a translucent blue overlay and immediate booking and phone actions.
 - Automatic 4.5-second photo rotation with smooth crossfades and an uncluttered hero. Hero pause and arrow controls are removed as requested. Keyboard focus temporarily suspends rotation; reduced motion uses a static photo.
-- All thirteen page templates plus six service detail routes, page-specific SEO, and genuine recovery pages for invalid routes and slugs.
+- All public page templates plus six service detail routes, page-specific SEO, and genuine recovery pages for invalid routes and slugs. `/our-work` is the completed-project map and `/home-service` redirects there for continuity.
 - Nine genuine matched before-and-after projects. Desktop comparison panels preserve differing camera angles; mobile tabs switch clearly between stages.
 - Six supplied testimonials with exact wording, scrollable using keyboard or controls. No invented aggregate score or review count.
 - Accessible service inquiry form, eligible modes, shop-only detailing restrictions, conditional mobile address, field validation, pending/accepted/failed/unavailable states, and preserved input on failure.
-- Deferred MapLibre maps with draggable home-and-car pins, pin popups, CARTO attribution when configured, and readable address/directions fallbacks.
-- A Home Service page with an interactive map pin that can be carried into a mobile-service request.
+- Deferred MapLibre maps using CARTO Voyager when configured, linked CARTO and OpenStreetMap attribution, readable map fallbacks, and an exact shop pin.
+- An Our Work page with one generalized New Orleans portfolio marker. Selecting any of nine supplied projects opens its real before-and-after proof in the pin popup; no client names or exact job addresses are published.
 - Static business structured data, self-hosted Manrope, local responsive WebP photos, reduced-motion preferences, visible focus, and a mobile call/booking bar that hides around forms, maps, and footer content.
 
 ## Edit content
@@ -48,12 +48,12 @@ Copy `.env.example` to `.env.local` and supply the public values you have. Rebui
 
 The frontend never sends email directly. A separately hosted trusted endpoint calls Resend and sends to the fixed business address. No function or backend is scaffolded here. A submitted state appears only after a configured endpoint returns an accepted response. Without that endpoint the form explains online availability and provides working call/email actions.
 
-The shop map uses MapLibre at the exact client-supplied coordinates (30.025471630757778, -90.02540735889556). Set `VITE_CARTO_API_KEY` to use CARTO tiles and show both requested CARTO and OpenStreetMap attributions. Without a key, MapLibre uses OpenStreetMap raster tiles and shows OpenStreetMap attribution. The Home Service page lets visitors move the house-and-car pin and carry its coordinates into a service request; the team confirms availability. No visitor geolocation is requested.
+The shop map uses MapLibre at the exact client-supplied coordinates (30.025471630757778, -90.02540735889556). Set `VITE_CARTO_API_KEY` to use CARTO Voyager tiles and show linked CARTO and OpenStreetMap attributions. Without a key, MapLibre uses OpenStreetMap raster tiles and shows OpenStreetMap attribution. The Our Work map uses a single generalized New Orleans portfolio marker because project-level ZIP codes or addresses were not provided. Selecting a project loads its genuine before-and-after photos into the popup. No client identity, precise job address, or visitor geolocation is shown.
 
 ## Launch inputs
 
 - Configure the external Resend endpoint, verified sending domain, server validation and abuse controls. Private Resend credentials belong only to that endpoint.
-- The exact shop pin is configured from the client. A CARTO key is required to use CARTO tiles; otherwise the MapLibre map uses OpenStreetMap raster tiles.
+- The exact shop pin is configured from the client. A CARTO key is required to use CARTO tiles; otherwise the MapLibre map uses OpenStreetMap raster tiles. The portfolio pin is intentionally city-level until verified anonymous project areas are available.
 - Approve final Privacy Policy and Terms. Current pages explicitly state that approved text is pending.
 - Review proposed linked-page copy/FAQ answers, testimonial publication, eligible service modes, and surrounding coverage. No invented radius or neighborhood list appears.
 - Confirm certification, 10K+ vehicle, 100% satisfaction, award, and warranty claims before displaying them. Original supplied statistics are retained in page data. Unconfirmed certification, warranty, award and satisfaction claims are gated off by default in `src/config/site.js`; the vehicle metric requested by the client uses the brief's existing 10K+ figure and remains on the launch verification checklist. Badge files are preserved without implying verified credentials.

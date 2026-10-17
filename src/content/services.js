@@ -37,7 +37,7 @@ export const services = [
   {
     id: 'auto-glass-repair',
     specialtyId: 'auto-glass',
-    name: 'Auto Glass',
+    name: 'Windshield Repair',
     short: 'Windshield Repair & Replacement',
     detailHeading: 'Windshield Repair & Replacement',
     description:

@@ -26,6 +26,12 @@ await desktop.evaluate(() => document.fonts.ready);
 assert.equal(await desktop.locator('h1').count(), 1);
 assert.ok((await desktop.locator('h1').innerText()).includes('At Your Door.'));
 await settlePhotos(desktop);
+assert.ok(
+  (
+    await desktop.locator('.section-soft .section-heading h2').innerText()
+  ).includes('Six services'),
+);
+assert.equal(await desktop.locator('.section-soft .service-card').count(), 6);
 await desktop.screenshot({ path: `${out}/desktop.png`, fullPage: true });
 assert.equal(await desktop.locator('.photo-hero button').count(), 0);
 assert.equal(await desktop.locator('.hero-slide-progress span').count(), 5);
@@ -84,18 +90,20 @@ for (const route of paths) {
 assert.equal(new URL(desktop.url()).pathname, '/services/unknown');
 await desktop.goto(`${baseUrl}/services`, { waitUntil: 'networkidle' });
 await settlePhotos(desktop);
-assert.equal(await desktop.locator('.service-card').count(), 4);
-for (const specialty of [
-  'Auto Glass',
-  'Advanced Driver-Assistance Calibration',
-  'Premium Ceramic Window Tinting',
-  'Showroom-Finish Mobile Detailing',
+assert.equal(await desktop.locator('.service-card').count(), 6);
+for (const service of [
+  'Windshield Repair',
+  'Windshield Replacement',
+  'ADAS Calibration',
+  'Window Tinting',
+  'Mobile Detailing',
+  'Side & Rear Glass Replacement',
 ]) {
   assert.ok(
     (await desktop.locator('.service-card').allTextContents()).some((text) =>
-      text.includes(specialty),
+      text.includes(service),
     ),
-    specialty,
+    service,
   );
 }
 await desktop.screenshot({
@@ -297,7 +305,7 @@ fs.writeFileSync(
         'Slideshow and transformation controls',
         'Mobile navigation and Escape',
         'Detailing restrictions',
-        'Four client-approved specialties and full service details',
+        'Six listed services across four specialties and full service details',
         'Client-approved New Orleans service radius',
         'Mobile location field',
         'Unconfigured form offers a validated email draft fallback',

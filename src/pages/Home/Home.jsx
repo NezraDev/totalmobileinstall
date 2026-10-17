@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import { data as d } from './data';
 import { business } from '../../content/business';
-import { serviceSpecialties } from '../../content/services';
 import PageMeta from '../../components/ui/PageMeta';
 import Photo from '../../components/ui/Photo';
 import ServiceGrid from '../../components/ui/ServiceGrid';
@@ -101,10 +100,7 @@ export default function Home() {
               <ArrowUpRight size={18} />
             </Link>
           </div>
-          <ServiceGrid
-            items={serviceSpecialties}
-            className="service-grid--specialties"
-          />
+          <ServiceGrid />
         </div>
       </section>
       <section className="why-section">

@@ -51,9 +51,9 @@ export const data = {
       },
       {
         id: 'services',
-        value: 4,
-        label: 'Specialties',
-        detail: 'Glass, calibration, tint & detailing.',
+        value: 6,
+        label: 'Services',
+        detail: 'Delivered across four specialties.',
         to: '/services',
       },
       {
@@ -88,9 +88,9 @@ export const data = {
     ],
   },
   services: {
-    title: 'One certified team. Four specialties.',
+    title: 'Six services. Four specialties.',
     description:
-      'Auto glass, ADAS calibration, ceramic window tint, and detailing under one certified, family-owned operation.',
+      'Windshield repair and replacement, side and rear glass, ADAS calibration, ceramic window tint, and detailing from one certified, family-owned team.',
     action: 'Explore all services',
   },
   why: {

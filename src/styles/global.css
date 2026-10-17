@@ -549,10 +549,6 @@ main:focus {
   grid-template-columns: repeat(3, 1fr);
   gap: 40px 28px;
 }
-.service-grid--specialties {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 38px 28px;
-}
 .service-card {
   display: block;
   min-width: 0;

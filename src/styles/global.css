@@ -1058,12 +1058,10 @@ main:focus {
   border-color: var(--royal);
   box-shadow: 0 0 0 3px #011bca17;
 }
-.form-field select.form-select--center {
-  text-align: center;
-  text-align-last: center;
-}
-.form-field select.form-select--center option {
-  text-align: center;
+.form-field select.form-select--mode {
+  width: calc(100% - 12px);
+  margin-inline: auto;
+  transform: translateX(-6px);
 }
 .form-field input:disabled,
 .form-field select:disabled {

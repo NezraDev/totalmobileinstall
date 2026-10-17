@@ -277,7 +277,6 @@ export default function BookingForm({
             </label>
             <select
               id={`${formId}-serviceId`}
-              className="form-select--center"
               name="serviceId"
               value={values.serviceId}
               onChange={update}
@@ -316,7 +315,6 @@ export default function BookingForm({
               </label>
               <select
                 id={`${formId}-detailType`}
-                className="form-select--center"
                 name="detailType"
                 value={values.detailType}
                 onChange={update}
@@ -348,7 +346,7 @@ export default function BookingForm({
             </label>
             <select
               id={`${formId}-serviceMode`}
-              className="form-select--center"
+              className="form-select--mode"
               name="serviceMode"
               value={values.serviceMode}
               onChange={update}

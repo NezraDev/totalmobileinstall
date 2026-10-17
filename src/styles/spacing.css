@@ -1,0 +1,292 @@
+/* Shared spacing pass for a tighter page rhythm. The photo hero is intentionally untouched. */
+.section {
+  padding-block: 76px;
+}
+
+.section.page-section {
+  padding-block: 62px;
+}
+
+.page-intro {
+  padding-block: 48px;
+}
+
+.page-intro p {
+  margin-top: 18px;
+}
+
+.page-intro-photo > .container {
+  gap: 48px;
+}
+
+.section-heading {
+  margin-bottom: 34px;
+}
+
+.section-heading p {
+  margin-top: 14px;
+}
+
+.split {
+  gap: clamp(32px, 5.5vw, 80px);
+}
+
+.split-copy > h2 {
+  margin-bottom: 22px;
+}
+
+.service-grid {
+  row-gap: 30px;
+}
+
+.service-card h3 {
+  margin-top: 17px;
+  margin-bottom: 9px;
+}
+
+.why-section {
+  padding-block: 76px;
+}
+
+.why-section .split {
+  gap: 70px;
+}
+
+.why-list {
+  margin-top: 22px;
+}
+
+.why-list > div {
+  padding-block: 18px;
+}
+
+.about-stats {
+  gap: 24px;
+  margin-top: 28px;
+  padding-top: 22px;
+}
+
+.comparison-projects {
+  margin-top: 22px;
+}
+
+.review {
+  padding: 26px;
+}
+
+.review figcaption {
+  margin-top: 20px;
+  padding-top: 16px;
+}
+
+.contact-layout {
+  gap: 70px;
+}
+
+.contact-details {
+  margin-bottom: 24px;
+}
+
+.contact-row {
+  padding-block: 16px;
+}
+
+.booking-layout {
+  gap: 55px;
+}
+
+.booking-form-wrap {
+  padding: 32px;
+}
+
+.form-grid {
+  gap: 18px 15px;
+}
+
+.detail-list {
+  gap: 12px;
+  margin-block: 24px;
+}
+
+.detail-list li {
+  padding-bottom: 12px;
+}
+
+.notice {
+  padding: 20px;
+  margin-block: 18px;
+}
+
+.photo-grid {
+  gap: 20px;
+}
+
+.faq-list details {
+  padding-block: 19px;
+}
+
+.faq-list details p {
+  margin-top: 12px;
+}
+
+.legal-copy h2 {
+  margin: 30px 0 14px;
+}
+
+.legal-copy p {
+  margin-bottom: 14px;
+}
+
+.closing-cta {
+  padding-block: 52px;
+}
+
+.closing-cta > .container {
+  gap: 28px;
+}
+
+.site-footer {
+  padding-top: 56px;
+}
+
+.footer-grid {
+  gap: 48px;
+  padding-bottom: 50px;
+}
+
+.footer-grid h2 {
+  margin-bottom: 17px;
+}
+
+.metrics-strip {
+  padding-block: 34px;
+}
+
+@media (max-width: 1190px) {
+  .section {
+    padding-block: 64px;
+  }
+
+  .section.page-section {
+    padding-block: 54px;
+  }
+
+  .section-heading {
+    margin-bottom: 30px;
+  }
+
+  .split,
+  .why-section .split,
+  .contact-layout,
+  .booking-layout {
+    gap: 34px;
+  }
+
+  .footer-grid {
+    gap: 32px;
+  }
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding-block: 48px;
+  }
+
+  .section.page-section {
+    padding-block: 40px;
+  }
+
+  .page-intro {
+    padding-block: 38px;
+  }
+
+  .page-intro-photo > .container {
+    gap: 24px;
+  }
+
+  .section-heading {
+    margin-bottom: 25px;
+  }
+
+  .section-heading p {
+    margin-top: 12px;
+  }
+
+  .split,
+  .why-section .split,
+  .contact-layout,
+  .booking-layout {
+    gap: 24px;
+  }
+
+  .service-grid {
+    row-gap: 24px;
+  }
+
+  .service-card h3 {
+    margin-top: 13px;
+  }
+
+  .why-section {
+    padding-block: 48px;
+  }
+
+  .why-list > div {
+    padding-block: 16px;
+  }
+
+  .about-stats {
+    gap: 16px;
+    margin-top: 22px;
+    padding-top: 18px;
+  }
+
+  .comparison-projects {
+    margin-top: 18px;
+  }
+
+  .review {
+    padding: 23px;
+  }
+
+  .booking-form-wrap {
+    padding: 24px 18px;
+  }
+
+  .form-grid {
+    gap: 16px 12px;
+  }
+
+  .contact-details {
+    margin-bottom: 24px;
+  }
+
+  .photo-grid {
+    gap: 16px;
+  }
+
+  .faq-list details {
+    padding-block: 16px;
+  }
+
+  .closing-cta {
+    padding-block: 40px;
+  }
+
+  .closing-cta > .container {
+    gap: 22px;
+  }
+
+  .site-footer {
+    padding-top: 40px;
+  }
+
+  .footer-grid {
+    row-gap: 28px;
+    padding-bottom: 36px;
+  }
+
+  .metrics-strip {
+    padding-block: 24px;
+  }
+}

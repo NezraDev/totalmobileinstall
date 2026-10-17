@@ -162,7 +162,109 @@
   padding-block: 34px;
 }
 
+.site-header .header-inner {
+  min-height: 84px;
+  gap: 26px;
+}
+
+.site-header .brand {
+  width: 270px;
+}
+
+.site-header .brand-mark {
+  gap: 10px;
+}
+
+.site-header .brand-icon {
+  flex-basis: 63px;
+  height: 34px;
+}
+
+.site-header .brand-name {
+  font-size: 15px;
+}
+
+.site-header .brand-descriptor {
+  font-size: 9.5px;
+}
+
+.site-header .navigation {
+  gap: clamp(12px, 1.3vw, 21px);
+}
+
+.site-header .navigation > a:not(.button) {
+  font-size: 14px;
+  padding-block: 10px;
+}
+
+.site-header .navigation > a:not(.button):after {
+  bottom: 3px;
+}
+
+.site-header .nav-book {
+  min-height: 44px;
+  padding-inline: 16px;
+  gap: 12px;
+  font-size: 13px;
+}
+
+@media (min-width: 1600px) {
+  .site-header .header-inner {
+    min-height: 84px;
+  }
+
+  .site-header .brand {
+    width: 276px;
+  }
+
+  .site-header .navigation {
+    gap: 22px;
+  }
+}
+
 @media (max-width: 1190px) {
+  .site-header .header-inner {
+    min-height: 78px;
+    gap: 16px;
+  }
+
+  .site-header .brand {
+    width: 220px;
+  }
+
+  .site-header .brand-mark {
+    gap: 8px;
+  }
+
+  .site-header .brand-icon {
+    flex-basis: 55px;
+    height: 30px;
+  }
+
+  .site-header .brand-name {
+    font-size: 14px;
+  }
+
+  .site-header .brand-descriptor {
+    font-size: 9px;
+  }
+
+  .site-header .navigation {
+    gap: 11px;
+  }
+
+  .site-header .navigation > a:not(.button) {
+    font-size: 13px;
+    padding-block: 8px;
+  }
+
+  .site-header .nav-book {
+    min-height: 40px;
+    padding-inline: 12px;
+    gap: 8px;
+    font-size: 12px;
+  }
+
   .section {
     padding-block: 64px;
   }
@@ -187,7 +289,59 @@
   }
 }
 
+@media (max-width: 1000px) {
+  .site-header .header-inner {
+    min-height: 76px;
+  }
+
+  .site-header .brand {
+    width: 230px;
+  }
+
+  .site-header .navigation {
+    padding: 12px var(--gutter) 20px;
+    max-height: calc(100dvh - 76px);
+  }
+
+  .site-header .navigation > a:not(.button) {
+    font-size: 16px;
+    padding-block: 11px;
+  }
+
+  .site-header .nav-book {
+    margin-top: 8px;
+    min-height: 44px;
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 700px) {
+  .site-header .header-inner {
+    min-height: 74px;
+    gap: 9px;
+  }
+
+  .site-header .brand {
+    width: 223px;
+  }
+
+  .site-header .brand-icon {
+    flex-basis: 53px;
+    height: 28px;
+  }
+
+  .site-header .brand-name {
+    font-size: 13.4px;
+  }
+
+  .site-header .brand-descriptor {
+    font-size: 8.3px;
+  }
+
+  .site-header .navigation {
+    max-height: calc(100dvh - 74px);
+  }
+
   .section {
     padding-block: 48px;
   }

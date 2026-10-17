@@ -16,11 +16,12 @@ Open the Local URL printed by Vite. `npm run build` creates the static `dist` fo
 
 - White responsive navigation, supplied icon with an HTML wordmark, and a full-height photographic slideshow hero with a translucent blue overlay and immediate booking and phone actions.
 - Automatic 4.5-second photo rotation with smooth crossfades and an uncluttered hero. Hero pause and arrow controls are removed as requested. Keyboard focus temporarily suspends rotation; reduced motion uses a static photo.
-- All twelve page templates plus six service detail routes, page-specific SEO, and genuine recovery pages for invalid routes and slugs.
+- All thirteen page templates plus six service detail routes, page-specific SEO, and genuine recovery pages for invalid routes and slugs.
 - Nine genuine matched before-and-after projects. Desktop comparison panels preserve differing camera angles; mobile tabs switch clearly between stages.
 - Six supplied testimonials with exact wording, scrollable using keyboard or controls. No invented aggregate score or review count.
 - Accessible service inquiry form, eligible modes, shop-only detailing restrictions, conditional mobile address, field validation, pending/accepted/failed/unavailable states, and preserved input on failure.
-- Deferred MapLibre/CARTO integration with lifecycle cleanup and readable address/directions fallback.
+- Deferred MapLibre maps with draggable home-and-car pins, pin popups, CARTO attribution when configured, and readable address/directions fallbacks.
+- A Home Service page with an interactive map pin that can be carried into a mobile-service request.
 - Static business structured data, self-hosted Manrope, local responsive WebP photos, reduced-motion preferences, visible focus, and a mobile call/booking bar that hides around forms, maps, and footer content.
 
 ## Edit content
@@ -47,12 +48,12 @@ Copy `.env.example` to `.env.local` and supply the public values you have. Rebui
 
 The frontend never sends email directly. A separately hosted trusted endpoint calls Resend and sends to the fixed business address. No function or backend is scaffolded here. A submitted state appears only after a configured endpoint returns an accepted response. Without that endpoint the form explains online availability and provides working call/email actions.
 
-The map displays an OpenStreetMap embed at the exact client-supplied shop coordinates (30.025471630757778, -90.02540735889556), without requiring an API key. An optional CARTO key activates MapLibre. Provider/WebGL errors fall back to the embedded map. Directions use the precise pin. No visitor geolocation is requested.
+The shop map uses MapLibre at the exact client-supplied coordinates (30.025471630757778, -90.02540735889556). Set `VITE_CARTO_API_KEY` to use CARTO tiles and show both requested CARTO and OpenStreetMap attributions. Without a key, MapLibre uses OpenStreetMap raster tiles and shows OpenStreetMap attribution. The Home Service page lets visitors move the house-and-car pin and carry its coordinates into a service request; the team confirms availability. No visitor geolocation is requested.
 
 ## Launch inputs
 
 - Configure the external Resend endpoint, verified sending domain, server validation and abuse controls. Private Resend credentials belong only to that endpoint.
-- The exact shop pin is configured from the client. A CARTO key is optional if the MapLibre basemap is preferred.
+- The exact shop pin is configured from the client. A CARTO key is required to use CARTO tiles; otherwise the MapLibre map uses OpenStreetMap raster tiles.
 - Approve final Privacy Policy and Terms. Current pages explicitly state that approved text is pending.
 - Review proposed linked-page copy/FAQ answers, testimonial publication, eligible service modes, and surrounding coverage. No invented radius or neighborhood list appears.
 - Confirm certification, 10K+ vehicle, 100% satisfaction, award, and warranty claims before displaying them. Original supplied statistics are retained in page data. Unconfirmed certification, warranty, award and satisfaction claims are gated off by default in `src/config/site.js`; the vehicle metric requested by the client uses the brief's existing 10K+ figure and remains on the launch verification checklist. Badge files are preserved without implying verified credentials.
@@ -76,6 +77,6 @@ npm run build
 
 The browser check requires the Vite dev server at port 5173 and an installed Edge browser. It covers every page and service route, 320–1440px widths, asset loading, page titles, mobile navigation, keyboard FAQ interaction, slideshow controls, actual transformation switching, detailing restrictions, and honest unconfigured submission. Screenshots and results are saved in `.impeccable/review`. No real email is sent during checks.
 
-The large MapLibre chunk is intentionally dynamically imported only near a configured map; it is not part of the opening download. The default site lazily loads the visible OpenStreetMap embed near the viewport.
+The large MapLibre chunk is intentionally dynamically imported only near a map; it is not part of the opening download. Maps load near the viewport and clean up when their page unmounts.
 
 The scrolling metrics section counts up once as it enters the viewport and respects reduced motion. Values use the source brief (9+ years, 10K+ vehicles) and actual service/project/testimonial records. No star average or aggregate rating is invented. Confirm the client-supplied vehicle figure before public launch.

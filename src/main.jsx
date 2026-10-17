@@ -11,6 +11,7 @@ import './styles/metrics.css';
 import './styles/brand.css';
 import './styles/comparison-controls.css';
 import './styles/spacing.css';
+import './styles/map.css';
 import App from './app/App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

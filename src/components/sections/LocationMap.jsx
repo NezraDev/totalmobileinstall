@@ -1,52 +1,73 @@
 import { useEffect, useRef, useState } from 'react';
-import { MapPin, ArrowUpRight } from 'lucide-react';
+import { createRoot } from 'react-dom/client';
+import { Link } from 'react-router-dom';
+import {
+  ArrowUpRight,
+  CarFront,
+  House,
+  LoaderCircle,
+  MapPin,
+} from 'lucide-react';
 import {
   mapConfig,
-  transformCartoRequest,
   directionsUrl,
+  transformCartoRequest,
 } from '../../integrations/mapConfig';
 import { mapCopy as c } from '../../content/ui';
 import { business } from '../../content/business';
-export default function LocationMap() {
-  const host = useRef(null),
-    canvas = useRef(null),
-    [near, setNear] = useState(false),
-    [provider, setProvider] = useState(
-      mapConfig.cartoConfigured ? 'carto' : 'osm',
-    ),
-    [state, setState] = useState('waiting');
+
+function formatCoordinates([longitude, latitude]) {
+  return `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+}
+
+export default function LocationMap({ selectable = false }) {
+  const host = useRef(null);
+  const canvas = useRef(null);
+  const [near, setNear] = useState(false);
+  const [state, setState] = useState('waiting');
+  const [coordinates, setCoordinates] = useState(mapConfig.coordinates);
+  const displayCoordinates = formatCoordinates(coordinates);
+  const bookingParams = new URLSearchParams({
+    mode: 'mobile',
+    location: displayCoordinates,
+  });
+
   useEffect(() => {
     if (!('IntersectionObserver' in window)) {
       setNear(true);
       return;
     }
-    const io = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           setNear(true);
-          io.disconnect();
+          observer.disconnect();
         }
       },
       { rootMargin: '200px' },
     );
-    if (host.current) io.observe(host.current);
-    return () => io.disconnect();
+    if (host.current) observer.observe(host.current);
+    return () => observer.disconnect();
   }, []);
+
   useEffect(() => {
-    if (!near || provider !== 'carto') return;
-    let map,
-      disposed = false;
+    if (!near) return;
+    let map;
+    let marker;
+    let markerRoot;
+    let popup;
+    let attributionControl;
+    let moveWithKeyboard;
     let loadTimeout;
-    const useEmbed = () => {
-      if (disposed) return;
-      window.clearTimeout(loadTimeout);
-      map?.remove();
-      map = null;
-      setState('loading');
-      setProvider('osm');
-    };
+    let disposed = false;
+    let usingCarto = mapConfig.cartoConfigured;
+
     setState('loading');
-    loadTimeout = window.setTimeout(useEmbed, 15000);
+
+    const showError = () => {
+      if (!disposed) setState('error');
+    };
+
     (async () => {
       try {
         const [maplibre, , { default: workerUrl }] = await Promise.all([
@@ -55,84 +76,250 @@ export default function LocationMap() {
           import('maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'),
         ]);
         maplibre.setWorkerUrl(workerUrl);
-        if (disposed) return;
+        if (disposed || !canvas.current) return;
+
         map = new maplibre.Map({
           container: canvas.current,
-          style: mapConfig.styleUrl,
+          style: structuredClone(
+            usingCarto ? mapConfig.cartoStyle : mapConfig.osmStyle,
+          ),
           center: mapConfig.coordinates,
-          zoom: mapConfig.zoom,
+          zoom: selectable ? mapConfig.selectableZoom : mapConfig.zoom,
           attributionControl: false,
+          maxPitch: 0,
           transformRequest: transformCartoRequest,
         });
-        map.addControl(
-          new maplibre.AttributionControl({
+
+        const setAttribution = (content) => {
+          if (attributionControl) map.removeControl(attributionControl);
+          attributionControl = new maplibre.AttributionControl({
             compact: false,
-            customAttribution: mapConfig.attribution,
-          }),
+            customAttribution: content,
+          });
+          map.addControl(attributionControl, 'bottom-right');
+        };
+        setAttribution(
+          usingCarto ? mapConfig.cartoAttribution : mapConfig.osmAttribution,
         );
         map.addControl(
           new maplibre.NavigationControl({ showCompass: false }),
           'top-right',
         );
-        new maplibre.Marker({ color: '#011A82' })
+        map.addControl(
+          new maplibre.ScaleControl({ unit: 'imperial' }),
+          'bottom-left',
+        );
+
+        const markerElement = document.createElement('button');
+        markerElement.type = 'button';
+        markerElement.className = 'home-service-marker';
+        markerElement.setAttribute(
+          'aria-label',
+          selectable
+            ? 'Selected home service location. Drag to move it or use arrow keys.'
+            : `Map marker for ${business.name}, with home and car icon`,
+        );
+        markerElement.title = selectable
+          ? 'Drag to choose your home service location'
+          : `${business.name} shop location`;
+        markerRoot = createRoot(markerElement);
+        markerRoot.render(
+          <span className="home-service-marker__icons" aria-hidden="true">
+            <House size={18} strokeWidth={2.2} />
+            <CarFront size={19} strokeWidth={2.2} />
+          </span>,
+        );
+
+        const popupContent = document.createElement('div');
+        popupContent.className = 'map-popup';
+        const popupTitle = document.createElement('strong');
+        popupTitle.textContent = selectable
+          ? 'Home service location'
+          : business.name;
+        const popupDescription = document.createElement('span');
+        popupDescription.textContent = selectable
+          ? 'Drag this pin or tap the map to choose where your vehicle will be.'
+          : business.address;
+        const popupCoordinates = document.createElement('small');
+        popupCoordinates.textContent = formatCoordinates(mapConfig.coordinates);
+        popupContent.append(popupTitle, popupDescription, popupCoordinates);
+
+        popup = new maplibre.Popup({
+          closeButton: true,
+          closeOnClick: false,
+          maxWidth: '280px',
+          offset: 32,
+        }).setDOMContent(popupContent);
+
+        marker = new maplibre.Marker({
+          element: markerElement,
+          anchor: 'bottom',
+          draggable: selectable,
+        })
           .setLngLat(mapConfig.coordinates)
+          .setPopup(popup)
           .addTo(map);
-        map.on('load', () => {
-          if (!disposed) {
-            window.clearTimeout(loadTimeout);
-            setState('ready');
-          }
+
+        const updateCoordinates = (next) => {
+          const normalized = [Number(next[0]), Number(next[1])];
+          popupCoordinates.textContent = formatCoordinates(normalized);
+          setCoordinates(normalized);
+        };
+
+        if (selectable) {
+          map.on('click', (event) => {
+            const next = [event.lngLat.lng, event.lngLat.lat];
+            marker.setLngLat(next);
+            updateCoordinates(next);
+            if (!popup.isOpen()) popup.addTo(map);
+          });
+          marker.on('drag', () => {
+            const point = marker.getLngLat();
+            updateCoordinates([point.lng, point.lat]);
+          });
+          moveWithKeyboard = (event) => {
+            const changes = {
+              ArrowLeft: [-1, 0],
+              ArrowRight: [1, 0],
+              ArrowUp: [0, 1],
+              ArrowDown: [0, -1],
+            };
+            const delta = changes[event.key];
+            if (!delta) return;
+            event.preventDefault();
+            const point = marker.getLngLat();
+            const step = event.shiftKey ? 0.001 : 0.0001;
+            const next = [
+              point.lng + delta[0] * step,
+              point.lat + delta[1] * step,
+            ];
+            marker.setLngLat(next);
+            updateCoordinates(next);
+            map.easeTo({ center: next, duration: 180 });
+            if (!popup.isOpen()) popup.addTo(map);
+          };
+          markerElement.addEventListener('keydown', moveWithKeyboard);
+          marker.on('dragend', () => {
+            const point = marker.getLngLat();
+            updateCoordinates([point.lng, point.lat]);
+          });
+        }
+
+        const switchToOsm = () => {
+          if (disposed || !usingCarto) return;
+          usingCarto = false;
+          setState('loading');
+          setAttribution(mapConfig.osmAttribution);
+          map.setStyle(structuredClone(mapConfig.osmStyle));
+          window.clearTimeout(loadTimeout);
+          loadTimeout = window.setTimeout(showError, 15000);
+        };
+
+        map.on('style.load', () => {
+          if (disposed) return;
+          window.clearTimeout(loadTimeout);
+          setState('ready');
+          if (!popup.isOpen()) popup.addTo(map);
         });
-        map.on('error', useEmbed);
+        map.on('error', (event) => {
+          if (usingCarto && [401, 403].includes(event.error?.status))
+            switchToOsm();
+        });
+
+        loadTimeout = window.setTimeout(() => {
+          if (usingCarto) switchToOsm();
+          else showError();
+        }, 15000);
       } catch {
-        useEmbed();
+        showError();
       }
     })();
+
     return () => {
       disposed = true;
       window.clearTimeout(loadTimeout);
+      popup?.remove();
+      if (moveWithKeyboard && marker?.getElement())
+        marker.getElement().removeEventListener('keydown', moveWithKeyboard);
+      marker?.remove();
+      markerRoot?.unmount();
       map?.remove();
     };
-  }, [near, provider]);
+  }, [near, selectable]);
+
   return (
-    <div className="location-map map-ready" ref={host}>
-      {provider === 'carto' && (
+    <>
+      <div
+        className={`location-map map-ready ${selectable ? 'map-selectable' : ''}`}
+        ref={host}
+      >
         <div
           ref={canvas}
           className="map-canvas"
-          aria-label={`${business.name} location map`}
+          aria-label={
+            selectable
+              ? 'Interactive map. Move the home and car pin to set a preferred service location.'
+              : `${business.name} location map`
+          }
           role="region"
         />
-      )}
-      {near && provider === 'osm' && state !== 'error' && (
-        <iframe
-          className="map-embed"
-          title={`${business.name} shop location at ${business.address}`}
-          src={mapConfig.embedUrl}
-          loading="lazy"
-          referrerPolicy="strict-origin-when-cross-origin"
-          onLoad={() => setState('ready')}
-          onError={() => setState('error')}
-        />
-      )}
-      {state !== 'ready' && (
-        <div className={`map-fallback ${state === 'error' ? 'map-error' : ''}`}>
-          <MapPin size={36} strokeWidth={1.4} />
-          <h3>{state === 'error' ? c.unavailable : c.loading}</h3>
-          <p>{business.address}</p>
-          <span>{state === 'error' ? c.error : c.fallback}</span>
-        </div>
-      )}
-      <div className="map-address">
-        <div>
-          <strong>{business.name}</strong>
-          <span>{business.address}</span>
-        </div>
-        <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-          {c.directions}
-          <ArrowUpRight size={18} />
-        </a>
+        {state === 'loading' && (
+          <div className="map-loading" role="status">
+            <LoaderCircle size={18} className="spin" />
+            {c.loading}
+          </div>
+        )}
+        {state === 'error' && (
+          <div className="map-fallback" role="status">
+            <MapPin size={34} strokeWidth={1.5} />
+            <strong>{c.unavailable}</strong>
+            <span>{business.address}</span>
+            <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
+              {c.directions}
+              <ArrowUpRight size={16} />
+            </a>
+            <a
+              href={mapConfig.embedUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open in OpenStreetMap
+              <ArrowUpRight size={16} />
+            </a>
+          </div>
+        )}
+        {!selectable && (
+          <div className="map-address">
+            <div>
+              <strong>{business.name}</strong>
+              <span>{business.address}</span>
+            </div>
+            <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
+              {c.directions}
+              <ArrowUpRight size={18} />
+            </a>
+          </div>
+        )}
       </div>
-    </div>
+      {selectable && (
+        <div className="home-service-map-action">
+          <div>
+            <strong>Selected map pin</strong>
+            <span>{displayCoordinates}</span>
+            <small>
+              Add a street address or ZIP code to your request so our team can
+              confirm the visit.
+            </small>
+          </div>
+          <Link
+            className="button button-primary"
+            to={`/book-service?${bookingParams.toString()}`}
+          >
+            Use this location
+            <ArrowUpRight size={18} />
+          </Link>
+        </div>
+      )}
+    </>
   );
 }

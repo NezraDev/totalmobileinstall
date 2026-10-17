@@ -16,7 +16,11 @@ export default function BookService() {
           <div>
             <h2>{data.formHeading}</h2>
             <p>{data.formDescription}</p>
-            <BookingForm initialService={params.get('service') || ''} />
+            <BookingForm
+              initialService={params.get('service') || ''}
+              initialMode={params.get('mode') || ''}
+              initialLocation={(params.get('location') || '').slice(0, 180)}
+            />
           </div>
           <aside className="booking-aside">
             <Photo photo={data.image} className="editorial-photo" />

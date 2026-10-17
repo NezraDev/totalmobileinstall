@@ -10,6 +10,7 @@ const ServiceDetail = lazy(
   () => import('../pages/ServiceDetail/ServiceDetail'),
 );
 const ServiceAreas = lazy(() => import('../pages/ServiceAreas/ServiceAreas'));
+const HomeService = lazy(() => import('../pages/HomeService/HomeService'));
 const Gallery = lazy(() => import('../pages/Gallery/Gallery'));
 const FAQ = lazy(() => import('../pages/FAQ/FAQ'));
 const Contact = lazy(() => import('../pages/Contact/Contact'));
@@ -50,6 +51,7 @@ function Shell() {
             <Route path="/services" element={<Services />} />
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/service-areas" element={<ServiceAreas />} />
+            <Route path="/home-service" element={<HomeService />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />

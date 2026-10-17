@@ -57,7 +57,7 @@ export const mapCopy = {
     'Use directions to plan your visit, or call to confirm the right service location.',
   error:
     'The interactive map is unavailable. The address and directions are still available below.',
-  attribution: '© OpenStreetMap contributors · © CARTO',
+  attribution: '\u00a9 CARTO \u00b7 \u00a9 OpenStreetMap contributors',
 };
 export const transformationCopy = {
   title: 'A clearer view of the difference.',

@@ -20,7 +20,7 @@ Present the family-owned business, show real supplied vehicle work, and collect 
 
 ## Capabilities and Constraints
 
-Six services, public routes, local photographs, genuine supplied before-and-after pairs, accessible forms and navigation. External Resend endpoint only. No private credentials, custom backend, CMS, payments, uploads, or geolocation. Service coverage and unsupported claims must not be invented.
+Six services, public routes, local photographs, genuine supplied before-and-after pairs, accessible forms and navigation, plus a manually selectable home-service map pin. External Resend endpoint only. No private credentials, custom backend, CMS, payments, uploads, or visitor geolocation. Service coverage and unsupported claims must not be invented.
 
 ## Brand Commitments
 

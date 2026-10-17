@@ -1,5 +1,6 @@
 export const navigation = [
   { label: 'Home', to: '/' },
+  { label: 'Home Service', to: '/home-service' },
   { label: 'Services', to: '/services' },
   { label: 'Service Areas', to: '/service-areas' },
   { label: 'Gallery', to: '/gallery' },

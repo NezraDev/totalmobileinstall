@@ -20,7 +20,7 @@ Soft 0.8-second hero photo crossfades, a brief route settling transition, precis
 
 ## Scope and risks
 
-Persuade mode. The homepage progresses from offer to real work, business story, services, reasons, transformations, reviews, and contact. Smaller routes share this visual system. Images, text, source truth, and browser-local interactions are complete. Email sending, optional CARTO credentials, policy approval, claim confirmation, final domain and service coverage remain external dependencies.
+Persuade mode. The homepage progresses from offer to real work, business story, services, reasons, transformations, reviews, and contact. Smaller routes share this visual system. Images, text, source truth, and browser-local interactions are complete. Email sending, CARTO credentials, policy approval, claim confirmation, final domain and service coverage remain external dependencies.
 
 ## Craft decision record
 

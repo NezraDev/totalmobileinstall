@@ -10,7 +10,12 @@ import {
   submitContactRequest,
 } from '../../integrations/emailClient';
 
-export default function BookingForm({ compact = false, initialService = '' }) {
+export default function BookingForm({
+  compact = false,
+  initialService = '',
+  initialMode = '',
+  initialLocation = '',
+}) {
   const formId = useId(),
     formRef = useRef(null),
     pendingRef = useRef(false);
@@ -23,7 +28,7 @@ export default function BookingForm({ compact = false, initialService = '' }) {
       : '',
     vehicle: '',
     serviceMode: '',
-    location: '',
+    location: initialLocation,
     preferredDate: '',
     message: '',
     website: '',
@@ -44,8 +49,12 @@ export default function BookingForm({ compact = false, initialService = '' }) {
     setValues((v) => {
       const next = { ...v, [name]: value };
       if (name === 'serviceId') {
-        next.serviceMode = '';
-        next.location = '';
+        const selectedService = services.find((item) => item.id === value);
+        const requestedMobile =
+          initialMode === 'mobile' &&
+          selectedService?.modes.includes('mobile');
+        next.serviceMode = requestedMobile ? 'mobile' : '';
+        if (!initialLocation) next.location = '';
       }
       if (
         name === 'detailType' &&
@@ -274,7 +283,14 @@ export default function BookingForm({ compact = false, initialService = '' }) {
           </div>
           {field('preferredDate', 'date', false, c.dateHint)}
           {values.serviceMode === 'mobile' &&
-            field('location', 'text', true, c.locationHint)}
+            field(
+              'location',
+              'text',
+              true,
+              initialLocation
+                ? 'Map pin coordinates are included. Add the street address or ZIP code to help us confirm your visit.'
+                : c.locationHint,
+            )}
           <div className="form-field field-wide">
             <label htmlFor={`${formId}-message`}>{c.labels.message}</label>
             <textarea

@@ -120,7 +120,7 @@ try {
   await expect(embed).toBeVisible();
   assert.equal(
     new URL(await embed.getAttribute('src')).searchParams.get('marker'),
-    '30.025471630757778,-90.02540735889556',
+    '29.961365651200683,-90.09014810481109',
   );
   await expect(
     page.frameLocator('iframe.map-embed').locator('.maplibregl-marker'),
@@ -145,7 +145,7 @@ try {
       .getByRole('link', { name: 'Get directions', exact: true })
       .last()
       .getAttribute('href'),
-    'https://www.google.com/maps/dir/?api=1&destination=30.025471630757778%2C-90.02540735889556',
+    'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
   );
   assert.deepEqual(errors, []);
   console.log(

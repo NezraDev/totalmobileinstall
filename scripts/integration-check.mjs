@@ -420,7 +420,7 @@ try {
     'The verified shop pin and no-key map work without environment configuration',
     async () => {
       const map = await loadIntegration('mapConfig');
-      const expected = [-90.02540735889556, 30.025471630757778];
+      const expected = [-90.09014810481109, 29.961365651200683];
       assert.equal(map.mapConfig.configured, true);
       assert.equal(map.mapConfig.cartoConfigured, false);
       assert.deepEqual(map.mapConfig.coordinates, expected);
@@ -438,12 +438,10 @@ try {
         .map(Number);
       assert.ok(west < expected[0] && expected[0] < east);
       assert.ok(south < expected[1] && expected[1] < north);
-      const directions = new URL(map.directionsUrl);
       assert.equal(
-        directions.searchParams.get('destination'),
-        `${expected[1]},${expected[0]}`,
+        map.directionsUrl,
+        'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
       );
-      assert.equal(directions.searchParams.get('api'), '1');
       assert.equal(embed.searchParams.has('key'), false);
     },
   );
@@ -500,11 +498,11 @@ try {
         assert.equal(map.mapConfig.configured, true);
         assert.deepEqual(
           map.mapConfig.coordinates,
-          [-90.02540735889556, 30.025471630757778],
+          [-90.09014810481109, 29.961365651200683],
         );
         assert.equal(
-          new URL(map.directionsUrl).searchParams.get('destination'),
-          '30.025471630757778,-90.02540735889556',
+          map.directionsUrl,
+          'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
         );
       }
     },
@@ -526,8 +524,8 @@ try {
         '34,12',
       );
       assert.equal(
-        new URL(map.directionsUrl).searchParams.get('destination'),
-        '34,12',
+        map.directionsUrl,
+        'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
       );
       for (const path of [
         'gl/positron-gl-style/style.json',

@@ -1,8 +1,8 @@
 export const businessAddress = '5800 Morrison Rd, New Orleans, LA 70126';
 
-// Exact shop pin supplied by the business on October 17, 2026.
+// Current shop pin supplied by the business on October 17, 2026.
 export const verifiedShopCoordinates = Object.freeze([
-  -90.02540735889556, 30.025471630757778,
+  -90.09014810481109, 29.961365651200683,
 ]);
 
 const cartoApiKey = (import.meta.env.VITE_CARTO_API_KEY || '').trim();
@@ -93,7 +93,7 @@ export function transformCartoRequest(url) {
   }
 }
 
-export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${coordinates[1]},${coordinates[0]}`)}`;
+export const directionsUrl = 'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A';
 
 export const mapConfig = Object.freeze({
   configured: true,

@@ -1,4 +1,5 @@
 import { business } from '../../content/business';
+import { directionsUrl } from '../../integrations/mapConfig';
 export const data = {
   sourceStatus:
     'Confirmed business details from supplied homepage. Introductory copy is draft editorial content.',
@@ -23,5 +24,5 @@ export const data = {
     'Send a service inquiry. The team will confirm availability and the next steps.',
   mapHeading: 'Find us on Morrison Road',
   business,
-  directionsHref: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`,
+  directionsHref: directionsUrl,
 };

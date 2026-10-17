@@ -86,6 +86,15 @@ for (const route of paths) {
     `Overflow ${route}: ${JSON.stringify(metrics)}`,
   );
   assert.ok((await desktop.title()).includes('Total Mobile Install'), route);
+  if (route === '/contact') {
+    assert.equal(
+      await desktop
+        .getByRole('link', { name: 'Get directions', exact: true })
+        .first()
+        .getAttribute('href'),
+      'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
+    );
+  }
   const broken = await desktop
     .locator('img')
     .evaluateAll((imgs) =>

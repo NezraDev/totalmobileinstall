@@ -1,63 +1,63 @@
 export const data = {
   sourceStatus:
-    'Draft FAQ answers based on supplied service limitations, business hours, and inquiry workflow. Final client approval required.',
+    'FAQ answers based on supplied service details and current Louisiana window-tint requirements.',
   seo: {
     title: 'Auto Glass & Booking Questions | Total Mobile Install',
     description:
       'Answers to common questions about requesting mobile auto glass service, in-shop detailing, vehicle information, and appointments with Total Mobile Install.',
   },
-  eyebrow: 'A little clarity',
-  title: 'Questions, answered.',
+  eyebrow: 'Common questions',
+  title: 'Everything You Need to Know',
   description:
-    'Useful details before you get in touch. For anything specific to your vehicle or location, our team is here to help.',
+    'Clear answers about insurance, mobile timing, glass replacement, calibration, tint, and warranties.',
   items: [
     {
-      id: 'mobile',
-      question: 'Can you come to my home or office?',
+      id: 'insurance',
+      question: 'Will my insurance cover windshield replacement?',
       answer:
-        'Mobile service is available for eligible work. Share your location and the service you need so our team can confirm availability. You can also ask about in-shop service.',
+        'Coverage depends on your policy. Many comprehensive plans cover windshield repair, while replacement may be subject to your deductible and policy terms. We can help handle the claim directly with your insurer, with no additional charge for that assistance.',
     },
     {
-      id: 'confirmation',
-      question: 'Is my appointment confirmed when I submit a request?',
+      id: 'arrival',
+      question: 'How fast can a mobile technician arrive?',
       answer:
-        'Submitting the form sends a service inquiry. Our team will contact you to confirm the details, service location, and appointment time. Your preferred date is a request.',
+        'Our average arrival window across Greater New Orleans is under 60 minutes during business hours. Same-day service is available for most metro-area ZIP codes.',
     },
     {
-      id: 'details',
-      question: 'What vehicle information should I provide?',
+      id: 'replacement-time',
+      question: 'How long does a windshield replacement take?',
       answer:
-        'Please provide the vehicle year, make, and model, the service you need, and a brief description of the issue. For mobile service, include the address or ZIP code where the vehicle will be located.',
-    },
-    {
-      id: 'detailing',
-      question: 'Which detailing services can be mobile?',
-      answer:
-        'Interior detailing and hand washing may be mobile. Paint correction, polishing, and ceramic coating are shop-only. Tell us what you need so the team can confirm the right option.',
+        'A standard replacement takes 45 to 90 minutes on-site, followed by a 30 to 60 minute safe drive-away window. The exact cure time depends on the adhesive and outdoor temperature.',
     },
     {
       id: 'adas',
-      question: 'Do you offer ADAS calibration?',
+      question: 'Do you perform ADAS calibration after replacement?',
       answer:
-        'Yes. ADAS calibration is one of our services, including systems such as lane assist and collision warning. Your vehicle determines what is needed. Our team will confirm the procedure and service location.',
+        'Yes. Many newer vehicles require ADAS calibration after windshield replacement. When your vehicle requires it, we perform OEM-spec static or dynamic calibration and provide pre- and post-scan documentation.',
     },
     {
-      id: 'repair',
-      question: 'Can my damaged windshield be repaired?',
+      id: 'tint-law',
+      question: 'What window tint percentages are legal in Louisiana?',
       answer:
-        'Our team offers both chip and crack repair and windshield replacement. Describe the damage and provide your vehicle details so the team can assess the appropriate next step.',
+        'For most vehicles, Louisiana requires at least 25% visible-light transmission on front and rear side windows, and at least 12% on the rearmost window. Rear windows behind the driver on trucks, buses, trailers, motor homes, and multipurpose passenger vehicles are exempt from those light-transmission minimums. Film reflectance is limited to 20%. We will help match the film to your vehicle and current requirements.',
     },
     {
-      id: 'hours',
-      question: 'When can I contact the team?',
+      id: 'warranty',
+      question: 'Do you offer a warranty?',
       answer:
-        'Our business hours are Monday to Friday, 7 AM to 5 PM, and Saturday, 7 AM to 12 PM, New Orleans time. Call 1-504-207-7742 or email quotes@totalmobileglass.com.',
+        'Yes. Every windshield installation carries a lifetime warranty against leaks and adhesive failure. Window tint and ceramic coating packages carry a manufacturer-backed lifetime warranty. We can confirm the terms for your selected product.',
     },
     {
-      id: 'location',
-      question: 'Where is the shop?',
+      id: 'mobile',
+      question: 'Can you service vehicles at my office?',
       answer:
-        'Total Mobile Install is located at 5800 Morrison Rd, New Orleans, LA 70126. Contact the team before your visit to discuss your vehicle and service.',
+        'Absolutely. We serve homes, offices, fleet yards, and dealerships within a 40-mile radius of New Orleans. We bring power and protective covers, so you do not have to lift a finger.',
+    },
+    {
+      id: 'vehicles',
+      question: 'Do you only work on luxury vehicles?',
+      answer:
+        'No. We service every make and model, from daily drivers to exotics, with the same certified process and premium materials.',
     },
   ],
   contactTitle: 'Have a question about your vehicle?',

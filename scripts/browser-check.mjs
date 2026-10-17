@@ -229,6 +229,44 @@ assert.equal(
 );
 assert.ok(await desktop.getByLabel('Service address or ZIP code').isVisible());
 await desktop.goto(`${baseUrl}/faq`, { waitUntil: 'networkidle' });
+assert.equal(await desktop.locator('.faq-list details').count(), 8);
+const faqQuestions = await desktop
+  .locator('.faq-list summary')
+  .allTextContents();
+const faqAnswers = await desktop
+  .locator('.faq-list details > div')
+  .allTextContents();
+for (const detail of [
+  'no additional charge',
+  'under 60 minutes',
+  '45 to 90 minutes',
+  'pre- and post-scan documentation',
+  '25% visible-light transmission',
+  '12% on the rearmost window',
+  'lifetime warranty',
+  '40-mile radius',
+  'daily drivers to exotics',
+]) {
+  assert.ok(
+    faqAnswers.some((text) => text.includes(detail)),
+    detail,
+  );
+}
+for (const question of [
+  'Will my insurance cover windshield replacement?',
+  'How fast can a mobile technician arrive?',
+  'How long does a windshield replacement take?',
+  'Do you perform ADAS calibration after replacement?',
+  'What window tint percentages are legal in Louisiana?',
+  'Do you offer a warranty?',
+  'Can you service vehicles at my office?',
+  'Do you only work on luxury vehicles?',
+]) {
+  assert.ok(
+    faqQuestions.some((text) => text.includes(question)),
+    question,
+  );
+}
 const faq = desktop.locator('summary').first();
 await faq.focus();
 await desktop.keyboard.press('Enter');
@@ -309,7 +347,7 @@ fs.writeFileSync(
         'Client-approved New Orleans service radius',
         'Mobile location field',
         'Unconfigured form offers a validated email draft fallback',
-        'Keyboard FAQ',
+        'Eight client-supplied FAQ topics with keyboard interaction',
         'No horizontal overflow',
       ],
     },

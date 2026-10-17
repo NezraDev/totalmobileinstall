@@ -2,9 +2,9 @@ export const formCopy = {
   title: 'Tell us about your vehicle.',
   description:
     'Share a few details. Our team will follow up to confirm the service, location, and timing.',
-  unavailable: 'Prefer to get started now?',
-  unavailableDescription:
-    'Online requests are not available yet. Call or email our team to arrange your service.',
+  emailFallbackTitle: 'Online form delivery is not connected yet',
+  emailFallbackDescription:
+    'Your request will open as a prefilled email draft. Review the details and press Send in your email app. If no email app opens, use the contact links below.',
   labels: {
     fullName: 'Full name',
     phone: 'Phone',
@@ -21,13 +21,17 @@ export const formCopy = {
   selectService: 'Select a service',
   selectMode: 'Select a service mode',
   vehicleHint: 'For example: 2022 Toyota Camry',
-  locationHint: 'For mobile service in the New Orleans area',
+  locationHint: 'For mobile service within our 40-mile New Orleans radius',
   dateHint:
     'Requested date only. Times are confirmed by the team in Central Time.',
   required: 'Fields marked * are required.',
   submit: 'Send service request',
   submitting: 'Sending your request…',
-  unconfiguredButton: 'Online requests unavailable',
+  emailDraftSubmit: 'Open email draft',
+  emailDraftReady:
+    'Your email app should open with the request ready. Review it and press Send, or email us at',
+  emailDraftPrivacy:
+    'Your information stays in the draft until you choose Send.',
   privacy:
     'Your details are used to respond to this inquiry. Please call if you would prefer to discuss your request by phone.',
   successTitle: 'Your request was accepted.',

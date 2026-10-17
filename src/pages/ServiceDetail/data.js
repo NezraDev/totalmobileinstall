@@ -10,7 +10,7 @@ const photoMap = {
 };
 export const data = {
   sourceStatus:
-    'Draft service-page editorial content based on supplied service descriptions. Service-mode details are subject to team confirmation.',
+    'Client-supplied service details. Exact vehicle eligibility and service availability are confirmed with the team.',
   eyebrow: 'Total Mobile Install services',
   overviewLabel: 'Care, explained.',
   requestLabel: 'Request this service',

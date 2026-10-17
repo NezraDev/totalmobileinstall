@@ -46,7 +46,7 @@ Data changes require a rebuild and redeployment. This is file-based content main
 
 Copy `.env.example` to `.env.local` and supply the public values you have. Rebuild after changes. See `INTEGRATIONS.md` for current official requirements, the endpoint payload and response contract, map-key restrictions, and geocoding research.
 
-The frontend never sends email directly. A separately hosted trusted endpoint calls Resend and sends to the fixed business address. No function or backend is scaffolded here. A submitted state appears only after a configured endpoint returns an accepted response. Without that endpoint the form explains online availability and provides working call/email actions.
+The frontend never sends email directly. A separately hosted trusted endpoint calls Resend and sends to the fixed business address. No function or backend is scaffolded here. A submitted state appears only after a configured endpoint returns an accepted response. Until that endpoint is configured, the form validates the request and opens a prefilled email draft for the customer to review and send, with phone and email links as fallback.
 
 The shop map uses MapLibre at the exact client-supplied coordinates (30.025471630757778, -90.02540735889556). Set `VITE_CARTO_API_KEY` to use CARTO Voyager tiles and show linked CARTO and OpenStreetMap attributions. Without a key, MapLibre uses OpenStreetMap raster tiles and shows OpenStreetMap attribution. The Our Work map uses a single generalized New Orleans portfolio marker because project-level ZIP codes or addresses were not provided. Selecting a project loads its genuine before-and-after photos into the popup. No client identity, precise job address, or visitor geolocation is shown.
 
@@ -55,7 +55,7 @@ The shop map uses MapLibre at the exact client-supplied coordinates (30.02547163
 - Configure the external Resend endpoint, verified sending domain, server validation and abuse controls. Private Resend credentials belong only to that endpoint.
 - The exact shop pin is configured from the client. A CARTO key is required to use CARTO tiles; otherwise the MapLibre map uses OpenStreetMap raster tiles. The portfolio pin is intentionally city-level until verified anonymous project areas are available.
 - Approve final Privacy Policy and Terms. Current pages explicitly state that approved text is pending.
-- Review proposed linked-page copy/FAQ answers, testimonial publication, eligible service modes, and surrounding coverage. No invented radius or neighborhood list appears.
+- Review linked-page copy/FAQ answers, testimonial publication, and eligible service modes. The 40-mile New Orleans coverage claim is client-supplied; the team confirms availability for each exact address.
 - Confirm certification, 10K+ vehicle, 100% satisfaction, award, and warranty claims before displaying them. Original supplied statistics are retained in page data. Unconfirmed certification, warranty, award and satisfaction claims are gated off by default in `src/config/site.js`; the vehicle metric requested by the client uses the brief's existing 10K+ figure and remains on the launch verification checklist. Badge files are preserved without implying verified credentials.
 - Supply the business's final domain to `VITE_SITE_URL` if canonical URLs are wanted. Review destination and video URLs remain unconfigured. No autoplay video is downloaded.
 

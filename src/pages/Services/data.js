@@ -1,17 +1,16 @@
-import { services } from '../../content/services';
+import { serviceSpecialties } from '../../content/services';
 export const data = {
   sourceStatus:
-    'Draft editorial content based on the client-supplied homepage. Service details require final approval.',
+    'Service specialties and details supplied by the client; exact availability is confirmed with the team.',
   seo: {
     title: 'Auto Glass, Tint & Detailing Services | Total Mobile Install',
     description:
-      'Explore six auto services from Total Mobile Install in New Orleans: glass repair, windshield replacement, ADAS calibration, tint, detailing, and side and rear glass.',
+      'Explore four specialties from certified, family-owned Total Mobile Install in New Orleans: auto glass, ADAS calibration, ceramic tint, and detailing.',
   },
-  eyebrow: 'Care for your vehicle',
-  title: 'A clearer view. A better drive.',
-  description:
-    'From a damaged windshield to the finishing details, find the right care for your vehicle. Mobile and in-shop options are confirmed with our team.',
-  services,
+  eyebrow: 'Certified, family-owned care',
+  title: 'Dealership-grade work, delivered to you.',
+  description: 'Four specialties under one certified, family-owned operation.',
+  services: serviceSpecialties,
   noteTitle: 'Not sure what your vehicle needs?',
   note: 'Tell us what happened and share your vehicle year, make, and model. We will help you understand the next step.',
   action: 'Talk to our team',

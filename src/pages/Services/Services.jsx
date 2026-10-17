@@ -7,12 +7,15 @@ import { data } from './data';
 
 export default function Services() {
   return (
-    <>
+    <div className="services-overview">
       <PageMeta {...data.seo} />
       <PageIntro title={data.title} description={data.description}></PageIntro>
       <section className="section page-section">
         <div className="container">
-          <ServiceGrid items={data.services} />
+          <ServiceGrid
+            items={data.services}
+            className="service-grid--specialties"
+          />
           <div className="notice">
             <h2>{data.noteTitle}</h2>
             <p>{data.note}</p>
@@ -23,6 +26,6 @@ export default function Services() {
         </div>
       </section>
       <CTA />
-    </>
+    </div>
   );
 }

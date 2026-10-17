@@ -2,20 +2,21 @@ import { business } from '../../content/business';
 import { photos } from '../../content/assets';
 export const data = {
   sourceStatus:
-    'Draft page using confirmed New Orleans location only. Surrounding coverage requires confirmation and no radius or neighborhood list is asserted.',
+    'Client-supplied coverage: a 40-mile radius around New Orleans covering the metro area, West Bank, and North Shore. Confirm exact availability for each request.',
   seo: {
-    title: 'Mobile Auto Glass Service in New Orleans | Total Mobile Install',
+    title: 'Where We Serve | Total Mobile Install New Orleans',
     description:
-      'Request mobile auto glass service in New Orleans or visit Total Mobile Install at 5800 Morrison Rd. Contact the team to confirm coverage for your location.',
+      'Our 40-mile service radius around New Orleans covers the metro area, the West Bank, and the North Shore. Dealership-grade work, delivered to you.',
   },
-  eyebrow: 'Rooted in New Orleans',
-  title: 'Local care. Wherever your day takes you.',
+  eyebrow: 'Greater New Orleans mobile service',
+  title: 'Where We Serve',
   description:
-    'New Orleans is home. Tell us where your vehicle is located and we will confirm whether mobile service is available for your address and service.',
+    'Our 40-mile service radius around New Orleans covers the entire metro area, the West Bank, and the North Shore. Dealership-grade work, delivered to you.',
   image: photos.mobileService,
-  heading: 'A local team, ready to help.',
+  heading: 'Four specialties. One family-owned operation.',
   paragraphs: [
-    'Total Mobile Install serves New Orleans and surrounding communities. Mobile availability depends on the service and your location, so every request is confirmed with our team.',
+    'Our certified team brings auto glass, ADAS calibration, ceramic window tint, and detailing together under one operation.',
+    'Tell us where your vehicle is and what it needs. We confirm the right service and location for every request.',
     'Prefer to bring your vehicle in? Ask about in-shop service at our Morrison Road location.',
   ],
   locationLabel: 'Our location',

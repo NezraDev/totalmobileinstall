@@ -3,7 +3,7 @@ export const data = {
   seo: {
     title: 'Total Mobile Install | Auto Glass in New Orleans',
     description:
-      'Family-owned mobile auto glass, windshield replacement, ADAS calibration, tint and detailing in New Orleans. Book a service request or call 1-504-207-7742.',
+      'Certified, family-owned auto glass, ADAS calibration, ceramic tint, and detailing in New Orleans. Request service or call 1-504-207-7742.',
   },
   hero: {
     title: ['Windshield Repair,', 'At Your Door.'],
@@ -51,9 +51,9 @@ export const data = {
       },
       {
         id: 'services',
-        value: 6,
-        label: 'Core services',
-        detail: 'Glass, calibration, tint & more.',
+        value: 4,
+        label: 'Specialties',
+        detail: 'Glass, calibration, tint & detailing.',
         to: '/services',
       },
       {
@@ -88,9 +88,9 @@ export const data = {
     ],
   },
   services: {
-    title: 'One team. Every detail covered.',
+    title: 'One certified team. Four specialties.',
     description:
-      'Six ways to care for your vehicle, from the glass in front of you to the finish around you.',
+      'Auto glass, ADAS calibration, ceramic window tint, and detailing under one certified, family-owned operation.',
     action: 'Explore all services',
   },
   why: {

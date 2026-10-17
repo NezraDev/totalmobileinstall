@@ -1,10 +1,15 @@
 import { useId, useRef, useState } from 'react';
 import { ArrowUpRight, Phone, CheckCircle2, LoaderCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { services, serviceModes } from '../../content/services';
+import {
+  services,
+  serviceModes,
+  serviceSpecialties,
+} from '../../content/services';
 import { business } from '../../content/business';
 import { formCopy as c } from '../../content/ui';
 import {
+  buildContactMailtoHref,
   isContactConfigured,
   validateContactRequest,
   submitContactRequest,
@@ -16,24 +21,30 @@ export default function BookingForm({
   initialMode = '',
   initialLocation = '',
 }) {
+  const selectedInitialService = services.find(
+    (service) => service.id === initialService,
+  );
+  const selectedInitialMode = selectedInitialService?.modes.includes(
+    initialMode,
+  )
+    ? initialMode
+    : '';
   const formId = useId(),
     formRef = useRef(null),
     pendingRef = useRef(false);
-  const [values, setValues] = useState({
+  const [values, setValues] = useState(() => ({
     fullName: '',
     phone: '',
     email: '',
-    serviceId: services.some((s) => s.id === initialService)
-      ? initialService
-      : '',
+    serviceId: selectedInitialService?.id || '',
     vehicle: '',
-    serviceMode: '',
+    serviceMode: selectedInitialMode,
     location: initialLocation,
     preferredDate: '',
     message: '',
     website: '',
     detailType: 'interior',
-  });
+  }));
   const [errors, setErrors] = useState({}),
     [status, setStatus] = useState('idle');
   const configured = isContactConfigured();
@@ -50,11 +61,15 @@ export default function BookingForm({
       const next = { ...v, [name]: value };
       if (name === 'serviceId') {
         const selectedService = services.find((item) => item.id === value);
-        const requestedMobile =
-          initialMode === 'mobile' &&
-          selectedService?.modes.includes('mobile');
-        next.serviceMode = requestedMobile ? 'mobile' : '';
-        if (!initialLocation) next.location = '';
+        next.serviceMode =
+          value === initialService &&
+          selectedService?.modes.includes(initialMode)
+            ? initialMode
+            : '';
+        next.detailType = 'interior';
+      }
+      if (name === 'serviceMode' && value !== 'mobile') {
+        next.location = '';
       }
       if (
         name === 'detailType' &&
@@ -65,12 +80,26 @@ export default function BookingForm({
       }
       return next;
     });
-    setErrors((v) => ({ ...v, [name]: undefined }));
-    if (status === 'failed') setStatus('idle');
+    setErrors((current) => {
+      const next = { ...current };
+      delete next[name];
+      if (name === 'serviceId') {
+        delete next.serviceMode;
+        delete next.location;
+        delete next.detailType;
+      }
+      if (name === 'detailType') {
+        delete next.serviceMode;
+        delete next.location;
+      }
+      if (name === 'serviceMode') delete next.location;
+      return next;
+    });
+    if (status === 'failed' || status === 'email-draft') setStatus('idle');
   }
   async function submit(e) {
     e.preventDefault();
-    if (pendingRef.current || !configured) return;
+    if (pendingRef.current) return;
     let payload = {
       ...values,
       message:
@@ -97,6 +126,26 @@ export default function BookingForm({
         () => formRef.current?.querySelector('[aria-invalid="true"]')?.focus(),
         0,
       );
+      return;
+    }
+    if (!configured) {
+      const detailingChoice = c.detailingChoices.find(
+        (choice) => choice.id === values.detailType,
+      );
+      const mailto = buildContactMailtoHref(
+        {
+          ...values,
+          serviceId: service?.name || values.serviceId,
+          detailType:
+            values.serviceId === 'mobile-detailing'
+              ? detailingChoice?.label || ''
+              : '',
+          serviceMode: serviceModes[values.serviceMode] || values.serviceMode,
+        },
+        business.email,
+      );
+      setStatus('email-draft');
+      window.location.href = mailto;
       return;
     }
     pendingRef.current = true;
@@ -184,9 +233,9 @@ export default function BookingForm({
       <h3>{c.title}</h3>
       <p className="form-intro">{c.description}</p>
       {!configured && (
-        <div className="form-unavailable">
-          <strong>{c.unavailable}</strong>
-          <p>{c.unavailableDescription}</p>
+        <div className="form-email-fallback" role="note">
+          <strong>{c.emailFallbackTitle}</strong>
+          <p>{c.emailFallbackDescription}</p>
           <div>
             <a href={business.phoneHref}>
               <Phone size={15} />
@@ -202,10 +251,7 @@ export default function BookingForm({
       <form ref={formRef} onSubmit={submit} noValidate>
         <p className="required-note">{c.required}</p>
         <div className="form-grid">
-          {field('fullName', 'text', true)}
-          {field('phone', 'tel', true)}
-          {field('email', 'email', true)}
-          <div className="form-field">
+          <div className="form-field field-wide">
             <label htmlFor={`${formId}-serviceId`}>
               {c.labels.serviceId} <span aria-hidden="true">*</span>
             </label>
@@ -221,10 +267,19 @@ export default function BookingForm({
               }
             >
               <option value="">{c.selectService}</option>
-              {services.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
+              {serviceSpecialties.map((specialty) => (
+                <optgroup key={specialty.id} label={specialty.name}>
+                  {services
+                    .filter(
+                      (serviceOption) =>
+                        specialty.id === serviceOption.specialtyId,
+                    )
+                    .map((serviceOption) => (
+                      <option key={serviceOption.id} value={serviceOption.id}>
+                        {serviceOption.name}
+                      </option>
+                    ))}
+                </optgroup>
               ))}
             </select>
             {errors.serviceId && (
@@ -233,7 +288,6 @@ export default function BookingForm({
               </small>
             )}
           </div>
-          {field('vehicle', 'text', true, c.vehicleHint)}
           {values.serviceId === 'mobile-detailing' && (
             <div className="form-field field-wide">
               <label htmlFor={`${formId}-detailType`}>
@@ -244,6 +298,10 @@ export default function BookingForm({
                 name="detailType"
                 value={values.detailType}
                 onChange={update}
+                aria-invalid={Boolean(errors.detailType)}
+                aria-describedby={
+                  errors.detailType ? `${formId}-detailType-error` : undefined
+                }
               >
                 {c.detailingChoices.map((d) => (
                   <option key={d.id} value={d.id}>
@@ -251,8 +309,17 @@ export default function BookingForm({
                   </option>
                 ))}
               </select>
+              {errors.detailType && (
+                <small
+                  className="field-error"
+                  id={`${formId}-detailType-error`}
+                >
+                  {errors.detailType}
+                </small>
+              )}
             </div>
           )}
+          {field('vehicle', 'text', true, c.vehicleHint)}
           <div className="form-field">
             <label htmlFor={`${formId}-serviceMode`}>
               {c.labels.serviceMode} <span aria-hidden="true">*</span>
@@ -265,7 +332,11 @@ export default function BookingForm({
               required
               disabled={!service}
               aria-invalid={Boolean(errors.serviceMode)}
-              aria-describedby={`${formId}-mode-note`}
+              aria-describedby={
+                errors.serviceMode
+                  ? `${formId}-mode-note ${formId}-serviceMode-error`
+                  : `${formId}-mode-note`
+              }
             >
               <option value="">{c.selectMode}</option>
               {modes.map((m) => (
@@ -278,10 +349,11 @@ export default function BookingForm({
               {service?.modeNote || c.modeNote}
             </small>
             {errors.serviceMode && (
-              <small className="field-error">{errors.serviceMode}</small>
+              <small className="field-error" id={`${formId}-serviceMode-error`}>
+                {errors.serviceMode}
+              </small>
             )}
           </div>
-          {field('preferredDate', 'date', false, c.dateHint)}
           {values.serviceMode === 'mobile' &&
             field(
               'location',
@@ -291,6 +363,10 @@ export default function BookingForm({
                 ? 'Map pin coordinates are included. Add the street address or ZIP code to help us confirm your visit.'
                 : c.locationHint,
             )}
+          {field('fullName', 'text', true)}
+          {field('phone', 'tel', true)}
+          {field('email', 'email', true)}
+          {field('preferredDate', 'date', false, c.dateHint)}
           <div className="form-field field-wide">
             <label htmlFor={`${formId}-message`}>{c.labels.message}</label>
             <textarea
@@ -301,9 +377,14 @@ export default function BookingForm({
               onChange={update}
               maxLength="3000"
               aria-invalid={Boolean(errors.message)}
+              aria-describedby={
+                errors.message ? `${formId}-message-error` : undefined
+              }
             />
             {errors.message && (
-              <small className="field-error">{errors.message}</small>
+              <small className="field-error" id={`${formId}-message-error`}>
+                {errors.message}
+              </small>
             )}
           </div>
           <div className="honeypot" aria-hidden="true">
@@ -319,6 +400,12 @@ export default function BookingForm({
           </div>
         </div>
         <div aria-live="polite" className="form-status">
+          {status === 'email-draft' && (
+            <p role="status" className="form-email-status">
+              {c.emailDraftReady}{' '}
+              <a href={`mailto:${business.email}`}>{business.email}</a>
+            </p>
+          )}
           {status === 'failed' && (
             <p role="alert" className="field-error">
               {c.error}
@@ -330,7 +417,7 @@ export default function BookingForm({
         </div>
         <button
           className="button button-primary form-submit"
-          disabled={!configured || status === 'submitting'}
+          disabled={status === 'submitting'}
         >
           {status === 'submitting' ? (
             <>
@@ -339,13 +426,14 @@ export default function BookingForm({
             </>
           ) : (
             <>
-              {configured ? c.submit : c.unconfiguredButton}
+              {configured ? c.submit : c.emailDraftSubmit}
               <ArrowUpRight size={18} />
             </>
           )}
         </button>
         <p className="form-privacy">
-          {c.privacy} <Link to="/privacy-policy">{c.privacyLabel}</Link>
+          {configured ? c.privacy : c.emailDraftPrivacy}{' '}
+          <Link to="/privacy-policy">{c.privacyLabel}</Link>
         </p>
       </form>
     </div>

@@ -2,6 +2,9 @@ import { chromium } from '@playwright/test';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 const out = '.impeccable/review';
+const baseUrl = (
+  process.env.TMI_BROWSER_BASE_URL || 'http://localhost:5173'
+).replace(/\/$/, '');
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
 const desktop = await browser.newPage({
@@ -18,7 +21,7 @@ async function settlePhotos(page) {
 }
 const problems = [];
 desktop.on('pageerror', (e) => problems.push(e.message));
-await desktop.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+await desktop.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
 await desktop.evaluate(() => document.fonts.ready);
 assert.equal(await desktop.locator('h1').count(), 1);
 assert.ok((await desktop.locator('h1').innerText()).includes('At Your Door.'));
@@ -58,7 +61,7 @@ const paths = [
   '/services/unknown',
 ];
 for (const route of paths) {
-  await desktop.goto(`http://localhost:5173${route}`, {
+  await desktop.goto(`${baseUrl}${route}`, {
     waitUntil: 'networkidle',
   });
   assert.equal(await desktop.locator('h1').count(), 1, route);
@@ -79,7 +82,61 @@ for (const route of paths) {
   assert.equal(broken.length, 0, `Broken images ${route}`);
 }
 assert.equal(new URL(desktop.url()).pathname, '/services/unknown');
-await desktop.goto('http://localhost:5173/home-service', {
+await desktop.goto(`${baseUrl}/services`, { waitUntil: 'networkidle' });
+await settlePhotos(desktop);
+assert.equal(await desktop.locator('.service-card').count(), 4);
+for (const specialty of [
+  'Auto Glass',
+  'Advanced Driver-Assistance Calibration',
+  'Premium Ceramic Window Tinting',
+  'Showroom-Finish Mobile Detailing',
+]) {
+  assert.ok(
+    (await desktop.locator('.service-card').allTextContents()).some((text) =>
+      text.includes(specialty),
+    ),
+    specialty,
+  );
+}
+await desktop.screenshot({
+  path: `${out}/services-desktop.png`,
+  fullPage: true,
+});
+await desktop.goto(`${baseUrl}/services/auto-glass-repair`, {
+  waitUntil: 'networkidle',
+});
+const autoGlassCopy = await desktop.locator('main').innerText();
+assert.ok(autoGlassCopy.includes('under 30 minutes'));
+assert.ok(autoGlassCopy.includes('lifetime leak warranty'));
+assert.ok(autoGlassCopy.includes('Insurance claims handled for you'));
+await desktop.goto(`${baseUrl}/services/adas-calibration`, {
+  waitUntil: 'networkidle',
+});
+assert.ok(
+  (await desktop.locator('h2').first().innerText()).includes(
+    'Advanced Driver-Assistance Calibration',
+  ),
+);
+const adasCopy = await desktop.locator('main').innerText();
+assert.ok(adasCopy.includes('Pre- and post-scan reports included'));
+assert.ok(adasCopy.includes('Domestic, European, and Asian makes'));
+await desktop.goto(`${baseUrl}/services/window-tinting`, {
+  waitUntil: 'networkidle',
+});
+const tintCopy = await desktop.locator('main').innerText();
+assert.ok(tintCopy.includes('Up to 99% UV rejection'));
+assert.ok(tintCopy.includes('Lifetime film warranty'));
+await desktop.goto(`${baseUrl}/services/mobile-detailing`, {
+  waitUntil: 'networkidle',
+});
+const detailingCopy = await desktop.locator('main').innerText();
+assert.ok(detailingCopy.includes('5800 Morrison Rd'));
+assert.ok(detailingCopy.includes('shop-only'));
+await desktop.goto(`${baseUrl}/service-areas`, { waitUntil: 'networkidle' });
+const coverageCopy = await desktop.locator('main').innerText();
+assert.ok(coverageCopy.includes('40-mile service radius'));
+assert.ok(coverageCopy.includes('North Shore'));
+await desktop.goto(`${baseUrl}/home-service`, {
   waitUntil: 'networkidle',
 });
 assert.equal(new URL(desktop.url()).pathname, '/our-work');
@@ -104,7 +161,7 @@ await desktop.screenshot({
   path: `${out}/projects-desktop.png`,
   fullPage: true,
 });
-await desktop.goto('http://localhost:5173/contact', {
+await desktop.goto(`${baseUrl}/contact`, {
   waitUntil: 'networkidle',
 });
 await settlePhotos(desktop);
@@ -112,9 +169,25 @@ await desktop.screenshot({
   path: `${out}/contact-desktop.png`,
   fullPage: true,
 });
-await desktop.goto(
-  'http://localhost:5173/book-service?service=mobile-detailing',
-  { waitUntil: 'networkidle' },
+await desktop.goto(`${baseUrl}/book-service?service=mobile-detailing`, {
+  waitUntil: 'networkidle',
+});
+assert.equal(
+  await desktop
+    .locator('.form-grid > .form-field')
+    .first()
+    .locator('label')
+    .innerText(),
+  'Service needed *',
+);
+assert.equal(
+  await desktop.getByLabel('Vehicle year, make, and model').count(),
+  1,
+);
+assert.ok(
+  await desktop
+    .getByText('Online form delivery is not connected yet')
+    .isVisible(),
 );
 await desktop
   .getByLabel('Detailing service', { exact: true })
@@ -131,16 +204,23 @@ assert.equal(
   0,
 );
 assert.ok(
-  await desktop
-    .getByRole('button', { name: 'Online requests unavailable' })
-    .isDisabled(),
+  await desktop.getByRole('button', { name: 'Open email draft' }).isEnabled(),
 );
 await desktop
   .getByLabel('Service needed')
   .selectOption('windshield-replacement');
 await desktop.getByLabel('Preferred service mode').selectOption('mobile');
 assert.ok(await desktop.getByLabel('Service address or ZIP code').isVisible());
-await desktop.goto('http://localhost:5173/faq', { waitUntil: 'networkidle' });
+await desktop.goto(
+  `${baseUrl}/book-service?service=windshield-replacement&mode=mobile`,
+  { waitUntil: 'networkidle' },
+);
+assert.equal(
+  await desktop.getByLabel('Preferred service mode').inputValue(),
+  'mobile',
+);
+assert.ok(await desktop.getByLabel('Service address or ZIP code').isVisible());
+await desktop.goto(`${baseUrl}/faq`, { waitUntil: 'networkidle' });
 const faq = desktop.locator('summary').first();
 await faq.focus();
 await desktop.keyboard.press('Enter');
@@ -154,7 +234,7 @@ const mobile = await browser.newPage({
   reducedMotion: 'reduce',
 });
 mobile.on('pageerror', (e) => problems.push(e.message));
-await mobile.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+await mobile.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
 await settlePhotos(mobile);
 await mobile.screenshot({ path: `${out}/mobile.png`, fullPage: true });
 await mobile
@@ -175,7 +255,7 @@ assert.ok(await mobile.locator('.after-photo').isVisible());
 assert.ok(!(await mobile.locator('.before-photo').isVisible()));
 for (const width of [320, 390, 768, 1024, 1280]) {
   await mobile.setViewportSize({ width, height: 844 });
-  await mobile.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+  await mobile.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
   const metrics = await mobile.evaluate(() => ({
     width: innerWidth,
     scroll: document.documentElement.scrollWidth,
@@ -186,11 +266,23 @@ for (const width of [320, 390, 768, 1024, 1280]) {
   );
 }
 await mobile.setViewportSize({ width: 390, height: 844 });
-await mobile.goto('http://localhost:5173/book-service', {
+await mobile.goto(`${baseUrl}/book-service`, {
   waitUntil: 'networkidle',
 });
 await settlePhotos(mobile);
 await mobile.screenshot({ path: `${out}/booking-mobile.png`, fullPage: true });
+await mobile.goto(`${baseUrl}/services`, { waitUntil: 'networkidle' });
+await settlePhotos(mobile);
+assert.equal(await mobile.locator('.mobile-actions').isVisible(), false);
+assert.equal(
+  await mobile
+    .locator('.service-grid')
+    .evaluate(
+      (grid) => getComputedStyle(grid).gridTemplateColumns.split(' ').length,
+    ),
+  1,
+);
+await mobile.screenshot({ path: `${out}/services-mobile.png`, fullPage: true });
 assert.equal(problems.length, 0, problems.join('\n'));
 fs.writeFileSync(
   `${out}/functional-results.json`,
@@ -205,8 +297,10 @@ fs.writeFileSync(
         'Slideshow and transformation controls',
         'Mobile navigation and Escape',
         'Detailing restrictions',
+        'Four client-approved specialties and full service details',
+        'Client-approved New Orleans service radius',
         'Mobile location field',
-        'Unconfigured form never submits',
+        'Unconfigured form offers a validated email draft fallback',
         'Keyboard FAQ',
         'No horizontal overflow',
       ],
@@ -215,9 +309,9 @@ fs.writeFileSync(
     2,
   ),
 );
-await desktop.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+await desktop.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
 await desktop.screenshot({ path: `${out}/desktop-first-viewport.png` });
-await mobile.goto('http://localhost:5173/', { waitUntil: 'networkidle' });
+await mobile.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
 await mobile.screenshot({ path: `${out}/mobile-first-viewport.png` });
 console.log('Browser checks passed. Desktop and mobile screenshots saved.');
 await browser.close();

@@ -549,6 +549,10 @@ main:focus {
   grid-template-columns: repeat(3, 1fr);
   gap: 40px 28px;
 }
+.service-grid--specialties {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 38px 28px;
+}
 .service-card {
   display: block;
   min-width: 0;
@@ -593,10 +597,10 @@ main:focus {
   margin-bottom: 11px;
 }
 .service-card p {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 15px;
+  line-height: 1.75;
   color: var(--muted);
-  max-width: 43ch;
+  max-width: 54ch;
 }
 .service-card .text-link {
   font-size: 12px;
@@ -935,43 +939,44 @@ main:focus {
   font-size: 27px;
 }
 .form-intro {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.8;
   color: var(--muted);
   margin-top: 12px;
 }
-.form-unavailable {
+.form-email-fallback {
   background: #e5eaf5;
   padding: 20px;
   margin-block: 25px;
   border-radius: 4px;
 }
-.form-unavailable > strong {
+.form-email-fallback > strong {
   color: var(--blue);
-  font-size: 13px;
+  font-size: 15px;
 }
-.form-unavailable p {
-  font-size: 12px;
+.form-email-fallback p {
+  font-size: 14px;
   color: #424e68;
   margin-top: 7px;
+  line-height: 1.65;
 }
-.form-unavailable > div {
+.form-email-fallback > div {
   display: flex;
   flex-direction: column;
   gap: 7px;
   margin-top: 13px;
 }
-.form-unavailable a {
+.form-email-fallback a {
   display: flex;
   gap: 8px;
   align-items: center;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--blue);
   font-weight: 700;
   overflow-wrap: anywhere;
 }
 .required-note {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-bottom: 18px;
 }
@@ -985,7 +990,7 @@ main:focus {
 }
 .form-field label {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #313d58;
   margin-bottom: 8px;
@@ -1005,7 +1010,7 @@ main:focus {
   border: 1px solid #c3cbdc;
   border-radius: 3px;
   padding: 11px 12px;
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.6;
   transition:
     border-color 0.2s,
@@ -1030,7 +1035,7 @@ main:focus {
   resize: vertical;
 }
 .form-field small {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   line-height: 1.6;
   display: block;
@@ -1046,6 +1051,21 @@ main:focus {
 }
 .form-status {
   margin-top: 18px;
+}
+.form-email-status {
+  padding: 11px 13px;
+  background: #e5eaf5;
+  border-radius: 4px;
+  color: var(--blue);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.form-email-status a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
 }
 .form-submit {
   width: 100%;
@@ -1535,7 +1555,7 @@ main {
     font-size: 18px;
   }
   .service-card p {
-    font-size: 13px;
+    font-size: 15px;
   }
   .why-section .split {
     gap: 38px;
@@ -1803,8 +1823,8 @@ main {
     margin-bottom: 9px;
   }
   .service-card p {
-    font-size: 12px;
-    line-height: 1.8;
+    font-size: 15px;
+    line-height: 1.75;
   }
   .service-card .text-link {
     font-size: 10px;
@@ -1981,13 +2001,13 @@ main {
     font-size: 24px;
   }
   .form-intro {
-    font-size: 13px;
+    font-size: 15px;
   }
-  .form-unavailable {
+  .form-email-fallback {
     padding: 18px;
   }
-  .form-unavailable a {
-    font-size: 11px;
+  .form-email-fallback a {
+    font-size: 14px;
   }
   .form-grid {
     gap: 20px 14px;
@@ -2000,10 +2020,10 @@ main {
     min-height: 48px;
   }
   .form-field label {
-    font-size: 11px;
+    font-size: 13px;
   }
   .form-field small {
-    font-size: 10px;
+    font-size: 12px;
   }
   .form-submit {
     font-size: 12px;
@@ -2183,7 +2203,7 @@ main {
     font-size: 21px;
   }
   .service-card p {
-    font-size: 14px;
+    font-size: 15px;
   }
   .service-card .text-link {
     font-size: 12px;
@@ -2463,10 +2483,10 @@ img.editorial-photo {
   font-size: 15px;
 }
 .form-field label {
-  font-size: 12px;
+  font-size: 13px;
 }
 .form-field small {
-  font-size: 11px;
+  font-size: 12px;
 }
 .form-privacy {
   font-size: 11px;
@@ -2485,8 +2505,14 @@ img.editorial-photo {
   font-size: 13px;
 }
 @media (max-width: 700px) {
+  body:has(.services-overview) .mobile-actions {
+    display: none;
+  }
+  .service-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .service-card p {
-    font-size: 13px;
+    font-size: 15px;
   }
   .service-image > img {
     aspect-ratio: 1.2;

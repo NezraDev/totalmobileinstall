@@ -46,6 +46,37 @@ function normalizedPayload(payload = {}) {
   );
 }
 
+/** Build a reviewable email draft when the site has no secure request endpoint. */
+export function buildContactMailtoHref(payload, emailAddress) {
+  const address = String(emailAddress ?? '').trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(address)) {
+    throw new ContactRequestError(
+      'The business email address is unavailable.',
+      'configuration',
+    );
+  }
+
+  const values = normalizedPayload(payload);
+  const body = [
+    'Service request for Total Mobile Install',
+    '',
+    `Name: ${values.fullName}`,
+    `Phone: ${values.phone}`,
+    `Email: ${values.email}`,
+    `Service: ${values.serviceId}`,
+    values.detailType ? `Detailing service: ${values.detailType}` : '',
+    `Vehicle: ${values.vehicle}`,
+    `Preferred service mode: ${values.serviceMode}`,
+    values.location ? `Service address or ZIP: ${values.location}` : '',
+    values.preferredDate ? `Preferred date: ${values.preferredDate}` : '',
+    `Additional details: ${values.message || 'None provided.'}`,
+  ]
+    .filter(Boolean)
+    .join('\r\n');
+
+  return `mailto:${address}?subject=${encodeURIComponent('Service request — Total Mobile Install')}&body=${encodeURIComponent(body)}`;
+}
+
 /** Returns a field-name -> readable error object. Endpoint validation remains required. */
 export function validateContactRequest(payload) {
   const values = normalizedPayload(payload);

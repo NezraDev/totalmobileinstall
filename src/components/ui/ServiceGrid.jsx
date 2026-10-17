@@ -12,11 +12,15 @@ const images = {
   detailing: 'porsche',
   rearGlass: 'truckRear',
 };
-export default function ServiceGrid({ items = services }) {
+export default function ServiceGrid({ items = services, className = '' }) {
   return (
-    <div className="service-grid">
+    <div className={`service-grid ${className}`.trim()}>
       {items.map((s) => (
-        <Link to={`/services/${s.id}`} className="service-card" key={s.id}>
+        <Link
+          to={`/services/${s.routeId || s.id}`}
+          className="service-card"
+          key={s.id}
+        >
           <div className="service-image">
             <Photo
               photo={photos[images[s.imageKey]] || photos.redCorvette}

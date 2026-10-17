@@ -97,6 +97,38 @@ try {
     },
   );
 
+  await check(
+    'The no-endpoint fallback builds an encoded, reviewable email draft',
+    async () => {
+      const fallback = await loadIntegration('emailClient');
+      const href = fallback.buildContactMailtoHref(
+        {
+          ...valid,
+          fullName: 'Test Customer & Co.',
+          serviceId: 'Windshield Repair & Replacement',
+          serviceMode: 'Mobile service',
+          message: 'Please call after 3pm. Thanks!',
+          website: 'must not be included',
+        },
+        'quotes@totalmobileglass.com',
+      );
+      const draft = new URL(href);
+      assert.equal(draft.protocol, 'mailto:');
+      assert.equal(draft.pathname, 'quotes@totalmobileglass.com');
+      assert.match(draft.searchParams.get('subject'), /Service request/);
+      const body = draft.searchParams.get('body');
+      assert.match(body, /Test Customer & Co\./);
+      assert.match(body, /Windshield Repair & Replacement/);
+      assert.match(body, /Preferred service mode: Mobile service/);
+      assert.match(body, /Please call after 3pm\. Thanks!/);
+      assert.doesNotMatch(body, /must not be included/);
+      assert.throws(
+        () => fallback.buildContactMailtoHref(valid, 'not-an-email'),
+        (error) => error.code === 'configuration',
+      );
+    },
+  );
+
   const client = await loadIntegration('emailClient', {
     VITE_CONTACT_ENDPOINT: endpoint,
   });

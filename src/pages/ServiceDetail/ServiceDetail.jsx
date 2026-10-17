@@ -20,7 +20,8 @@ export default function ServiceDetail() {
         <div className="container split">
           <Photo photo={service.photo} className="editorial-photo" />
           <div className="split-copy">
-            <h2>{service.description}</h2>
+            <h2>{service.detailHeading || service.name}</h2>
+            <p className="body-large">{service.description}</p>
             <p className="body-large">{service.detail}</p>
             <h3>{data.includedLabel}</h3>
             <ul className="detail-list">

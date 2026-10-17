@@ -4,6 +4,7 @@ import { Phone, ArrowUpRight } from 'lucide-react';
 import { business } from '../../content/business';
 import { services } from '../../content/services';
 import { navigation, ui } from '../../content/navigation';
+import Brand from '../ui/Brand';
 export default function Footer() {
   const [suppressed, setSuppressed] = useState(false);
   const { pathname } = useLocation();
@@ -36,13 +37,8 @@ export default function Footer() {
       <footer className="site-footer">
         <div className="container footer-grid">
           <div className="footer-brand">
-            <Link to="/">
-              <img
-                src={business.logo}
-                alt={business.name}
-                width="1200"
-                height="196"
-              />
+            <Link to="/" className="brand" aria-label={`${business.name} home`}>
+              <Brand />
             </Link>
             <p>{business.footer}</p>
           </div>

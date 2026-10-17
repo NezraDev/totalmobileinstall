@@ -15,6 +15,7 @@ import Photo from '../../components/ui/Photo';
 import ServiceGrid from '../../components/ui/ServiceGrid';
 import CTA from '../../components/ui/CTA';
 import Slideshow from '../../components/sections/Slideshow';
+import MetricsStrip from '../../components/sections/MetricsStrip';
 import Transformations from '../../components/sections/Transformations';
 import BookingForm from '../../components/sections/BookingForm';
 import LocationMap from '../../components/sections/LocationMap';
@@ -61,6 +62,7 @@ export default function Home() {
           </div>
         </div>
       </Slideshow>
+      <MetricsStrip {...d.metrics} />
       <section className="section about-preview" id="our-work">
         <div className="container split">
           <figure className="editorial-photo">
@@ -145,23 +147,32 @@ export default function Home() {
               <h2>{d.reviews.title}</h2>
               <p>{d.reviews.description}</p>
             </div>
-            <div className="reviews-controls">
+            <div
+              className="reviews-controls"
+              role="group"
+              aria-describedby="reviews-controls-hint"
+            >
               <button
-                className="icon-button"
+                className="comparison-button"
                 aria-label={d.reviews.previous}
                 onClick={() => scrollReviews(-1)}
               >
                 <ArrowLeft size={20} />
+                <span>{d.reviews.previousLabel}</span>
               </button>
               <button
-                className="icon-button"
+                className="comparison-button"
                 aria-label={d.reviews.next}
                 onClick={() => scrollReviews(1)}
               >
+                <span>{d.reviews.nextLabel}</span>
                 <ArrowRight size={20} />
               </button>
             </div>
           </div>
+          <p className="comparison-hint" id="reviews-controls-hint">
+            {d.reviews.navigationHint}
+          </p>
           <div
             className="reviews-track"
             ref={reviews}

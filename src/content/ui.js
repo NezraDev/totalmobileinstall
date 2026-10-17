@@ -67,6 +67,10 @@ export const transformationCopy = {
   after: 'After',
   next: 'Next transformation',
   previous: 'Previous transformation',
+  nextLabel: 'Next result',
+  previousLabel: 'Previous result',
+  navigationHint:
+    'Use the buttons to explore our before-and-after transformations.',
   viewGallery: 'See more transformations',
   angleNote:
     'Photographs show the same vehicle at different stages. Camera positions may vary.',

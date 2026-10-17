@@ -19,7 +19,7 @@ export const data = {
     slides,
     settings: {
       autoplay: true,
-      interval: 6000,
+      interval: 4500,
       label: 'Total Mobile Install featured work',
       previous: 'Previous photograph',
       next: 'Next photograph',
@@ -27,6 +27,50 @@ export const data = {
       play: 'Play slideshow',
       goTo: 'Show photograph:',
     },
+  },
+  metrics: {
+    label: 'Total Mobile Install at a glance',
+    hint: 'Scroll to see the numbers come to life.',
+    items: [
+      {
+        id: 'experience',
+        value: 9,
+        suffix: '+',
+        label: 'Years serving NOLA',
+        detail: 'Local roots. Lasting care.',
+      },
+      {
+        id: 'vehicles',
+        value: 10000,
+        suffix: '+',
+        compact: true,
+        label: 'Vehicles serviced',
+        detail: 'Across our auto services.',
+        sourceStatus:
+          'Client-supplied 10K+ figure. Confirm before public launch.',
+      },
+      {
+        id: 'services',
+        value: 6,
+        label: 'Core services',
+        detail: 'Glass, calibration, tint & more.',
+        to: '/services',
+      },
+      {
+        id: 'results',
+        value: 9,
+        label: 'Real transformations',
+        detail: 'See the before and after.',
+        to: '/gallery',
+      },
+      {
+        id: 'stories',
+        value: 6,
+        label: 'Customer stories',
+        detail: 'Read their experiences.',
+        href: '#reviews',
+      },
+    ],
   },
   about: {
     title: 'Family-owned care. A higher standard.',
@@ -83,6 +127,9 @@ export const data = {
     description: 'Stories shared by customers across Greater New Orleans.',
     previous: 'Previous customer story',
     next: 'Next customer story',
+    previousLabel: 'Previous story',
+    nextLabel: 'Next story',
+    navigationHint: 'Use the buttons to read more customer stories.',
     label: 'Customer stories',
     items: [
       {

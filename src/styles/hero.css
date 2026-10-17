@@ -3,7 +3,7 @@
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  min-height: 720px;
+  min-height: calc(100svh - 100px);
   background: var(--blue);
 }
 
@@ -18,7 +18,7 @@
 }
 
 .photo-hero .slide {
-  transition: opacity 1.2s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
 }
 
 .hero-blue-overlay {
@@ -76,7 +76,7 @@
 .photo-hero .slideshow-bar {
   position: relative;
   z-index: 2;
-  min-height: 108px;
+  min-height: 84px;
   background: transparent;
   border-top: 1px solid rgb(255 255 255 / 0.25);
   border-bottom: 0;
@@ -118,7 +118,7 @@
 
 @media (max-width: 1000px) {
   .photo-hero {
-    min-height: 650px;
+    min-height: calc(100svh - 84px);
   }
 
   .hero.photo-hero > .container {
@@ -129,7 +129,8 @@
 
 @media (max-width: 700px) {
   .photo-hero {
-    min-height: 700px;
+    min-height: calc(100svh - 80px);
+    padding-bottom: 64px;
   }
 
   .hero.photo-hero > .container {
@@ -160,13 +161,13 @@
   .photo-hero .slideshow-bar {
     gap: 18px;
     flex-wrap: wrap;
-    min-height: 145px;
+    min-height: 112px;
     padding-top: 20px;
     padding-bottom: 28px;
   }
 
   .photo-hero .slide-caption {
-    min-width: 100%;
+    min-width: 0;
   }
 
   .photo-hero .slide-caption p {
@@ -192,6 +193,47 @@
 
   .photo-hero .slide-dots button {
     width: 17px;
+  }
+}
+
+.hero-slide-progress {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.hero-slide-progress span {
+  display: block;
+  height: 3px;
+  width: 27px;
+  background: rgb(255 255 255 / 0.35);
+  transition: background 0.4s ease;
+}
+.hero-slide-progress span.active {
+  background: white;
+}
+.map-embed {
+  position: absolute;
+  inset: 0 0 90px;
+  width: 100%;
+  height: calc(100% - 90px);
+  border: 0;
+}
+@media (max-width: 1190px) and (min-width: 1001px) {
+  .photo-hero {
+    min-height: calc(100svh - 88px);
+  }
+}
+@media (max-width: 700px) {
+  .photo-hero .slideshow-bar {
+    justify-content: space-between;
+    gap: 18px;
+    padding-block: 18px;
+  }
+  .hero-slide-progress {
+    gap: 5px;
+  }
+  .hero-slide-progress span {
+    width: 16px;
   }
 }
 

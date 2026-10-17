@@ -8,7 +8,7 @@ A considered automotive service journal: confident blue fields, crisp white read
 
 ## First viewport
 
-A full-color original logo sits on a white navigation strip. Real vehicle photographs crossfade behind a translucent blue gradient and the stable two-column headline and booking actions. A caption strip and accessible manual controls sit over the same image. The hero automatically advances every six seconds. Nothing essential waits for an entrance animation.
+The supplied icon and a code-rendered brand wordmark sit on a white navigation strip. Real vehicle photographs crossfade behind a translucent blue gradient and the stable two-column headline and booking actions. A quiet caption strip sits over the same image, with no pause or arrow controls as requested. The hero fills the first screen and automatically advances every 4.5 seconds. A scroll-triggered metric band follows immediately. Nothing essential waits for an entrance animation.
 
 ## Signature interaction
 
@@ -16,11 +16,11 @@ The paired transformation viewer lets visitors inspect a genuine damaged/complet
 
 ## Motion grammar
 
-Soft 1.2-second hero photo crossfades, a brief route settling transition, precise button movement, and restrained photo hover effects. Visible content is the default. Reduced motion disables automatic slides and nonessential movement. Keyboard focus and manual navigation pause rotation; Play explicitly resumes it. Hidden tabs suspend the timer. Hovering the photographic hero does not stop automatic playback.
+Soft 0.8-second hero photo crossfades, a brief route settling transition, precise button movement, and restrained photo hover effects. Visible content is the default. Reduced motion disables automatic slides and nonessential movement. Keyboard focus temporarily suspends hero rotation. Metric figures count to their sourced values once when entering the viewport, without repeated looping. Hidden tabs suspend the timer. Hovering the photographic hero does not stop automatic playback.
 
 ## Scope and risks
 
-Persuade mode. The homepage progresses from offer to real work, business story, services, reasons, transformations, reviews, and contact. Smaller routes share this visual system. Images, text, source truth, and browser-local interactions are complete. Email sending, map credentials/pin, policy approval, claim confirmation, final domain and service coverage remain external dependencies.
+Persuade mode. The homepage progresses from offer to real work, business story, services, reasons, transformations, reviews, and contact. Smaller routes share this visual system. Images, text, source truth, and browser-local interactions are complete. Email sending, optional CARTO credentials, policy approval, claim confirmation, final domain and service coverage remain external dependencies.
 
 ## Craft decision record
 

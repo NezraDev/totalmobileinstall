@@ -3,6 +3,7 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { business } from '../../content/business';
 import { navigation, ui } from '../../content/navigation';
+import Brand from '../ui/Brand';
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
@@ -22,12 +23,7 @@ export default function Header() {
     <header className="site-header">
       <div className="header-inner">
         <Link to="/" className="brand" aria-label={`${business.name} home`}>
-          <img
-            src={business.logo}
-            alt={business.name}
-            width="1200"
-            height="196"
-          />
+          <Brand />
         </Link>
         <button
           id="menu-toggle"

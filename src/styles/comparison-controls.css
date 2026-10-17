@@ -1,0 +1,89 @@
+.transformation-top {
+  margin-bottom: 12px;
+}
+
+.comparison-navigation {
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+.comparison-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 16px;
+  border: 1px solid #b7c2df;
+  border-radius: 4px;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  transition:
+    background 0.25s,
+    color 0.25s;
+}
+
+.comparison-button svg {
+  flex-shrink: 0;
+}
+
+.comparison-button:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+
+.comparison-hint {
+  margin-bottom: 22px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.reviews-section .section-heading {
+  margin-bottom: 16px;
+}
+
+.reviews-controls {
+  flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+  .reviews-section .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reviews-controls {
+    width: 100%;
+  }
+
+  .reviews-controls .comparison-button {
+    flex: 1;
+  }
+
+  .transformation-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 17px;
+    margin-bottom: 12px;
+  }
+
+  .comparison-navigation {
+    width: 100%;
+  }
+
+  .comparison-button {
+    flex: 1;
+    gap: 8px;
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+
+  .comparison-hint {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+}

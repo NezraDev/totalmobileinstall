@@ -13,6 +13,11 @@ export const business = {
   ],
   logo: '/images/brand/logo.png',
   icon: '/images/brand/icon.png',
+  brand: {
+    first: 'TOTAL',
+    remainder: 'MOBILE INSTALL',
+    descriptor: 'AUTO GLASS REPAIR',
+  },
   reviewUrl: null,
   tagline: 'Local care. A clearer drive.',
   footer:

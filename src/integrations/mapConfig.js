@@ -1,5 +1,8 @@
 export const businessAddress = '5800 Morrison Rd, New Orleans, LA 70126';
-export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(businessAddress)}`;
+// Exact shop pin supplied by the business on October 17, 2026.
+export const verifiedShopCoordinates = Object.freeze([
+  -90.02540735889556, 30.025471630757778,
+]);
 
 const cartoApiKey = (import.meta.env.VITE_CARTO_API_KEY || '').trim();
 const longitudeText = (import.meta.env.VITE_MAP_LONGITUDE || '').trim();
@@ -15,6 +18,24 @@ const validCoordinates =
   longitude <= 180 &&
   latitude >= -90 &&
   latitude <= 90;
+// A future deployment can override both coordinates together. Incomplete or
+// invalid overrides keep the confirmed shop pin, never a zero/approximate pin.
+const coordinates = validCoordinates
+  ? [longitude, latitude]
+  : verifiedShopCoordinates;
+export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${coordinates[1]},${coordinates[0]}`)}`;
+const embedUrl = new URL('https://www.openstreetmap.org/export/embed.html');
+embedUrl.searchParams.set(
+  'bbox',
+  [
+    coordinates[0] - 0.008,
+    coordinates[1] - 0.005,
+    coordinates[0] + 0.008,
+    coordinates[1] + 0.005,
+  ].join(','),
+);
+embedUrl.searchParams.set('layer', 'mapnik');
+embedUrl.searchParams.set('marker', `${coordinates[1]},${coordinates[0]}`);
 
 /** Apply only to CARTO requests: never forward the public browser key to another host. */
 export function transformCartoRequest(url) {
@@ -31,8 +52,10 @@ export function transformCartoRequest(url) {
 }
 
 export const mapConfig = Object.freeze({
-  configured: Boolean(cartoApiKey && validCoordinates),
-  coordinates: validCoordinates ? [longitude, latitude] : null,
+  configured: true,
+  cartoConfigured: Boolean(cartoApiKey),
+  coordinates,
+  embedUrl: embedUrl.toString(),
   styleUrl: transformCartoRequest(
     'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
   ).url,
@@ -41,16 +64,4 @@ export const mapConfig = Object.freeze({
     '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
   address: businessAddress,
   directionsUrl,
-});
-
-// Research only. Census matches the street address but calculates a position along
-// the street range; this is not a verified rooftop, parking entrance, or shop pin.
-// Leave the production map unconfigured until the business verifies its exact pin.
-export const geocodingResearch = Object.freeze({
-  matchedAddress: '5800 MORRISON RD, NEW ORLEANS, LA, 70126',
-  approximateCoordinates: [-90.025590997511, 30.025655914516],
-  precision: 'Census MAF/TIGER address-range interpolation',
-  checkedOn: '2026-10-17',
-  source:
-    'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=5800%20Morrison%20Rd%2C%20New%20Orleans%2C%20LA%2070126&benchmark=Public_AR_Current&format=json',
 });

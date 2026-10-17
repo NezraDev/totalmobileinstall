@@ -7,6 +7,9 @@ import '@fontsource/manrope/latin-700.css';
 import './styles/tokens.css';
 import './styles/global.css';
 import './styles/hero.css';
+import './styles/metrics.css';
+import './styles/brand.css';
+import './styles/comparison-controls.css';
 import App from './app/App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

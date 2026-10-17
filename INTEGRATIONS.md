@@ -6,12 +6,12 @@ Verified against official documentation on October 17, 2026. This project is a s
 
 Copy `.env.example` to `.env.local`, fill in confirmed values, and rebuild. Vite exposes `VITE_` values to visitors and replaces them at build time. Never put a Resend sending credential in any frontend environment variable, content file, or browser SDK. [Vite environment variables](https://vite.dev/guide/env-and-mode#env-variables)
 
-| Variable | Purpose |
-| --- | --- |
-| `VITE_CONTACT_ENDPOINT` | HTTPS URL for the separately managed contact endpoint |
-| `VITE_CARTO_API_KEY` | Public, hostname-restricted CARTO Basemaps browser key |
-| `VITE_MAP_LONGITUDE` and `VITE_MAP_LATITUDE` | Business-verified map marker coordinates |
-| `VITE_SITE_URL` | Confirmed canonical website origin |
+| Variable                                     | Purpose                                                                                   |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `VITE_CONTACT_ENDPOINT`                      | HTTPS URL for the separately managed contact endpoint                                     |
+| `VITE_CARTO_API_KEY`                         | Optional public, hostname-restricted CARTO Basemaps browser key; the map works without it |
+| `VITE_MAP_LONGITUDE` and `VITE_MAP_LATITUDE` | Optional paired overrides for the confirmed shop coordinates                              |
+| `VITE_SITE_URL`                              | Confirmed canonical website origin                                                        |
 
 All photo and brand files live in `public/images`. Reference them as `/images/...`, without `/public`. Vite serves the public directory at the root and copies it unchanged into the production output. [Vite public directory](https://vite.dev/guide/assets#the-public-directory)
 
@@ -49,17 +49,15 @@ The external operator needs a Resend account, a private sending API key, and a v
 
 The trusted service calls Resend's send-email API and handles its returned error or ID. A send API response is not evidence of final delivery. Any later delivery monitoring belongs to that service. [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email)
 
-## MapLibre and CARTO
+## Shop map and optional CARTO
 
-The map uses the CARTO Positron vector style. Obtain the business's own Basemaps key through CARTO, identify this as commercial use, restrict it to the final website hostnames, and use a separate key for localhost. CARTO currently requires the key on style, tile, glyph, and sprite requests. The supplied `transformCartoRequest` function adds it only to requests for `basemaps.cartocdn.com`. The public key is distinct from any private CARTO platform token. Current commercial use is free up to 1 million tile requests per month, with paid tiers above that limit; verify the account's applicable plan before launch. [CARTO Basemaps setup](https://www.carto.com/basemaps/apikey/index.html), [CARTO terms](https://www.carto.com/legal/basemap-terms/)
+The business supplied the exact shop pin on October 17, 2026: **latitude 30.025471630757778, longitude -90.02540735889556**. This is the default map marker and Google Maps directions destination. MapLibre stores coordinates in longitude/latitude order. Both optional coordinate overrides must be valid; incomplete or invalid overrides retain this confirmed pin. [Google Maps URL directions format](https://developers.google.com/maps/documentation/urls/get-started)
 
-Keep both CARTO and OpenStreetMap attribution visible on every map. Use MapLibre's stylesheet, reserve map height, load the library near the viewport, handle WebGL/network/tile errors, and remove the map on React effect cleanup. Keep the address and directions link available in every state. Do not request geolocation or draw an unconfirmed coverage polygon. [CARTO attribution](https://carto.com/attribution/), [MapLibre map lifecycle](https://maplibre.org/maplibre-gl-js/docs/API/classes/Map/#remove), [MapLibre request transformation](https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/RequestTransformFunction/)
+The map is visible without an API key. Near the viewport, it loads OpenStreetMap's official embed iframe with a bounding box and exact marker. The iframe preserves the provider's visible attribution and interactive controls. It sends the normal browser referrer, uses the provider's own caching behavior, and does not prefetch, download, or archive tiles. The address and directions remain available even if the provider cannot load. OpenStreetMap is a best-effort community service, so evaluate a managed provider as traffic grows. [OpenStreetMap embeddable HTML](https://wiki.openstreetmap.org/wiki/Export#Embeddable_HTML), [OSMF tile usage policy](https://operations.osmfoundation.org/policies/tiles/)
 
-### Address research and exact-pin requirement
+When `VITE_CARTO_API_KEY` is supplied, the map uses MapLibre with the CARTO Positron vector style instead. Obtain the business's own Basemaps key through CARTO, identify this as commercial use, restrict it to the final website hostnames, and use a separate key for localhost. CARTO currently requires the key on style, tile, glyph, and sprite requests. The supplied `transformCartoRequest` function adds it only to requests for `basemaps.cartocdn.com`. The public key is distinct from any private CARTO platform token. Verify the account's applicable plan before launch. [CARTO Basemaps setup](https://www.carto.com/basemaps/apikey/index.html), [CARTO terms](https://www.carto.com/legal/basemap-terms/)
 
-The U.S. Census public geocoder returned the exact address match `5800 MORRISON RD, NEW ORLEANS, LA, 70126`, with approximate coordinates **longitude -90.025590997511, latitude 30.025655914516**, on October 17, 2026. These coordinates are stored only as research in `mapConfig.js`. [Reproducible Census API query](https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=5800%20Morrison%20Rd%2C%20New%20Orleans%2C%20LA%2070126&benchmark=Public_AR_Current&format=json)
-
-Census coordinates are interpolated along street address ranges and do not verify a shop entrance or actual building. The live map therefore remains unconfigured until the business verifies its exact pin and supplies the CARTO key. Once confirmed, set both coordinate variables. The current address-based directions link works without a map API key. [Census accuracy explanation](https://www.census.gov/programs-surveys/geography/technical-documentation/complete-technical-documentation/census-geocoder.html), [Google Maps URL directions format](https://developers.google.com/maps/documentation/urls/get-started)
+Keep both CARTO and OpenStreetMap attribution visible on the CARTO map. MapLibre's stylesheet and worker are dynamically imported near the viewport. The component reserves map height, removes the map on React effect cleanup, and switches to the OpenStreetMap embed on WebGL/provider errors or a 15-second loading timeout. No visitor geolocation or unconfirmed coverage polygon is used. [CARTO attribution](https://carto.com/attribution/), [MapLibre map lifecycle](https://maplibre.org/maplibre-gl-js/docs/API/classes/Map/#remove), [MapLibre request transformation](https://maplibre.org/maplibre-gl-js/docs/API/type-aliases/RequestTransformFunction/)
 
 ## Static hosting
 

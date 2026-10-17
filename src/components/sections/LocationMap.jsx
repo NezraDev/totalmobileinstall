@@ -11,10 +11,15 @@ export default function LocationMap() {
   const host = useRef(null),
     canvas = useRef(null),
     [near, setNear] = useState(false),
-    [state, setState] = useState(
-      mapConfig.configured ? 'waiting' : 'unconfigured',
-    );
+    [provider, setProvider] = useState(
+      mapConfig.cartoConfigured ? 'carto' : 'osm',
+    ),
+    [state, setState] = useState('waiting');
   useEffect(() => {
+    if (!('IntersectionObserver' in window)) {
+      setNear(true);
+      return;
+    }
     const io = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -28,10 +33,20 @@ export default function LocationMap() {
     return () => io.disconnect();
   }, []);
   useEffect(() => {
-    if (!near || !mapConfig.configured) return;
+    if (!near || provider !== 'carto') return;
     let map,
       disposed = false;
+    let loadTimeout;
+    const useEmbed = () => {
+      if (disposed) return;
+      window.clearTimeout(loadTimeout);
+      map?.remove();
+      map = null;
+      setState('loading');
+      setProvider('osm');
+    };
     setState('loading');
+    loadTimeout = window.setTimeout(useEmbed, 15000);
     (async () => {
       try {
         const [maplibre, , { default: workerUrl }] = await Promise.all([
@@ -63,40 +78,47 @@ export default function LocationMap() {
           .setLngLat(mapConfig.coordinates)
           .addTo(map);
         map.on('load', () => {
-          if (!disposed) setState('ready');
-        });
-        map.on('error', () => {
           if (!disposed) {
-            setState('error');
-            map?.remove();
-            map = null;
+            window.clearTimeout(loadTimeout);
+            setState('ready');
           }
         });
+        map.on('error', useEmbed);
       } catch {
-        map?.remove();
-        if (!disposed) setState('error');
+        useEmbed();
       }
     })();
     return () => {
       disposed = true;
+      window.clearTimeout(loadTimeout);
       map?.remove();
     };
-  }, [near]);
+  }, [near, provider]);
   return (
-    <div
-      className={`location-map ${state === 'ready' ? 'map-ready' : ''}`}
-      ref={host}
-    >
-      <div
-        ref={canvas}
-        className="map-canvas"
-        aria-label={`${business.name} location map`}
-        role="region"
-      />
+    <div className="location-map map-ready" ref={host}>
+      {provider === 'carto' && (
+        <div
+          ref={canvas}
+          className="map-canvas"
+          aria-label={`${business.name} location map`}
+          role="region"
+        />
+      )}
+      {near && provider === 'osm' && state !== 'error' && (
+        <iframe
+          className="map-embed"
+          title={`${business.name} shop location at ${business.address}`}
+          src={mapConfig.embedUrl}
+          loading="lazy"
+          referrerPolicy="strict-origin-when-cross-origin"
+          onLoad={() => setState('ready')}
+          onError={() => setState('error')}
+        />
+      )}
       {state !== 'ready' && (
-        <div className="map-fallback">
+        <div className={`map-fallback ${state === 'error' ? 'map-error' : ''}`}>
           <MapPin size={36} strokeWidth={1.4} />
-          <h3>{state === 'loading' ? c.loading : c.unavailable}</h3>
+          <h3>{state === 'error' ? c.unavailable : c.loading}</h3>
           <p>{business.address}</p>
           <span>{state === 'error' ? c.error : c.fallback}</span>
         </div>

@@ -24,14 +24,8 @@ assert.equal(await desktop.locator('h1').count(), 1);
 assert.ok((await desktop.locator('h1').innerText()).includes('At Your Door.'));
 await settlePhotos(desktop);
 await desktop.screenshot({ path: `${out}/desktop.png`, fullPage: true });
-const firstTitle = await desktop.locator('.slide-caption p').innerText();
-await desktop
-  .getByRole('button', { name: 'Next photograph', exact: true })
-  .click();
-assert.notEqual(
-  await desktop.locator('.slide-caption p').innerText(),
-  firstTitle,
-);
+assert.equal(await desktop.locator('.photo-hero button').count(), 0);
+assert.equal(await desktop.locator('.hero-slide-progress span').count(), 5);
 const firstPair = await desktop.locator('.transformation-top h3').innerText();
 await desktop
   .getByRole('button', { name: 'Next transformation', exact: true })

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { beforeAfter } from '../../content/assets';
 import { transformationCopy as c } from '../../content/ui';
 import Photo from '../ui/Photo';
 export default function Transformations({ all = false }) {
+  const hintId = useId();
   const [index, setIndex] = useState(0),
     [mode, setMode] = useState('before');
   const pair = beforeAfter[index];
@@ -16,23 +17,32 @@ export default function Transformations({ all = false }) {
     <div className="transformations">
       <div className="transformation-top">
         <h3>{pair.title}</h3>
-        <div className="comparison-navigation">
+        <div
+          className="comparison-navigation"
+          role="group"
+          aria-describedby={hintId}
+        >
           <button
-            className="icon-button"
+            className="comparison-button"
             aria-label={c.previous}
             onClick={() => change(index - 1)}
           >
             <ArrowLeft size={20} />
+            <span>{c.previousLabel}</span>
           </button>
           <button
-            className="icon-button"
+            className="comparison-button"
             aria-label={c.next}
             onClick={() => change(index + 1)}
           >
+            <span>{c.nextLabel}</span>
             <ArrowRight size={20} />
           </button>
         </div>
       </div>
+      <p className="comparison-hint" id={hintId}>
+        {c.navigationHint}
+      </p>
       <div className="comparison-tabs" role="group" aria-label={pair.title}>
         {['before', 'after'].map((m) => (
           <button

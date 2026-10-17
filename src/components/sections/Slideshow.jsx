@@ -10,6 +10,7 @@ export default function Slideshow({
   const [index, setIndex] = useState(0),
     [paused, setPaused] = useState(settings.autoplay === false),
     [hover, setHover] = useState(false),
+    [focused, setFocused] = useState(false),
     [hidden, setHidden] = useState(document.hidden),
     [reduced, setReduced] = useState(
       () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -25,7 +26,7 @@ export default function Slideshow({
       query.removeEventListener('change', motion);
     };
   }, []);
-  const auto = !paused && !hover && !hidden && !reduced;
+  const auto = !paused && !hover && !focused && !hidden && !reduced;
   useEffect(() => {
     if (!auto || slides.length < 2) return;
     const id = setInterval(
@@ -49,7 +50,12 @@ export default function Slideshow({
       onMouseEnter={() => !hero && setHover(true)}
       onMouseLeave={() => setHover(false)}
       onFocus={(e) => {
-        if (!e.target.closest('[data-rotation-control]')) setPaused(true);
+        if (hero) setFocused(true);
+        else if (!e.target.closest('[data-rotation-control]')) setPaused(true);
+      }}
+      onBlur={(e) => {
+        if (hero && !e.currentTarget.contains(e.relatedTarget))
+          setFocused(false);
       }}
     >
       <div className="slideshow-images">
@@ -73,44 +79,52 @@ export default function Slideshow({
             <span>{slides[index].caption}</span>
           </div>
         </div>
-        <div className="slideshow-controls">
-          <div className="slide-dots">
+        {hero ? (
+          <div className="hero-slide-progress" aria-hidden="true">
             {slides.map((s, i) => (
-              <button
-                key={s.id}
-                aria-label={`${settings.goTo} ${s.title}`}
-                aria-current={index === i ? 'true' : undefined}
-                onClick={() => {
-                  setIndex(i);
-                  setPaused(true);
-                }}
-              />
+              <span key={s.id} className={i === index ? 'active' : ''} />
             ))}
           </div>
-          <button
-            className="icon-button pause-control"
-            data-rotation-control
-            aria-label={paused || reduced ? settings.play : settings.pause}
-            onClick={() => setPaused(!paused)}
-            disabled={reduced}
-          >
-            {paused || reduced ? <Play size={16} /> : <Pause size={16} />}
-          </button>
-          <button
-            className="icon-button"
-            aria-label={settings.previous}
-            onClick={() => move(-1)}
-          >
-            <ArrowLeft size={19} />
-          </button>
-          <button
-            className="icon-button"
-            aria-label={settings.next}
-            onClick={() => move(1)}
-          >
-            <ArrowRight size={19} />
-          </button>
-        </div>
+        ) : (
+          <div className="slideshow-controls">
+            <div className="slide-dots">
+              {slides.map((s, i) => (
+                <button
+                  key={s.id}
+                  aria-label={`${settings.goTo} ${s.title}`}
+                  aria-current={index === i ? 'true' : undefined}
+                  onClick={() => {
+                    setIndex(i);
+                    setPaused(true);
+                  }}
+                />
+              ))}
+            </div>
+            <button
+              className="icon-button pause-control"
+              data-rotation-control
+              aria-label={paused || reduced ? settings.play : settings.pause}
+              onClick={() => setPaused(!paused)}
+              disabled={reduced}
+            >
+              {paused || reduced ? <Play size={16} /> : <Pause size={16} />}
+            </button>
+            <button
+              className="icon-button"
+              aria-label={settings.previous}
+              onClick={() => move(-1)}
+            >
+              <ArrowLeft size={19} />
+            </button>
+            <button
+              className="icon-button"
+              aria-label={settings.next}
+              onClick={() => move(1)}
+            >
+              <ArrowRight size={19} />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

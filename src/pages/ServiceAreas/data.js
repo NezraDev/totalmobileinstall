@@ -24,8 +24,8 @@ export const data = {
   modeNote:
     'Interior and hand-wash detailing may be mobile. Paint correction, polishing, and ceramic coating are shop-only.',
   requestLabel: 'Check my location',
-  requestHref: '/book-service',
+  requestHref: '/book-service?mode=mobile',
   callLabel: `Call ${business.phone}`,
   phoneHref: business.phoneHref,
-  mapHeading: 'Find us on Morrison Road',
+  mapHeading: 'Our 40-mile mobile service radius',
 };

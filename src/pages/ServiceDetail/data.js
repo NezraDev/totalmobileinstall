@@ -29,7 +29,7 @@ export const data = {
           title: `${service.name} in New Orleans | Total Mobile Install`,
           description: `${service.description} Contact Total Mobile Install in New Orleans to discuss your vehicle and request service.`,
         },
-        requestHref: `/book-service?service=${service.id}`,
+        requestHref: `/book-service?service=${service.id}&mode=${service.modes[0]}`,
       },
     ]),
   ),

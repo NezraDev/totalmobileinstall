@@ -47,7 +47,8 @@ export const formCopy = {
     { id: 'polishing', label: 'Polishing (in-shop)' },
     { id: 'ceramic-coating', label: 'Ceramic coating (in-shop)' },
   ],
-  modeNote: 'The team confirms the available service mode for your vehicle.',
+  modeNote:
+    'Choose Mobile Service or Shop. Your preference is a request; our team will confirm availability.',
   validationSummary: 'Please check the highlighted fields.',
   privacyLabel: 'Privacy information',
   dateError: 'Choose today or a future date.',

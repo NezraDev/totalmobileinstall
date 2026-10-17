@@ -37,7 +37,7 @@ export default function ServiceAreas() {
       <section className="section section-soft">
         <div className="container">
           <h2>{data.mapHeading}</h2>
-          <LocationMap />
+          <LocationMap showCoverage />
         </div>
       </section>
     </>

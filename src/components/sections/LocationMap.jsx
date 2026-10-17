@@ -5,6 +5,9 @@ import {
   mapConfig,
   directionsUrl,
   transformCartoRequest,
+  createServiceRadiusFeature,
+  serviceRadiusBounds,
+  serviceRadiusMiles,
 } from '../../integrations/mapConfig';
 import { mapCopy as c } from '../../content/ui';
 import { business } from '../../content/business';
@@ -13,7 +16,7 @@ function formatCoordinates([longitude, latitude]) {
   return `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
 }
 
-export default function LocationMap() {
+export default function LocationMap({ showCoverage = false }) {
   const host = useRef(null);
   const canvas = useRef(null);
   const [near, setNear] = useState(false);
@@ -47,6 +50,10 @@ export default function LocationMap() {
     let loadTimeout;
     let disposed = false;
     let usingCarto = mapConfig.cartoConfigured;
+    let coverageFitted = false;
+    const serviceRadius = showCoverage
+      ? createServiceRadiusFeature(mapConfig.coordinates)
+      : null;
 
     setState('loading');
 
@@ -145,6 +152,45 @@ export default function LocationMap() {
 
         map.on('style.load', () => {
           if (disposed) return;
+          if (serviceRadius) {
+            if (!map.getSource('tmi-service-radius')) {
+              map.addSource('tmi-service-radius', {
+                type: 'geojson',
+                data: serviceRadius,
+              });
+            }
+            if (!map.getLayer('tmi-service-radius-fill')) {
+              map.addLayer({
+                id: 'tmi-service-radius-fill',
+                type: 'fill',
+                source: 'tmi-service-radius',
+                paint: {
+                  'fill-color': '#1745c8',
+                  'fill-opacity': 0.16,
+                },
+              });
+            }
+            if (!map.getLayer('tmi-service-radius-outline')) {
+              map.addLayer({
+                id: 'tmi-service-radius-outline',
+                type: 'line',
+                source: 'tmi-service-radius',
+                paint: {
+                  'line-color': '#123db8',
+                  'line-opacity': 0.9,
+                  'line-width': 2.5,
+                },
+              });
+            }
+            if (!coverageFitted) {
+              map.fitBounds(serviceRadiusBounds(serviceRadius), {
+                padding: { top: 36, right: 36, bottom: 36, left: 36 },
+                maxZoom: 8.5,
+                duration: 0,
+              });
+              coverageFitted = true;
+            }
+          }
           window.clearTimeout(loadTimeout);
           setState('ready');
           if (!popup.isOpen()) popup.addTo(map);
@@ -171,16 +217,32 @@ export default function LocationMap() {
       markerRoot?.unmount();
       map?.remove();
     };
-  }, [near]);
+  }, [near, showCoverage]);
 
   return (
-    <div className="location-map map-ready" ref={host}>
+    <div
+      className={`location-map map-ready${showCoverage ? ' location-map--coverage' : ''}`}
+      ref={host}
+    >
       <div
         ref={canvas}
         className="map-canvas"
-        aria-label={`${business.name} shop location map`}
+        aria-label={
+          showCoverage
+            ? `${serviceRadiusMiles}-mile mobile service radius around ${business.name}`
+            : `${business.name} shop location map`
+        }
         role="region"
       />
+      {showCoverage && (
+        <div className="map-coverage-legend">
+          <span className="map-coverage-legend__swatch" aria-hidden="true" />
+          <span>
+            <strong>{serviceRadiusMiles}-mile mobile service radius</strong>
+            <small>ZIP code availability is confirmed with each request.</small>
+          </span>
+        </div>
+      )}
       {state === 'loading' && (
         <div className="map-loading" role="status">
           <LoaderCircle size={18} className="spin" />

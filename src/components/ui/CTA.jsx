@@ -11,7 +11,7 @@ export default function CTA() {
           <p>{c.description}</p>
         </div>
         <div className="button-group">
-          <Link className="button button-white" to="/book-service">
+          <Link className="button button-white" to="/book-service?mode=mobile">
             {c.action}
             <ArrowUpRight size={18} />
           </Link>

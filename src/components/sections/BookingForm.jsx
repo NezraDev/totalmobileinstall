@@ -5,6 +5,7 @@ import {
   services,
   serviceModes,
   serviceSpecialties,
+  getAvailableServiceModes,
 } from '../../content/services';
 import { business } from '../../content/business';
 import { formCopy as c } from '../../content/ui';
@@ -24,11 +25,23 @@ export default function BookingForm({
   const selectedInitialService = services.find(
     (service) => service.id === initialService,
   );
-  const selectedInitialMode = selectedInitialService?.modes.includes(
-    initialMode,
-  )
+  const requestedInitialMode = ['mobile', 'shop'].includes(initialMode)
     ? initialMode
     : '';
+  const initialDetailType =
+    selectedInitialService?.id === 'mobile-detailing' &&
+    requestedInitialMode === 'shop'
+      ? 'paint-correction'
+      : 'interior';
+  const initialAvailableModes = getAvailableServiceModes(
+    selectedInitialService,
+    initialDetailType,
+  );
+  const selectedInitialMode = selectedInitialService
+    ? initialAvailableModes.includes(requestedInitialMode)
+      ? requestedInitialMode
+      : (initialAvailableModes[0] ?? '')
+    : requestedInitialMode;
   const formId = useId(),
     formRef = useRef(null),
     pendingRef = useRef(false);
@@ -39,44 +52,51 @@ export default function BookingForm({
     serviceId: selectedInitialService?.id || '',
     vehicle: '',
     serviceMode: selectedInitialMode,
-    location: initialLocation,
+    location: selectedInitialMode === 'mobile' ? initialLocation : '',
     preferredDate: '',
     message: '',
     website: '',
-    detailType: 'interior',
+    detailType: initialDetailType,
   }));
   const [errors, setErrors] = useState({}),
     [status, setStatus] = useState('idle');
   const configured = isContactConfigured();
   const service = services.find((s) => s.id === values.serviceId);
-  const shopOnly =
-    values.serviceId === 'mobile-detailing' &&
-    ['paint-correction', 'polishing', 'ceramic-coating'].includes(
-      values.detailType,
-    );
-  const modes = shopOnly ? ['shop'] : service?.modes || [];
+  const modes = service
+    ? getAvailableServiceModes(service, values.detailType)
+    : ['mobile', 'shop'];
   function update(e) {
     const { name, value } = e.target;
     setValues((v) => {
       const next = { ...v, [name]: value };
       if (name === 'serviceId') {
         const selectedService = services.find((item) => item.id === value);
-        next.serviceMode =
-          value === initialService &&
-          selectedService?.modes.includes(initialMode)
-            ? initialMode
-            : '';
-        next.detailType = 'interior';
+        next.detailType =
+          selectedService?.id === 'mobile-detailing' &&
+          next.serviceMode === 'shop'
+            ? 'paint-correction'
+            : 'interior';
+        const availableModes = getAvailableServiceModes(
+          selectedService,
+          next.detailType,
+        );
+        next.serviceMode = availableModes.includes(next.serviceMode)
+          ? next.serviceMode
+          : (availableModes[0] ?? '');
+        if (next.serviceMode !== 'mobile') next.location = '';
       }
       if (name === 'serviceMode' && value !== 'mobile') {
         next.location = '';
       }
-      if (
-        name === 'detailType' &&
-        ['paint-correction', 'polishing', 'ceramic-coating'].includes(value)
-      ) {
-        next.serviceMode = 'shop';
-        next.location = '';
+      if (name === 'detailType') {
+        const selectedService = services.find(
+          (item) => item.id === next.serviceId,
+        );
+        const availableModes = getAvailableServiceModes(selectedService, value);
+        next.serviceMode = availableModes.includes(next.serviceMode)
+          ? next.serviceMode
+          : (availableModes[0] ?? '');
+        if (next.serviceMode !== 'mobile') next.location = '';
       }
       return next;
     });
@@ -257,6 +277,7 @@ export default function BookingForm({
             </label>
             <select
               id={`${formId}-serviceId`}
+              className="form-select--center"
               name="serviceId"
               value={values.serviceId}
               onChange={update}
@@ -295,6 +316,7 @@ export default function BookingForm({
               </label>
               <select
                 id={`${formId}-detailType`}
+                className="form-select--center"
                 name="detailType"
                 value={values.detailType}
                 onChange={update}
@@ -326,11 +348,11 @@ export default function BookingForm({
             </label>
             <select
               id={`${formId}-serviceMode`}
+              className="form-select--center"
               name="serviceMode"
               value={values.serviceMode}
               onChange={update}
               required
-              disabled={!service}
               aria-invalid={Boolean(errors.serviceMode)}
               aria-describedby={
                 errors.serviceMode
@@ -339,9 +361,14 @@ export default function BookingForm({
               }
             >
               <option value="">{c.selectMode}</option>
-              {modes.map((m) => (
-                <option key={m} value={m}>
+              {['mobile', 'shop'].map((m) => (
+                <option
+                  key={m}
+                  value={m}
+                  disabled={Boolean(service) && !modes.includes(m)}
+                >
                   {serviceModes[m]}
+                  {service && !modes.includes(m) ? ' (unavailable)' : ''}
                 </option>
               ))}
             </select>
@@ -354,7 +381,8 @@ export default function BookingForm({
               </small>
             )}
           </div>
-          {values.serviceMode === 'mobile' &&
+          {service &&
+            values.serviceMode === 'mobile' &&
             field(
               'location',
               'text',

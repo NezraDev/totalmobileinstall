@@ -850,6 +850,45 @@ main:focus {
   background: #eef1f7;
   min-height: 400px;
 }
+.map-coverage-legend {
+  position: absolute;
+  z-index: 5;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: max-content;
+  max-width: calc(100% - 88px);
+  padding: 11px 14px;
+  background: rgb(255 255 255 / 96%);
+  border: 1px solid #dce2ef;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgb(12 30 80 / 12%);
+  pointer-events: none;
+}
+.map-coverage-legend__swatch {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+  border: 2px solid #123db8;
+  border-radius: 50%;
+  background: rgb(23 69 200 / 16%);
+}
+.map-coverage-legend > span:last-child {
+  display: grid;
+  gap: 3px;
+}
+.map-coverage-legend strong {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.map-coverage-legend small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
 .map-canvas {
   position: absolute;
   inset: 0 0 90px;
@@ -1018,6 +1057,13 @@ main:focus {
   outline: 0;
   border-color: var(--royal);
   box-shadow: 0 0 0 3px #011bca17;
+}
+.form-field select.form-select--center {
+  text-align: center;
+  text-align-last: center;
+}
+.form-field select.form-select--center option {
+  text-align: center;
 }
 .form-field input:disabled,
 .form-field select:disabled {

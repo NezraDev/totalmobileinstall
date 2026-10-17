@@ -1,4 +1,6 @@
 /** Public, frontend-only contract for a separately managed Resend integration. */
+import { services, getAvailableServiceModes } from '../content/services.js';
+
 export const CONTACT_ENDPOINT = (
   import.meta.env.VITE_CONTACT_ENDPOINT || ''
 ).trim();
@@ -81,13 +83,18 @@ export function buildContactMailtoHref(payload, emailAddress) {
 export function validateContactRequest(payload) {
   const values = normalizedPayload(payload);
   const errors = {};
+  const selectedService = services.find(
+    (service) => service.id === values.serviceId,
+  );
   if (!values.fullName) errors.fullName = 'Enter your full name.';
   if (!values.phone || values.phone.replace(/\D/g, '').length < 10)
     errors.phone = 'Enter a phone number with at least 10 digits.';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email))
     errors.email = 'Enter a valid email address.';
   if (!values.serviceId) errors.serviceId = 'Choose the service you need.';
-  if (values.serviceId === 'mobile-detailing') {
+  if (values.serviceId && !selectedService)
+    errors.serviceId = 'Choose a valid service.';
+  if (selectedService?.id === 'mobile-detailing') {
     if (
       ![
         'interior',
@@ -98,19 +105,19 @@ export function validateContactRequest(payload) {
       ].includes(values.detailType)
     ) {
       errors.detailType = 'Choose the detailing service you need.';
-    } else if (
-      values.serviceMode === 'mobile' &&
-      ['paint-correction', 'polishing', 'ceramic-coating'].includes(
-        values.detailType,
-      )
-    ) {
-      errors.serviceMode =
-        'This detailing service is available in our shop only.';
     }
   }
   if (!values.vehicle)
     errors.vehicle = 'Enter your vehicle year, make, and model.';
   if (!values.serviceMode) errors.serviceMode = 'Choose a service preference.';
+  else if (
+    selectedService &&
+    !getAvailableServiceModes(selectedService, values.detailType).includes(
+      values.serviceMode,
+    )
+  ) {
+    errors.serviceMode = 'Choose a service mode available for your selection.';
+  }
   if (values.serviceMode === 'mobile' && !values.location)
     errors.location = 'Enter the service address or ZIP code.';
   if (values.preferredDate && !/^\d{4}-\d{2}-\d{2}$/.test(values.preferredDate))

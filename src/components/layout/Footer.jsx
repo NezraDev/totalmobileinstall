@@ -89,7 +89,7 @@ export default function Footer() {
           <Phone size={18} />
           {ui.call}
         </a>
-        <Link to="/book-service">
+        <Link to="/book-service?mode=mobile">
           {ui.book}
           <ArrowUpRight size={18} />
         </Link>

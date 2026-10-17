@@ -45,7 +45,10 @@ export default function Header() {
               {n.label}
             </NavLink>
           ))}
-          <Link className="button button-primary nav-book" to="/book-service">
+          <Link
+            className="button button-primary nav-book"
+            to="/book-service?mode=mobile"
+          >
             {ui.book}
             <ArrowUpRight size={16} />
           </Link>

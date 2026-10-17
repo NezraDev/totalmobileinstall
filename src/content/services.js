@@ -87,7 +87,7 @@ export const services = [
     detail:
       'Our certified team checks the vehicle requirements and confirms the right static or dynamic calibration procedure. Pre- and post-scan reports are included.',
     imageKey: 'adas',
-    modes: ['confirm'],
+    modes: ['mobile', 'shop'],
     points: [
       'Static and dynamic calibrations',
       'OEM targets and scan tooling',
@@ -95,7 +95,7 @@ export const services = [
       'Domestic, European, and Asian makes',
     ],
     modeNote:
-      'Calibration needs and service location are confirmed for your vehicle.',
+      'Choose a preferred location. The team will confirm the right calibration procedure and setting for your vehicle.',
   },
   {
     id: 'window-tinting',
@@ -108,7 +108,7 @@ export const services = [
     detail:
       'Choose from ceramic and carbon film options. We use computer-cut patterns for clean edges, and the film warranty covers bubbling, peeling, or fading for life.',
     imageKey: 'tint',
-    modes: ['confirm'],
+    modes: ['shop'],
     points: [
       'Ceramic and carbon film options',
       'Up to 99% UV rejection',
@@ -116,7 +116,7 @@ export const services = [
       'Lifetime film warranty against bubbling, peeling, or fading',
     ],
     modeNote:
-      'Installation location and film specifications are confirmed with the team.',
+      'Window tint installation is available in-shop for a clean, controlled finish.',
   },
   {
     id: 'mobile-detailing',
@@ -149,19 +149,35 @@ export const services = [
     detail:
       'Tell us which window is damaged and share your vehicle details. Our team will confirm the correct glass, service location, and next steps.',
     imageKey: 'rearGlass',
-    modes: ['confirm'],
+    modes: ['mobile', 'shop'],
     points: [
       'Door and quarter glass',
       'Rear window replacement',
       'Vehicle-specific glass assessment',
     ],
     modeNote:
-      'The team will confirm service mode for your vehicle and glass type.',
+      'Choose a preferred location. The team will confirm availability for your vehicle and glass type.',
   },
 ];
 
 export const serviceModes = {
-  mobile: 'Mobile service',
-  shop: 'In-shop service',
-  confirm: 'Confirm with the team',
+  mobile: 'Mobile Service',
+  shop: 'Shop',
 };
+
+const detailingShopOnlyTypes = new Set([
+  'paint-correction',
+  'polishing',
+  'ceramic-coating',
+]);
+const detailingMobileOnlyTypes = new Set(['interior', 'hand-wash']);
+
+export function getAvailableServiceModes(service, detailType = '') {
+  if (!service) return [];
+  if (service.id === 'mobile-detailing') {
+    if (detailingShopOnlyTypes.has(detailType)) return ['shop'];
+    if (detailingMobileOnlyTypes.has(detailType)) return ['mobile'];
+    return [];
+  }
+  return service.modes.filter((mode) => mode === 'mobile' || mode === 'shop');
+}

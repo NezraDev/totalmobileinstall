@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { transform } from 'esbuild';
+import { fileURLToPath } from 'node:url';
+import { build } from 'esbuild';
 
 // This script never contacts a real endpoint. All requests are intercepted below.
 const realFetch = globalThis.fetch;
@@ -11,12 +12,16 @@ let interceptedRequests = 0;
 
 async function loadIntegration(name, env = {}) {
   const file = new URL(`../src/integrations/${name}.js`, import.meta.url);
-  const { code } = await transform(await readFile(file, 'utf8'), {
-    loader: 'js',
+  const { outputFiles } = await build({
+    entryPoints: [fileURLToPath(file)],
+    bundle: true,
+    write: false,
     format: 'esm',
+    platform: 'browser',
     target: 'es2022',
     define: { 'import.meta.env': JSON.stringify({ DEV: false, ...env }) },
   });
+  const code = outputFiles[0].text;
   return import(
     `data:text/javascript;base64,${Buffer.from(code).toString('base64')}#check-${++moduleSequence}`
   );
@@ -106,7 +111,7 @@ try {
           ...valid,
           fullName: 'Test Customer & Co.',
           serviceId: 'Windshield Repair & Replacement',
-          serviceMode: 'Mobile service',
+          serviceMode: 'Mobile Service',
           message: 'Please call after 3pm. Thanks!',
           website: 'must not be included',
         },
@@ -119,7 +124,7 @@ try {
       const body = draft.searchParams.get('body');
       assert.match(body, /Test Customer & Co\./);
       assert.match(body, /Windshield Repair & Replacement/);
-      assert.match(body, /Preferred service mode: Mobile service/);
+      assert.match(body, /Preferred service mode: Mobile Service/);
       assert.match(body, /Please call after 3pm\. Thanks!/);
       assert.doesNotMatch(body, /must not be included/);
       assert.throws(
@@ -174,13 +179,21 @@ try {
   );
 
   await check(
-    'Structured detailing variants enforce shop-only service restrictions',
+    'Mobile-only and shop-only service choices are enforced',
     async () => {
       const detailing = { ...valid, serviceId: 'mobile-detailing' };
       for (const detailType of ['interior', 'hand-wash']) {
         assert.deepEqual(
           client.validateContactRequest({ ...detailing, detailType }),
           {},
+        );
+        assert.ok(
+          client.validateContactRequest({
+            ...detailing,
+            detailType,
+            serviceMode: 'shop',
+            location: '',
+          }).serviceMode,
         );
       }
       for (const detailType of [
@@ -208,6 +221,22 @@ try {
             Boolean(error.fieldErrors.serviceMode),
         );
       }
+      assert.ok(
+        client.validateContactRequest({
+          ...valid,
+          serviceId: 'window-tinting',
+          serviceMode: 'mobile',
+        }).serviceMode,
+      );
+      assert.deepEqual(
+        client.validateContactRequest({
+          ...valid,
+          serviceId: 'window-tinting',
+          serviceMode: 'shop',
+          location: '',
+        }),
+        {},
+      );
       for (const detailType of ['', 'unknown']) {
         assert.ok(
           client.validateContactRequest({ ...detailing, detailType })
@@ -416,6 +445,33 @@ try {
       );
       assert.equal(directions.searchParams.get('api'), '1');
       assert.equal(embed.searchParams.has('key'), false);
+    },
+  );
+
+  await check(
+    'The service coverage circle is exactly 40 miles around the shop',
+    async () => {
+      const map = await loadIntegration('mapConfig');
+      const feature = map.createServiceRadiusFeature(map.mapConfig.coordinates);
+      const ring = feature.geometry.coordinates[0];
+      assert.equal(feature.properties.radiusMiles, 40);
+      assert.equal(ring.length, 97);
+      assert.deepEqual(ring[0], ring.at(-1));
+      const [longitude, latitude] = map.mapConfig.coordinates;
+      const [edgeLongitude, edgeLatitude] = ring[0];
+      const radians = Math.PI / 180;
+      const latitudeDelta = (edgeLatitude - latitude) * radians;
+      const longitudeDelta = (edgeLongitude - longitude) * radians;
+      const haversine =
+        Math.sin(latitudeDelta / 2) ** 2 +
+        Math.cos(latitude * radians) *
+          Math.cos(edgeLatitude * radians) *
+          Math.sin(longitudeDelta / 2) ** 2;
+      const distance = 2 * 6371008.8 * Math.asin(Math.sqrt(haversine));
+      assert.ok(Math.abs(distance - map.serviceRadiusMeters) < 0.1);
+      const bounds = map.serviceRadiusBounds(feature);
+      assert.ok(bounds[0][0] < longitude && bounds[1][0] > longitude);
+      assert.ok(bounds[0][1] < latitude && bounds[1][1] > latitude);
     },
   );
 

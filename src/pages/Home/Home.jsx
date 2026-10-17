@@ -42,7 +42,10 @@ export default function Home() {
             <div className="hero-side">
               <p>{d.hero.description}</p>
               <div className="hero-actions">
-                <Link className="button button-white" to="/book-service">
+                <Link
+                  className="button button-white"
+                  to="/book-service?mode=mobile"
+                >
                   {d.hero.primary}
                   <ArrowUpRight size={19} />
                 </Link>
@@ -252,7 +255,7 @@ export default function Home() {
             </div>
             <LocationMap />
           </div>
-          <BookingForm compact />
+          <BookingForm compact initialMode="mobile" />
         </div>
       </section>
       <CTA />

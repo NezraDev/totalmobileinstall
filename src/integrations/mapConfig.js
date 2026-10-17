@@ -109,3 +109,74 @@ export const mapConfig = Object.freeze({
   address: businessAddress,
   directionsUrl,
 });
+
+export const serviceRadiusMiles = 40;
+export const serviceRadiusMeters = serviceRadiusMiles * 1609.344;
+
+/** Build a geodesic GeoJSON circle around the selected shop coordinates. */
+export function createServiceRadiusFeature(
+  center = mapConfig.coordinates,
+  radiusMeters = serviceRadiusMeters,
+  steps = 96,
+) {
+  const earthRadiusMeters = 6371008.8;
+  const [longitude, latitude] = center;
+  const latitudeRadians = (latitude * Math.PI) / 180;
+  const longitudeRadians = (longitude * Math.PI) / 180;
+  const angularDistance = radiusMeters / earthRadiusMeters;
+  const ring = [];
+
+  for (let step = 0; step <= steps; step += 1) {
+    const bearing = (step / steps) * Math.PI * 2;
+    const destinationLatitude = Math.asin(
+      Math.sin(latitudeRadians) * Math.cos(angularDistance) +
+        Math.cos(latitudeRadians) *
+          Math.sin(angularDistance) *
+          Math.cos(bearing),
+    );
+    const destinationLongitude =
+      longitudeRadians +
+      Math.atan2(
+        Math.sin(bearing) *
+          Math.sin(angularDistance) *
+          Math.cos(latitudeRadians),
+        Math.cos(angularDistance) -
+          Math.sin(latitudeRadians) * Math.sin(destinationLatitude),
+      );
+    const normalizedLongitude =
+      ((((destinationLongitude + Math.PI) % (Math.PI * 2)) + Math.PI * 2) %
+        (Math.PI * 2)) -
+      Math.PI;
+    ring.push([
+      (normalizedLongitude * 180) / Math.PI,
+      (destinationLatitude * 180) / Math.PI,
+    ]);
+  }
+
+  return {
+    type: 'Feature',
+    properties: {
+      radiusMiles: serviceRadiusMiles,
+      radiusMeters,
+    },
+    geometry: {
+      type: 'Polygon',
+      coordinates: [ring],
+    },
+  };
+}
+
+export function serviceRadiusBounds(feature) {
+  const ring = feature.geometry.coordinates[0];
+  const bounds = [Infinity, Infinity, -Infinity, -Infinity];
+  for (const [longitude, latitude] of ring) {
+    bounds[0] = Math.min(bounds[0], longitude);
+    bounds[1] = Math.min(bounds[1], latitude);
+    bounds[2] = Math.max(bounds[2], longitude);
+    bounds[3] = Math.max(bounds[3], latitude);
+  }
+  return [
+    [bounds[0], bounds[1]],
+    [bounds[2], bounds[3]],
+  ];
+}

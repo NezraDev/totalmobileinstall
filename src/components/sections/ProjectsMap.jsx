@@ -6,6 +6,8 @@ import { mapConfig, transformCartoRequest } from '../../integrations/mapConfig';
 
 const overviewCenter = [-90.0715, 29.9511];
 const overviewZoom = 10.2;
+const overviewPitch = 52;
+const overviewBearing = -18;
 const openStreetMapUrl = `https://www.openstreetmap.org/?mlat=${overviewCenter[1]}&mlon=${overviewCenter[0]}#map=11/${overviewCenter[1]}/${overviewCenter[0]}`;
 
 function ProjectPopup({ project }) {
@@ -105,8 +107,10 @@ export default function ProjectsMap({ selectedProject }) {
           ),
           center: overviewCenter,
           zoom: overviewZoom,
+          pitch: overviewPitch,
+          bearing: overviewBearing,
           attributionControl: false,
-          maxPitch: 0,
+          maxPitch: 65,
           transformRequest: transformCartoRequest,
         });
         mapRef.current = map;
@@ -123,7 +127,10 @@ export default function ProjectsMap({ selectedProject }) {
           usingCarto ? mapConfig.cartoAttribution : mapConfig.osmAttribution,
         );
         map.addControl(
-          new maplibre.NavigationControl({ showCompass: false }),
+          new maplibre.NavigationControl({
+            showCompass: true,
+            visualizePitch: true,
+          }),
           'top-right',
         );
         map.addControl(

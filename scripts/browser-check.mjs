@@ -224,21 +224,6 @@ assert.equal(
   await modeSelect.locator('option[value="shop"]').isDisabled(),
   true,
 );
-const modeSelectPosition = await modeSelect.evaluate((select) => {
-  const selectRect = select.getBoundingClientRect();
-  const fieldRect = select.parentElement.getBoundingClientRect();
-  return {
-    textAlign: getComputedStyle(select).textAlign,
-    centerOffset:
-      (selectRect.left + selectRect.right - fieldRect.left - fieldRect.right) /
-      2,
-  };
-});
-assert.notEqual(modeSelectPosition.textAlign, 'center');
-assert.ok(
-  modeSelectPosition.centerOffset < 0 && modeSelectPosition.centerOffset > -12,
-  `Expected the mode dropdown to sit slightly left of center: ${JSON.stringify(modeSelectPosition)}`,
-);
 await desktop
   .getByLabel('Detailing service', { exact: true })
   .selectOption('ceramic-coating');

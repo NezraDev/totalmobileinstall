@@ -346,7 +346,6 @@ export default function BookingForm({
             </label>
             <select
               id={`${formId}-serviceMode`}
-              className="form-select--mode"
               name="serviceMode"
               value={values.serviceMode}
               onChange={update}

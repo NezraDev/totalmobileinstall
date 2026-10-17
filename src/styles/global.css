@@ -1058,15 +1058,25 @@ main:focus {
   border-color: var(--royal);
   box-shadow: 0 0 0 3px #011bca17;
 }
-.form-field select.form-select--mode {
-  width: calc(100% - 12px);
-  margin-inline: auto;
-  transform: translateX(-6px);
+.form-field select {
+  appearance: none;
+  background-image: url('/images/icons/chevron-down.svg');
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px 16px;
+  padding-right: 48px;
+  text-align: left;
 }
 .form-field input:disabled,
 .form-field select:disabled {
-  background: #e9ecf2;
+  background-color: #e9ecf2;
   color: #687287;
+}
+@media (forced-colors: active) {
+  .form-field select {
+    appearance: auto;
+    background-image: none;
+  }
 }
 .form-field [aria-invalid='true'] {
   border-color: var(--red);
@@ -2058,6 +2068,9 @@ main {
     font-size: 16px;
     padding: 10px;
     min-height: 48px;
+  }
+  .form-field select {
+    padding-right: 48px;
   }
   .form-field label {
     font-size: 13px;

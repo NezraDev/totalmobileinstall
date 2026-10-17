@@ -1,0 +1,17 @@
+:root {
+  --blue: #011a82;
+  --royal: #011bca;
+  --red: #d30103;
+  --white: #fff;
+  --ink: #17223b;
+  --muted: #576275;
+  --line: #dfe3ec;
+  --soft: #f4f6f9;
+  --pale-blue: #e9edf8;
+  --font: 'Manrope', sans-serif;
+  --page: 1360px;
+  --gutter: clamp(22px, 4.3vw, 72px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius: 8px;
+  --shadow: 0 14px 44px rgb(1 26 130 / 0.09);
+}

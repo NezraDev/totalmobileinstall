@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+.openai/source-repository-credential*
+.impeccable/review/
+.impeccable/config.local.json
+artifacts/

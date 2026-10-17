@@ -24,7 +24,7 @@ Six services, public routes, local photographs, genuine supplied before-and-afte
 
 ## Brand Commitments
 
-Original horizontal raster logo on a white header. Deep blue #011A82, royal blue #011BCA, red #D30103. Required blue gradient hero followed by photography slideshow. Headline: Windshield Repair, At Your Door. Readable modern sans-serif and subtle premium transitions. All images in public.
+Original horizontal raster logo on a white header. Deep blue #011A82, royal blue #011BCA, red #D30103. The user's latest revision combines the opening into an automatically advancing photographic hero with a translucent blue overlay, replacing the earlier separate gradient and slideshow. Headline: Windshield Repair, At Your Door. Readable modern sans-serif and subtle premium transitions. All images in public.
 
 ## Evidence on Hand
 

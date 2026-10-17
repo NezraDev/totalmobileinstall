@@ -1,6 +1,6 @@
 # Design direction
 
-The user delegated decisions and pinned a white header, supplied blue/red palette, gradient-first opening, real local photography, readable sans-serif typography, and smooth premium motion. These commitments govern the build instead of an additional concept approval round. Code-led implementation was selected using the user?s delegated implementation decisions.
+The user delegated decisions and pinned a white header, supplied blue/red palette, real local photography, readable sans-serif typography, and smooth premium motion. Their latest revision places an automatic photographic slideshow behind the hero copy with a translucent blue overlay. These commitments govern the build instead of an additional concept approval round. Code-led implementation was selected using the user's delegated implementation decisions.
 
 ## World
 
@@ -8,7 +8,7 @@ A considered automotive service journal: confident blue fields, crisp white read
 
 ## First viewport
 
-A full-color original logo sits on a white navigation strip. A two-column gradient hero gives the required headline primary scale and presents booking and phone actions immediately. The next full-width photographic frame introduces real vehicles, with a calm caption strip and manual slideshow controls. Nothing essential waits for an entrance animation.
+A full-color original logo sits on a white navigation strip. Real vehicle photographs crossfade behind a translucent blue gradient and the stable two-column headline and booking actions. A caption strip and accessible manual controls sit over the same image. The hero automatically advances every six seconds. Nothing essential waits for an entrance animation.
 
 ## Signature interaction
 
@@ -16,7 +16,7 @@ The paired transformation viewer lets visitors inspect a genuine damaged/complet
 
 ## Motion grammar
 
-Soft 650ms photo crossfades, a brief route settling transition, precise button movement, and a single photo aperture effect on hover. Visible content is the default. Reduced motion disables automatic slides and nonessential movement. Pause on focus, hover, page visibility, and user control.
+Soft 1.2-second hero photo crossfades, a brief route settling transition, precise button movement, and restrained photo hover effects. Visible content is the default. Reduced motion disables automatic slides and nonessential movement. Keyboard focus and manual navigation pause rotation; Play explicitly resumes it. Hidden tabs suspend the timer. Hovering the photographic hero does not stop automatic playback.
 
 ## Scope and risks
 

@@ -18,8 +18,9 @@ export const data = {
   slideshow: {
     slides,
     settings: {
-      interval: 7500,
-      label: 'A closer look at our work',
+      autoplay: true,
+      interval: 6000,
+      label: 'Total Mobile Install featured work',
       previous: 'Previous photograph',
       next: 'Next photograph',
       pause: 'Pause slideshow',

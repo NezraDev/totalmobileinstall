@@ -1,0 +1,202 @@
+.photo-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 720px;
+  background: var(--blue);
+}
+
+.photo-hero .slideshow-images {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  background: var(--blue);
+}
+
+.photo-hero .slide {
+  transition: opacity 1.2s ease-in-out;
+}
+
+.hero-blue-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgb(1 17 75 / 0.04), rgb(1 17 75 / 0.25)),
+    linear-gradient(
+      105deg,
+      rgb(1 20 90 / 0.86),
+      rgb(1 26 130 / 0.74) 50%,
+      rgb(1 27 202 / 0.64)
+    );
+}
+
+.hero.photo-hero > .container {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 110px;
+  padding-bottom: 52px;
+}
+
+.photo-hero .hero-layout {
+  align-items: center;
+}
+
+.photo-hero h1 span {
+  color: #d5e0ff;
+}
+
+.photo-hero .hero-side > p {
+  color: white;
+}
+
+.photo-hero .hero-note {
+  margin-top: 48px;
+  padding-top: 0;
+  border-top: 0;
+  color: #e1e8ff;
+}
+
+.photo-hero .hero-scroll:focus-visible,
+.photo-hero .hero-call:focus-visible,
+.photo-hero .icon-button:focus-visible,
+.photo-hero .slide-dots button:focus-visible {
+  outline-color: white;
+}
+
+.photo-hero .slideshow-bar {
+  position: relative;
+  z-index: 2;
+  min-height: 108px;
+  background: transparent;
+  border-top: 1px solid rgb(255 255 255 / 0.25);
+  border-bottom: 0;
+}
+
+.photo-hero .slide-caption p,
+.photo-hero .slide-caption span:not(.caption-line) {
+  color: white;
+}
+
+.photo-hero .caption-line {
+  background: #d5e0ff;
+}
+
+.photo-hero .icon-button {
+  width: 44px;
+  height: 44px;
+  color: white;
+  border-color: rgb(255 255 255 / 0.45);
+}
+
+.photo-hero .icon-button:hover {
+  color: var(--blue);
+  background: white;
+  border-color: white;
+}
+
+.photo-hero .pause-control {
+  border-color: transparent;
+}
+
+.photo-hero .slide-dots button:after {
+  background: rgb(255 255 255 / 0.4);
+}
+
+.photo-hero .slide-dots button[aria-current]:after {
+  background: white;
+}
+
+@media (max-width: 1000px) {
+  .photo-hero {
+    min-height: 650px;
+  }
+
+  .hero.photo-hero > .container {
+    padding-top: 85px;
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 700px) {
+  .photo-hero {
+    min-height: 700px;
+  }
+
+  .hero.photo-hero > .container {
+    padding-top: 56px;
+    padding-bottom: 22px;
+  }
+
+  .hero-blue-overlay {
+    background:
+      linear-gradient(180deg, rgb(1 20 90 / 0.08), rgb(1 20 90 / 0.34)),
+      linear-gradient(100deg, rgb(1 20 90 / 0.82), rgb(1 27 202 / 0.64));
+  }
+
+  .photo-hero .hero-layout {
+    gap: 27px;
+  }
+
+  .photo-hero .hero-note {
+    margin-top: 27px;
+    gap: 16px;
+  }
+
+  .photo-hero .hero-note > span {
+    max-width: 20ch;
+    line-height: 1.7;
+  }
+
+  .photo-hero .slideshow-bar {
+    gap: 18px;
+    flex-wrap: wrap;
+    min-height: 145px;
+    padding-top: 20px;
+    padding-bottom: 28px;
+  }
+
+  .photo-hero .slide-caption {
+    min-width: 100%;
+  }
+
+  .photo-hero .slide-caption p {
+    font-size: 13px;
+  }
+
+  .photo-hero .slide-caption span:not(.caption-line) {
+    font-size: 11px;
+    max-width: 40ch;
+  }
+
+  .photo-hero .slideshow-controls {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 9px;
+  }
+
+  .photo-hero .slide-dots {
+    display: flex;
+    gap: 7px;
+    margin-right: auto;
+  }
+
+  .photo-hero .slide-dots button {
+    width: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-hero .slide {
+    transition: none;
+  }
+}

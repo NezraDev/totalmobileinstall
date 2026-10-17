@@ -14,8 +14,8 @@ Open the Local URL printed by Vite. `npm run build` creates the static `dist` fo
 
 ## What is implemented
 
-- White responsive navigation, supplied full-color logo, deep-to-royal-blue gradient hero, and immediate booking and phone actions.
-- Controlled photographic slideshow with comfortable crossfades, previous/next/pause, focus/hover/visibility pauses, and reduced-motion support.
+- White responsive navigation, supplied full-color logo, and a photographic slideshow hero with a translucent blue overlay and immediate booking and phone actions.
+- Automatic six-second photo rotation with smooth crossfades, previous/next/pause/play controls, keyboard and visibility pauses, and reduced-motion support. Hovering the hero keeps it playing.
 - All twelve page templates plus six service detail routes, page-specific SEO, and genuine recovery pages for invalid routes and slugs.
 - Nine genuine matched before-and-after projects. Desktop comparison panels preserve differing camera angles; mobile tabs switch clearly between stages.
 - Six supplied testimonials with exact wording, scrollable using keyboard or controls. No invented aggregate score or review count.

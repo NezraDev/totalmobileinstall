@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
 import Photo from '../ui/Photo';
-export default function Slideshow({ slides, settings }) {
+export default function Slideshow({
+  slides,
+  settings,
+  hero = false,
+  children,
+}) {
   const [index, setIndex] = useState(0),
-    [paused, setPaused] = useState(false),
+    [paused, setPaused] = useState(settings.autoplay === false),
     [hover, setHover] = useState(false),
-    [focused, setFocused] = useState(false),
     [hidden, setHidden] = useState(document.hidden),
     [reduced, setReduced] = useState(
       () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -21,7 +25,7 @@ export default function Slideshow({ slides, settings }) {
       query.removeEventListener('change', motion);
     };
   }, []);
-  const auto = !paused && !hover && !focused && !hidden && !reduced;
+  const auto = !paused && !hover && !hidden && !reduced;
   useEffect(() => {
     if (!auto || slides.length < 2) return;
     const id = setInterval(
@@ -36,15 +40,16 @@ export default function Slideshow({ slides, settings }) {
   };
   return (
     <section
-      id="our-work"
-      className="slideshow-section"
+      id={hero ? undefined : 'our-work'}
+      className={
+        hero ? 'hero photo-hero slideshow-section' : 'slideshow-section'
+      }
       aria-label={settings.label}
       aria-roledescription="carousel"
-      onMouseEnter={() => setHover(true)}
+      onMouseEnter={() => !hero && setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onFocus={() => setFocused(true)}
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) setFocused(false);
+      onFocus={(e) => {
+        if (!e.target.closest('[data-rotation-control]')) setPaused(true);
       }}
     >
       <div className="slideshow-images">
@@ -58,6 +63,8 @@ export default function Slideshow({ slides, settings }) {
           </div>
         ))}
       </div>
+      {hero && <div className="hero-blue-overlay" aria-hidden="true" />}
+      {children}
       <div className="slideshow-bar">
         <div className="slide-caption" aria-live={auto ? 'off' : 'polite'}>
           <span className="caption-line" />
@@ -82,6 +89,7 @@ export default function Slideshow({ slides, settings }) {
           </div>
           <button
             className="icon-button pause-control"
+            data-rotation-control
             aria-label={paused || reduced ? settings.play : settings.pause}
             onClick={() => setPaused(!paused)}
             disabled={reduced}

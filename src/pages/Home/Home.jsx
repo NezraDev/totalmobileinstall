@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <>
       <PageMeta {...d.seo} />
-      <section className="hero">
+      <Slideshow {...d.slideshow} hero>
         <div className="container">
           <div className="hero-layout">
             <h1>
@@ -60,9 +60,8 @@ export default function Home() {
             </a>
           </div>
         </div>
-      </section>
-      <Slideshow {...d.slideshow} />
-      <section className="section about-preview">
+      </Slideshow>
+      <section className="section about-preview" id="our-work">
         <div className="container split">
           <figure className="editorial-photo">
             <Photo photo={d.about.image} />

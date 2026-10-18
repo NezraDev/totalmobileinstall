@@ -10,7 +10,6 @@ import {
 import { business } from '../../content/business';
 import { formCopy as c } from '../../content/ui';
 import {
-  buildContactMailtoHref,
   isContactConfigured,
   validateContactRequest,
   submitContactRequest,
@@ -60,6 +59,7 @@ export default function BookingForm({
   }));
   const [errors, setErrors] = useState({}),
     [status, setStatus] = useState('idle');
+  const [requestError, setRequestError] = useState('');
   const configured = isContactConfigured();
   const service = services.find((s) => s.id === values.serviceId);
   const modes = service
@@ -115,7 +115,7 @@ export default function BookingForm({
       if (name === 'serviceMode') delete next.location;
       return next;
     });
-    if (status === 'failed' || status === 'email-draft') setStatus('idle');
+    if (status === 'failed') setStatus('idle');
   }
   async function submit(e) {
     e.preventDefault();
@@ -148,33 +148,15 @@ export default function BookingForm({
       );
       return;
     }
-    if (!configured) {
-      const detailingChoice = c.detailingChoices.find(
-        (choice) => choice.id === values.detailType,
-      );
-      const mailto = buildContactMailtoHref(
-        {
-          ...values,
-          serviceId: service?.name || values.serviceId,
-          detailType:
-            values.serviceId === 'mobile-detailing'
-              ? detailingChoice?.label || ''
-              : '',
-          serviceMode: serviceModes[values.serviceMode] || values.serviceMode,
-        },
-        business.email,
-      );
-      setStatus('email-draft');
-      window.location.href = mailto;
-      return;
-    }
     pendingRef.current = true;
+    setRequestError('');
     setStatus('submitting');
     try {
       await submitContactRequest(payload);
       setStatus('submitted');
     } catch (error) {
       setErrors(error.fieldErrors || {});
+      setRequestError(error.message || c.error);
       setStatus('failed');
     } finally {
       pendingRef.current = false;
@@ -425,15 +407,9 @@ export default function BookingForm({
           </div>
         </div>
         <div aria-live="polite" className="form-status">
-          {status === 'email-draft' && (
-            <p role="status" className="form-email-status">
-              {c.emailDraftReady}{' '}
-              <a href={`mailto:${business.email}`}>{business.email}</a>
-            </p>
-          )}
           {status === 'failed' && (
             <p role="alert" className="field-error">
-              {c.error}
+              {requestError || c.error}
             </p>
           )}
           {status === 'validation' && (
@@ -442,7 +418,7 @@ export default function BookingForm({
         </div>
         <button
           className="button button-primary form-submit"
-          disabled={status === 'submitting'}
+          disabled={!configured || status === 'submitting'}
         >
           {status === 'submitting' ? (
             <>
@@ -451,14 +427,13 @@ export default function BookingForm({
             </>
           ) : (
             <>
-              {configured ? c.submit : c.emailDraftSubmit}
+              {c.submit}
               <ArrowUpRight size={18} />
             </>
           )}
         </button>
         <p className="form-privacy">
-          {configured ? c.privacy : c.emailDraftPrivacy}{' '}
-          <Link to="/privacy-policy">{c.privacyLabel}</Link>
+          {c.privacy} <Link to="/privacy-policy">{c.privacyLabel}</Link>
         </p>
       </form>
     </div>

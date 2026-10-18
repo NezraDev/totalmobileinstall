@@ -1,6 +1,6 @@
 # Integration and deployment setup
 
-Verified against official documentation on October 17, 2026. This project is a static React/Vite frontend. No email server or serverless function is included.
+Updated October 18, 2026. The React/Vite frontend remains static. A separate Node email backend is included in `server/contact.mjs`, with Render deployment configuration. See `EMAIL_SETUP.md`.
 
 ## Public configuration
 
@@ -15,7 +15,7 @@ Copy `.env.example` to `.env.local`, fill in confirmed values, and rebuild. Vite
 
 All photo and brand files live in `public/images`. Reference them as `/images/...`, without `/public`. Vite serves the public directory at the root and copies it unchanged into the production output. [Vite public directory](https://vite.dev/guide/assets#the-public-directory)
 
-## External Resend endpoint contract
+## Resend endpoint contract
 
 `src/integrations/emailClient.js` sends one JSON `POST` to `VITE_CONTACT_ENDPOINT`. The browser sends no credential, arbitrary recipient, or sender. The endpoint must accept `Content-Type: application/json`, handle `OPTIONS` for the final website origin, and return JSON. Use HTTPS in production. Do not accept arbitrary CORS origins.
 
@@ -45,7 +45,7 @@ All photo and brand files live in `public/images`. Reference them as `/images/..
 - The client times out after 15 seconds and does not retry automatically. The endpoint should support duplicate protection and short-lived request tracing. Do not log unnecessary personal details.
 - Validate and escape user text on the endpoint, enforce origin checks and rate/abuse limits, cap payload size, and fix the destination to `quotes@totalmobileglass.com`. Use the validated customer email for reply-to only.
 
-The external operator needs a Resend account, a private sending API key, and a verified domain they control. Complete the required DNS verification and configure a sender on that domain; no sender address has been invented here. Keep the key in that trusted service's secret store. [Resend Node.js prerequisites](https://resend.com/docs/send-with-nodejs), [Resend verified domains](https://resend.com/docs/dashboard/domains/introduction)
+The operator needs a Resend account, a private sending API key, and a verified domain they control. Complete the required DNS verification and configure a sender on that domain; no sender address has been invented here. Keep the key in that trusted service's secret store. [Resend Node.js prerequisites](https://resend.com/docs/send-with-nodejs), [Resend verified domains](https://resend.com/docs/dashboard/domains/introduction)
 
 The trusted service calls Resend's send-email API and handles its returned error or ID. A send API response is not evidence of final delivery. Any later delivery monitoring belongs to that service. [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email)
 

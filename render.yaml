@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: tmi-contact-email
+    runtime: node
+    buildCommand: node --version
+    startCommand: node server/contact.mjs
+    healthCheckPath: /health
+    numInstances: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://total-mobile-install-2026.nuttypika64.chatgpt.site

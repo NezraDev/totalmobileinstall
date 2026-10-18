@@ -20,7 +20,7 @@ Present the family-owned business, show real supplied vehicle work, and collect 
 
 ## Capabilities and Constraints
 
-Six services, public routes, local photographs, genuine supplied before-and-after pairs, accessible forms and navigation, and an Our Work map with an anonymized New Orleans overview pin and photo-proof popups. External Resend endpoint only. No private credentials, custom backend, CMS, payments, uploads, client addresses, or visitor geolocation. Service coverage and unsupported claims must not be invented.
+Six services, public routes, local photographs, genuine supplied before-and-after pairs, accessible forms and navigation, and an Our Work map with an anonymized New Orleans overview pin and photo-proof popups. A separate Resend email backend is included for Render; see EMAIL_SETUP.md. No private credentials, CMS, payments, uploads, client addresses, or visitor geolocation are included. Service coverage and unsupported claims must not be invented.
 
 ## Brand Commitments
 

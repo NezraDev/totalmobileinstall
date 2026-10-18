@@ -46,7 +46,7 @@ Data changes require a rebuild and redeployment. This is file-based content main
 
 Copy `.env.example` to `.env.local` and supply the public values you have. Rebuild after changes. See `INTEGRATIONS.md` for current official requirements, the endpoint payload and response contract, map-key restrictions, and geocoding research.
 
-The frontend never sends email directly. A separately hosted trusted endpoint calls Resend and sends to the fixed business address. No function or backend is scaffolded here. A submitted state appears only after a configured endpoint returns an accepted response. Until that endpoint is configured, the form validates the request and opens a prefilled email draft for the customer to review and send, with phone and email links as fallback.
+The form sends through the server-only Resend endpoint in `server/contact.mjs`, ready for Render via `render.yaml`. Set the verified sender and private key in Render, then set the public `VITE_CONTACT_ENDPOINT` to its HTTPS `/api/contact` URL and rebuild the frontend. Sending is disabled until the endpoint is configured; the form never opens an email draft. See `EMAIL_SETUP.md`.
 
 The shop map uses MapLibre at the exact client-supplied coordinates (29.961365651200683, -90.09014810481109). Set `VITE_CARTO_API_KEY` to use CARTO Voyager tiles and show linked CARTO and OpenStreetMap attributions. Without a key, MapLibre uses OpenStreetMap raster tiles and shows OpenStreetMap attribution. The Our Work map uses a single generalized New Orleans portfolio marker because project-level ZIP codes or addresses were not provided. Selecting a project loads its genuine before-and-after photos into the popup. No client identity, precise job address, or visitor geolocation is shown.
 

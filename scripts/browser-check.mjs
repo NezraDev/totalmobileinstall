@@ -247,7 +247,9 @@ assert.equal(
   true,
 );
 assert.ok(
-  await desktop.getByRole('button', { name: 'Open email draft' }).isEnabled(),
+  await desktop
+    .getByRole('button', { name: 'Send service request' })
+    .isDisabled(),
 );
 await desktop
   .getByLabel('Service needed')
@@ -415,7 +417,7 @@ fs.writeFileSync(
         'Six listed services across four specialties and full service details',
         'Client-approved New Orleans service radius',
         'Mobile location field',
-        'Unconfigured form offers a validated email draft fallback',
+        'Unconfigured form disables sending and offers direct contact links',
         'Eight client-supplied FAQ topics with keyboard interaction',
         'No horizontal overflow',
       ],

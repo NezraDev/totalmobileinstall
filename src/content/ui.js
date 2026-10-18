@@ -4,7 +4,7 @@ export const formCopy = {
     'Share a few details. Our team will follow up to confirm the service, location, and timing.',
   emailFallbackTitle: 'Online form delivery is not connected yet',
   emailFallbackDescription:
-    'Your request will open as a prefilled email draft. Review the details and press Send in your email app. If no email app opens, use the contact links below.',
+    'Please call or email us while online sending is being connected.',
   labels: {
     fullName: 'Full name',
     phone: 'Phone',
@@ -27,11 +27,6 @@ export const formCopy = {
   required: 'Fields marked * are required.',
   submit: 'Send service request',
   submitting: 'Sending your request…',
-  emailDraftSubmit: 'Open email draft',
-  emailDraftReady:
-    'Your email app should open with the request ready. Review it and press Send, or email us at',
-  emailDraftPrivacy:
-    'Your information stays in the draft until you choose Send.',
   privacy:
     'Your details are used to respond to this inquiry. Please call if you would prefer to discuss your request by phone.',
   successTitle: 'Your request was accepted.',

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {
   createContactHandler,
+  RESEND_FROM,
   startContactServer,
 } from '../server/contact.mjs';
 import {
@@ -12,7 +13,6 @@ const origin = 'https://website.test';
 const env = {
   ALLOWED_ORIGINS: origin,
   RESEND_API_KEY: 'test-server-key',
-  RESEND_FROM: 'Total Mobile Install <amartin@service.totalmobileglass.com>',
 };
 const valid = {
   schemaVersion: 1,
@@ -106,7 +106,11 @@ assert.deepEqual(payload.to, [
   'quotes@totalmobileglass.com',
   'amartin@totalmobileglass.com',
 ]);
-assert.equal(payload.from, env.RESEND_FROM);
+assert.equal(
+  RESEND_FROM,
+  'Total Mobile Install <amartin@totalmobileglass.com>',
+);
+assert.equal(payload.from, RESEND_FROM);
 assert.equal(payload.reply_to, valid.email);
 assert.match(payload.text, /Mobile Service/);
 assert.match(

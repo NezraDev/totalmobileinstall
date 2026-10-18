@@ -8,6 +8,9 @@ import {
 } from '../src/integrations/contactValidation.js';
 import { services } from '../src/content/services.js';
 
+export const RESEND_FROM =
+  'Total Mobile Install <amartin@totalmobileglass.com>';
+
 // No browser bundle imports this file. Credentials and routing stay server-side.
 export function createContactHandler({
   env = process.env,
@@ -101,12 +104,7 @@ export function createContactHandler({
     }
     if (Object.keys(fieldErrors).length)
       return reply(422, { accepted: false, fieldErrors });
-    if (
-      !env.RESEND_API_KEY ||
-      !env.RESEND_FROM ||
-      /[\r\n]/.test(env.RESEND_FROM)
-    )
-      return reply(503, { accepted: false });
+    if (!env.RESEND_API_KEY) return reply(503, { accepted: false });
     if (
       limited(
         `email:${createHash('sha256').update(values.email.toLowerCase()).digest('hex')}`,
@@ -145,7 +143,7 @@ export function createContactHandler({
           'Idempotency-Key': `tmi-${idempotencyKey}`,
         },
         body: JSON.stringify({
-          from: env.RESEND_FROM,
+          from: RESEND_FROM,
           to: ['quotes@totalmobileglass.com', 'amartin@totalmobileglass.com'],
           reply_to: values.email,
           subject: `Service request: ${service.name}`,

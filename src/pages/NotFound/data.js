@@ -5,6 +5,7 @@ export const data = {
     title: 'Page Not Found | Total Mobile Install',
     description:
       'This page could not be found. Explore Total Mobile Install services, return home, or contact our New Orleans team.',
+    noindex: true,
   },
   eyebrow: 'Page not found',
   title: 'Let us get you back on the road.',

@@ -2,9 +2,10 @@ export const data = {
   sourceStatus:
     'FAQ answers based on supplied service details and current Louisiana window-tint requirements.',
   seo: {
-    title: 'Auto Glass & Booking Questions | Total Mobile Install',
+    title: 'Auto Glass, Tint & ADAS FAQs | Total Mobile Install',
     description:
-      'Answers to common questions about requesting mobile auto glass service, in-shop detailing, vehicle information, and appointments with Total Mobile Install.',
+      'Find answers about windshield insurance, mobile service timing, replacement, ADAS calibration, tint, and warranties from Total Mobile Install in New Orleans.',
+    image: '/images/services/mobile-glass-work.webp',
   },
   eyebrow: 'Common questions',
   title: 'Everything You Need to Know',

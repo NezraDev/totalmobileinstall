@@ -6,6 +6,7 @@ export const data = {
     title: 'Privacy Information | Total Mobile Install',
     description:
       'Privacy policy availability and contact information for Total Mobile Install. Contact the team with questions about your information.',
+    noindex: true,
   },
   eyebrow: 'Website information',
   title: 'Privacy Policy',

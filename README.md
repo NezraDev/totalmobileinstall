@@ -48,7 +48,7 @@ Copy `.env.example` to `.env.local` and supply the public values you have. Rebui
 
 The frontend never sends email directly. A separately hosted trusted endpoint calls Resend and sends to the fixed business address. No function or backend is scaffolded here. A submitted state appears only after a configured endpoint returns an accepted response. Until that endpoint is configured, the form validates the request and opens a prefilled email draft for the customer to review and send, with phone and email links as fallback.
 
-The shop map uses MapLibre at the exact client-supplied coordinates (30.025471630757778, -90.02540735889556). Set `VITE_CARTO_API_KEY` to use CARTO Voyager tiles and show linked CARTO and OpenStreetMap attributions. Without a key, MapLibre uses OpenStreetMap raster tiles and shows OpenStreetMap attribution. The Our Work map uses a single generalized New Orleans portfolio marker because project-level ZIP codes or addresses were not provided. Selecting a project loads its genuine before-and-after photos into the popup. No client identity, precise job address, or visitor geolocation is shown.
+The shop map uses MapLibre at the exact client-supplied coordinates (29.961365651200683, -90.09014810481109). Set `VITE_CARTO_API_KEY` to use CARTO Voyager tiles and show linked CARTO and OpenStreetMap attributions. Without a key, MapLibre uses OpenStreetMap raster tiles and shows OpenStreetMap attribution. The Our Work map uses a single generalized New Orleans portfolio marker because project-level ZIP codes or addresses were not provided. Selecting a project loads its genuine before-and-after photos into the popup. No client identity, precise job address, or visitor geolocation is shown.
 
 ## Launch inputs
 
@@ -57,25 +57,28 @@ The shop map uses MapLibre at the exact client-supplied coordinates (30.02547163
 - Approve final Privacy Policy and Terms. Current pages explicitly state that approved text is pending.
 - Review linked-page copy/FAQ answers, testimonial publication, and eligible service modes. The 40-mile New Orleans coverage claim is client-supplied; the team confirms availability for each exact address.
 - Confirm certification, 10K+ vehicle, 100% satisfaction, award, and warranty claims before displaying them. Original supplied statistics are retained in page data. Unconfirmed certification, warranty, award and satisfaction claims are gated off by default in `src/config/site.js`; the vehicle metric requested by the client uses the brief's existing 10K+ figure and remains on the launch verification checklist. Badge files are preserved without implying verified credentials.
-- Supply the business's final domain to `VITE_SITE_URL` if canonical URLs are wanted. Review destination and video URLs remain unconfigured. No autoplay video is downloaded.
+- The canonical origin defaults to the existing deployed Site. Set `VITE_SITE_URL` only when moving to a confirmed custom HTTPS origin. The supplied Google review destination is configured; no autoplay video is downloaded.
 
 ## Static hosting and search
 
-Deploy the contents of `dist`. The host must serve real static files normally and rewrite other public route requests to `index.html`. `public/_redirects` provides the common SPA rewrite format for compatible hosts. For other hosts configure the equivalent rule. Test a direct request and refresh at `/services/windshield-replacement` after deployment.
+`npm run build` produces complete HTML for 17 routes plus a 404 page, sitemap.xml, robots.txt, social metadata and truthful structured data. It retains the existing React interface and hydrates the generated pages. Deploy the full `dist` using the existing Sites workflow with `static.not_found_handling: "404-page"`. Flat HTML files support the established slashless URLs; `_redirects` supplies permanent legacy and duplicate-path redirects. Do not restore a catch-all SPA 200 rewrite or publish `.ssr-build`.
 
-React renders unique page titles, descriptions, and optional canonical URLs. This remains a client-rendered static SPA. For stronger crawler previews, add build-time prerendering of known routes later, without a runtime server. Unknown routes display the application's Not Found page. The hosting layer controls actual HTTP 404 status and must be configured separately if required.
+The configured production origin is the existing HTTPS Site URL. It is currently owner-private and anonymous requests return 401, so Google indexing requires the owner to choose a public audience. This work does not change sharing. See [SEO.md](SEO.md) for canonical-domain configuration, Search Console verification, sitemap submission, image variants and host checks, and [SEO_AUDIT.md](SEO_AUDIT.md) for the implementation audit and launch limitations.
 
 ## Validation
 
 ```powershell
 npm run check
-node scripts/integration-check.mjs
-node scripts/browser-check.mjs
-node scripts/hero-check.mjs
 npm run build
+npm run check:seo
+npm run preview -- --port 4174
+# In another terminal:
+$env:TMI_BROWSER_BASE_URL='http://127.0.0.1:4174'
+npm run test:browser
+npm run test:seo-browser
 ```
 
-The browser check requires the Vite dev server at port 5173 and an installed Edge browser. It covers every page and service route, 320–1440px widths, asset loading, page titles, mobile navigation, keyboard FAQ interaction, slideshow controls, actual transformation switching, detailing restrictions, and honest unconfigured submission. Screenshots and results are saved in `.impeccable/review`. No real email is sent during checks.
+The browser suites use the existing Playwright/Edge installation. They cover page/service routes, 320-1440px widths, asset loading, metadata, native form restrictions, maps, mobile navigation, FAQ interaction, transformations, hydrated and JavaScript-disabled content, crystal/reduced motion, and honest unconfigured submission. Screenshots and results are saved in `.impeccable/review`. No real email is sent. No lint or TypeScript task is configured.
 
 The large MapLibre chunk is intentionally dynamically imported only near a map; it is not part of the opening download. Maps load near the viewport and clean up when their page unmounts.
 

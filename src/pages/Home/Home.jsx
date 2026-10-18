@@ -10,7 +10,9 @@ import {
 } from 'lucide-react';
 import { data as d } from './data';
 import { business } from '../../content/business';
+import { getResponsiveImageProps } from '../../content/image-sources';
 import PageMeta from '../../components/ui/PageMeta';
+import CrystalHeadline from '../../components/ui/CrystalHeadline';
 import Photo from '../../components/ui/Photo';
 import ServiceGrid from '../../components/ui/ServiceGrid';
 import CTA from '../../components/ui/CTA';
@@ -34,11 +36,7 @@ export default function Home() {
       <Slideshow {...d.slideshow} hero>
         <div className="container">
           <div className="hero-layout">
-            <h1>
-              {d.hero.title[0]}
-              <br />
-              <span>{d.hero.title[1]}</span>
-            </h1>
+            <CrystalHeadline lines={d.hero.title} />
             <div className="hero-side">
               <p>{d.hero.description}</p>
               <div className="hero-actions">
@@ -198,7 +196,10 @@ export default function Home() {
             {d.reviews.badges.map((badge) => (
               <li key={badge.id}>
                 <img
-                  src={badge.src}
+                  {...getResponsiveImageProps(badge.src, {
+                    sizes: '160px',
+                    fallbackWidth: 320,
+                  })}
                   alt={badge.alt}
                   width="160"
                   height="160"

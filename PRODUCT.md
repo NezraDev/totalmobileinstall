@@ -24,7 +24,7 @@ Six services, public routes, local photographs, genuine supplied before-and-afte
 
 ## Brand Commitments
 
-Original icon plus code-rendered TOTAL MOBILE INSTALL wordmark on a white header, as requested in the latest revision. Deep blue #011A82, royal blue #011BCA, red #D30103. The user's latest revision combines the opening into an automatically advancing photographic hero with a translucent blue overlay, replacing the earlier separate gradient and slideshow. The hero fills the first screen, advances every 4.5 seconds without pause/arrow controls, and is followed by scroll-animated source metrics. Exact shop coordinates supplied by the user are latitude 30.025471630757778 and longitude -90.02540735889556. Headline: Windshield Repair, At Your Door. Readable modern sans-serif and subtle premium transitions. All images in public.
+Original icon plus code-rendered TOTAL MOBILE INSTALL wordmark on a white header, as requested in the latest revision. Deep blue #011A82, royal blue #011BCA, red #D30103. The user's latest revision combines the opening into an automatically advancing photographic hero with a translucent blue overlay, replacing the earlier separate gradient and slideshow. The hero fills the first screen, advances every 4.5 seconds without pause/arrow controls, and is followed by scroll-animated source metrics. The user-confirmed shop is at 2642 Tulane Ave, New Orleans, LA 70119, with latitude 29.961365651200683 and longitude -90.09014810481109. Headline: Windshield Repair, At Your Door. Readable modern sans-serif and subtle premium transitions. All images in public.
 
 ## Evidence on Hand
 

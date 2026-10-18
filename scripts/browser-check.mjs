@@ -130,8 +130,14 @@ await desktop.goto(`${baseUrl}/services/auto-glass-repair`, {
 });
 const autoGlassCopy = await desktop.locator('main').innerText();
 assert.ok(autoGlassCopy.includes('under 30 minutes'));
-assert.ok(autoGlassCopy.includes('lifetime leak warranty'));
+assert.ok(autoGlassCopy.includes('Damage assessment before repair'));
 assert.ok(autoGlassCopy.includes('Insurance claims handled for you'));
+await desktop.goto(`${baseUrl}/services/windshield-replacement`, {
+  waitUntil: 'networkidle',
+});
+const replacementCopy = await desktop.locator('main').innerText();
+assert.ok(replacementCopy.includes('lifetime leak warranty'));
+assert.ok(replacementCopy.includes('Vehicle-specific windshield selection'));
 await desktop.goto(`${baseUrl}/services/adas-calibration`, {
   waitUntil: 'networkidle',
 });
@@ -153,7 +159,7 @@ await desktop.goto(`${baseUrl}/services/mobile-detailing`, {
   waitUntil: 'networkidle',
 });
 const detailingCopy = await desktop.locator('main').innerText();
-assert.ok(detailingCopy.includes('5800 Morrison Rd'));
+assert.ok(detailingCopy.includes('2642 Tulane Ave'));
 assert.ok(detailingCopy.includes('shop-only'));
 await desktop.goto(`${baseUrl}/service-areas`, { waitUntil: 'networkidle' });
 const coverageCopy = await desktop.locator('main').innerText();

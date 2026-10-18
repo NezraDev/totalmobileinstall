@@ -1,8 +1,10 @@
-export const businessAddress = '5800 Morrison Rd, New Orleans, LA 70126';
+import { business } from '../content/business';
+export const businessAddress = business.address;
 
 // Current shop pin supplied by the business on October 17, 2026.
 export const verifiedShopCoordinates = Object.freeze([
-  -90.09014810481109, 29.961365651200683,
+  business.geo.longitude,
+  business.geo.latitude,
 ]);
 
 const cartoApiKey = (import.meta.env.VITE_CARTO_API_KEY || '').trim();

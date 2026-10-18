@@ -6,6 +6,7 @@ export const data = {
     title: 'Family-Owned Auto Glass in New Orleans | Total Mobile Install',
     description:
       'Meet Total Mobile Install, a family-operated New Orleans auto glass and tint business serving the community for more than nine years.',
+    image: '/images/services/mobile-service-bentley.webp',
   },
   eyebrow: 'Family owned. New Orleans rooted.',
   title: 'Precision in our work. Pride in our city.',
@@ -36,7 +37,7 @@ export const data = {
     },
     {
       title: 'Close to home',
-      copy: 'Our shop is on Morrison Road in New Orleans. Whether you request a mobile visit or in-shop service, you are working with a local family business.',
+      copy: 'Our shop is on Tulane Avenue in New Orleans. Whether you request a mobile visit or in-shop service, you are working with a local family business.',
     },
   ],
   secondImage: photos.mobileService,

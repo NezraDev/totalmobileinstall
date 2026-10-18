@@ -6,7 +6,7 @@ import { data } from './data';
 export default function NotFound() {
   return (
     <>
-      <PageMeta {...data.seo} />
+      <PageMeta {...data.seo} notFound />
       <PageIntro title={data.title} description={data.description}></PageIntro>
       <section className="section page-section">
         <div className="container">

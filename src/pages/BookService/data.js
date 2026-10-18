@@ -4,9 +4,10 @@ export const data = {
   sourceStatus:
     'Draft inquiry-page copy grounded in supplied booking workflow. Appointments require confirmation.',
   seo: {
-    title: 'Request Mobile Auto Glass Service | Total Mobile Install',
+    title: 'Request Mobile or Shop Service | Total Mobile Install',
     description:
-      'Send a service request to Total Mobile Install in New Orleans. Tell us about your vehicle, choose a service, and let our team confirm the details.',
+      'Request mobile or shop service in New Orleans. Choose auto glass, ADAS calibration, tint, or detailing and share your vehicle details for team confirmation.',
+    image: '/images/services/mobile-glass-work.webp',
   },
   eyebrow: 'Your next step to a clearer drive',
   title: 'Let us take care of it.',

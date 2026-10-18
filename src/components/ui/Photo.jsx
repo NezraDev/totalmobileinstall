@@ -1,30 +1,28 @@
+import { getResponsiveImageProps } from '../../content/image-sources';
+
 export default function Photo({
   photo,
   className = '',
   priority = false,
+  sizes,
+  onError,
+  style,
   ...props
 }) {
   if (!photo?.src) return null;
   return (
     <img
       className={className}
-      src={photo.src}
-      srcSet={
-        photo.srcSmall
-          ? `${photo.srcSmall} 768w, ${photo.src} ${photo.width || 1920}w`
-          : undefined
-      }
-      sizes={props.sizes || '(max-width: 700px) 100vw, 60vw'}
+      {...getResponsiveImageProps(photo, { sizes })}
       alt={photo.alt || ''}
-      width={photo.width}
-      height={photo.height}
-      style={{ objectPosition: photo.position || 'center' }}
+      style={{ objectPosition: photo.position || 'center', ...style }}
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
       fetchPriority={priority ? 'high' : undefined}
       {...props}
       onError={(e) => {
         e.currentTarget.style.visibility = 'hidden';
+        onError?.(e);
       }}
     />
   );

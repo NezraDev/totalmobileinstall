@@ -4,9 +4,10 @@ export const data = {
   sourceStatus:
     'Client-supplied coverage: a 40-mile radius around New Orleans covering the metro area, West Bank, and North Shore. Confirm exact availability for each request.',
   seo: {
-    title: 'Where We Serve | Total Mobile Install New Orleans',
+    title: 'New Orleans Mobile Service Areas | Total Mobile Install',
     description:
-      'Our 40-mile service radius around New Orleans covers the metro area, the West Bank, and the North Shore. Dealership-grade work, delivered to you.',
+      'Explore our 40-mile mobile service radius around New Orleans, including the metro area, West Bank, and North Shore. Confirm availability for your address.',
+    image: '/images/services/mobile-service-bentley.webp',
   },
   eyebrow: 'Greater New Orleans mobile service',
   title: 'Where We Serve',
@@ -17,7 +18,7 @@ export const data = {
   paragraphs: [
     'Our certified team brings auto glass, ADAS calibration, ceramic window tint, and detailing together under one operation.',
     'Tell us where your vehicle is and what it needs. We confirm the right service and location for every request.',
-    'Prefer to bring your vehicle in? Ask about in-shop service at our Morrison Road location.',
+    'Prefer to bring your vehicle in? Ask about in-shop service at our shop on Tulane Avenue in New Orleans.',
   ],
   locationLabel: 'Our location',
   address: business.address,

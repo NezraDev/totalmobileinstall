@@ -4,7 +4,15 @@ export const business = {
   phone: '1-504-207-7742',
   phoneHref: 'tel:+15042077742',
   email: 'quotes@totalmobileglass.com',
-  address: '5800 Morrison Rd, New Orleans, LA 70126',
+  address: '2642 Tulane Ave, New Orleans, LA 70119',
+  postalAddress: {
+    streetAddress: '2642 Tulane Ave',
+    addressLocality: 'New Orleans',
+    addressRegion: 'LA',
+    postalCode: '70119',
+    addressCountry: 'US',
+  },
+  geo: { latitude: 29.961365651200683, longitude: -90.09014810481109 },
   city: 'New Orleans, Louisiana',
   timezone: 'America/Chicago',
   hours: [

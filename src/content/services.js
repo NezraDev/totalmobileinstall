@@ -38,18 +38,18 @@ export const services = [
     id: 'auto-glass-repair',
     specialtyId: 'auto-glass',
     name: 'Windshield Repair',
-    short: 'Windshield Repair & Replacement',
-    detailHeading: 'Windshield Repair & Replacement',
+    short: 'Assess the damage. Find the right next step.',
+    detailHeading: 'Windshield chip and crack repair',
     description:
-      'From chip repair to a full OEM-equivalent windshield replacement, our mobile technicians bring the right glass, urethane, and tooling to your home or office for a factory-quality install.',
+      'A chip or crack does not always mean a new windshield. Our New Orleans team assesses the damage and helps determine whether a repair is suitable for your vehicle.',
     detail:
-      'We assess the damage and help determine whether a repair or replacement is the right next step. Our team can also replace side and rear window glass and handle insurance claims for you.',
+      'Share your vehicle details and tell us where the glass is damaged. You can request mobile service at home or work, or a visit to our shop. If the damage needs a replacement instead, we will explain the next step and help handle your insurance claim.',
     imageKey: 'repair',
     modes: ['mobile', 'shop'],
     points: [
       'Chip and crack repair in under 30 minutes',
-      'OEM-equivalent windshields with a lifetime leak warranty',
-      'Side and rear window glass replacement',
+      'Damage assessment before repair',
+      'Mobile or in-shop service requests',
       'Insurance claims handled for you',
     ],
     modeNote:
@@ -60,15 +60,15 @@ export const services = [
     specialtyId: 'auto-glass',
     name: 'Windshield Replacement',
     short: 'A precise fit and a clear view ahead.',
-    detailHeading: 'Windshield Repair & Replacement',
+    detailHeading: 'Windshield replacement for your vehicle',
     description:
-      'Mobile windshield repair and OEM-equivalent replacement with a factory-quality installation.',
+      'When a windshield needs replacing, our technicians confirm the correct OEM-equivalent glass for your vehicle and bring the glass, urethane, and tooling for a factory-quality installation.',
     detail:
-      'Our mobile technicians come to your home or office with the right glass, urethane, and tooling. We will assess whether a chip or crack can be repaired, confirm the correct windshield for your vehicle, and help handle the insurance claim.',
+      'Request a replacement at your home or office, or arrange in-shop service. Our team helps handle your insurance claim and confirms the installation details, safe drive-away time, and whether your vehicle also requires ADAS calibration.',
     imageKey: 'windshield',
     modes: ['mobile', 'shop'],
     points: [
-      'Chip and crack repair in under 30 minutes',
+      'Vehicle-specific windshield selection',
       'OEM-equivalent windshields with a lifetime leak warranty',
       'Factory-quality urethane installation',
       'Insurance claims handled for you',
@@ -125,7 +125,7 @@ export const services = [
     short: 'Thoughtful interior care and a polished finish.',
     detailHeading: 'Showroom-Finish Mobile Detailing',
     description:
-      'Interior deep cleans and hand washes are available at your home or office. Exterior paint correction, polishing, and ceramic coating are performed at our shop at 5800 Morrison Rd for a controlled, dust-free, climate-stable finish.',
+      'Interior deep cleans and hand washes are available at your home or office. Exterior paint correction, polishing, and ceramic coating are performed at our shop at 2642 Tulane Ave for a controlled, dust-free, climate-stable finish.',
     detail:
       'Choose the detailing service that fits your vehicle. Mobile appointments cover interior steam and shampoo, plus hand washing and decontamination. Paint correction, polishing, and ceramic coating packages are shop-only.',
     imageKey: 'detailing',

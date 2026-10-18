@@ -3,9 +3,10 @@ export const data = {
   sourceStatus:
     'Service specialties and details supplied by the client; exact availability is confirmed with the team.',
   seo: {
-    title: 'Auto Glass, Tint & Detailing Services | Total Mobile Install',
+    title: 'New Orleans Auto Glass, Tint & Detailing | Total Mobile Install',
     description:
-      'Explore six services across four specialties from certified, family-owned Total Mobile Install in New Orleans.',
+      'Explore windshield repair and replacement, side and rear glass, ADAS calibration, window tint, and detailing in New Orleans. Compare mobile and shop options.',
+    image: '/images/services/mobile-glass-work.webp',
   },
   eyebrow: 'Certified, family-owned care',
   title: 'Dealership-grade work, delivered to you.',

@@ -3,9 +3,10 @@ export const data = {
   sourceStatus:
     'Supplied business photography and matched project pairs. Gallery headings and captions are draft editorial copy. Source information is in src/content/assets.js.',
   seo: {
-    title: 'Real Projects & Before and After Gallery | Total Mobile Install',
+    title: 'Auto Glass Before & After Gallery | Total Mobile Install',
     description:
-      'See real Total Mobile Install projects, matched before and after windshield and rear glass work, and completed vehicles in our New Orleans gallery.',
+      'View matched before-and-after auto glass photos and completed cars and trucks from Total Mobile Install in New Orleans, including windshield and rear glass work.',
+    image: '/images/services/gmc-pickup-windshield.webp',
   },
   eyebrow: 'The work speaks for itself',
   title: 'Real vehicles. Careful work.',

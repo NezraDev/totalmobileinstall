@@ -1,9 +1,10 @@
 import { slides, photos } from '../../content/assets';
 export const data = {
   seo: {
-    title: 'Total Mobile Install | Auto Glass in New Orleans',
+    title: 'New Orleans Auto Glass & Windshield Repair | Total Mobile Install',
     description:
-      'Certified, family-owned auto glass, ADAS calibration, ceramic tint, and detailing in New Orleans. Request service or call 1-504-207-7742.',
+      'Request windshield repair, replacement, side and rear glass, ADAS calibration, tint, or detailing from family-owned Total Mobile Install in New Orleans.',
+    image: '/images/services/corvette-red-windshield.webp',
   },
   hero: {
     title: ['Windshield Repair,', 'At Your Door.'],

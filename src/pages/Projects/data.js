@@ -1,8 +1,9 @@
 export const data = {
   seo: {
-    title: 'Our Work | Total Mobile Install',
+    title: 'New Orleans Auto Glass Projects | Total Mobile Install',
     description:
-      'Explore real before-and-after auto glass and vehicle glass projects from Total Mobile Install, shown on a privacy-conscious New Orleans portfolio map.',
+      'Browse nine photo-documented windshield and rear glass projects from Total Mobile Install. Explore before-and-after proof on our New Orleans portfolio map.',
+    image: '/images/services/corvette-blue-windshield.webp',
   },
   title: 'Real work. Clear results.',
   description:

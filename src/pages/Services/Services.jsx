@@ -12,6 +12,7 @@ export default function Services() {
       <PageIntro title={data.title} description={data.description}></PageIntro>
       <section className="section page-section">
         <div className="container">
+          <h2 className="sr-only">Compare our six vehicle services</h2>
           <ServiceGrid items={data.services} />
           <div className="notice">
             <h2>{data.noteTitle}</h2>

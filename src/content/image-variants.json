@@ -1,0 +1,801 @@
+{
+  "/images/services/bentley-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/bentley-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/bentley-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/bentley-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/bmw-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/bmw-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/bmw-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/bmw-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/corvette-blue-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/corvette-blue-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/corvette-blue-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/corvette-blue-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/corvette-red-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/corvette-red-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/corvette-red-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/corvette-red-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/freightliner-fleet-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/freightliner-fleet-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/freightliner-fleet-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/freightliner-fleet-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/gmc-pickup-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/gmc-pickup-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/gmc-pickup-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/gmc-pickup-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/isuzu-commercial-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/isuzu-commercial-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/isuzu-commercial-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/isuzu-commercial-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/mack-truck-glass.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/mack-truck-glass-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/mack-truck-glass-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/mack-truck-glass.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/mobile-glass-work.webp": {
+    "width": 1179,
+    "height": 1038,
+    "sources": [
+      {
+        "src": "/images/services/mobile-glass-work-480.webp",
+        "width": 480,
+        "height": 423
+      },
+      {
+        "src": "/images/services/mobile-glass-work-768.webp",
+        "width": 768,
+        "height": 676
+      },
+      {
+        "src": "/images/services/mobile-glass-work.webp",
+        "width": 1179,
+        "height": 1038
+      }
+    ]
+  },
+  "/images/services/mobile-service-bentley.webp": {
+    "width": 1400,
+    "height": 1050,
+    "sources": [
+      {
+        "src": "/images/services/mobile-service-bentley-480.webp",
+        "width": 480,
+        "height": 360
+      },
+      {
+        "src": "/images/services/mobile-service-bentley-768.webp",
+        "width": 768,
+        "height": 576
+      },
+      {
+        "src": "/images/services/mobile-service-bentley.webp",
+        "width": 1400,
+        "height": 1050
+      }
+    ]
+  },
+  "/images/services/peterbilt-commercial-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/peterbilt-commercial-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/peterbilt-commercial-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/peterbilt-commercial-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/porsche-classic-windshield.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/porsche-classic-windshield-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/porsche-classic-windshield-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/porsche-classic-windshield.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/sedan-windshield-detail.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/sedan-windshield-detail-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/sedan-windshield-detail-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/sedan-windshield-detail.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/tesla-rear-glass.webp": {
+    "width": 1086,
+    "height": 1448,
+    "sources": [
+      {
+        "src": "/images/services/tesla-rear-glass-480.webp",
+        "width": 480,
+        "height": 640
+      },
+      {
+        "src": "/images/services/tesla-rear-glass-768.webp",
+        "width": 576,
+        "height": 768
+      },
+      {
+        "src": "/images/services/tesla-rear-glass.webp",
+        "width": 1086,
+        "height": 1448
+      }
+    ]
+  },
+  "/images/services/truck-cab-rear-window.webp": {
+    "width": 1536,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/services/truck-cab-rear-window-480.webp",
+        "width": 480,
+        "height": 320
+      },
+      {
+        "src": "/images/services/truck-cab-rear-window-768.webp",
+        "width": 768,
+        "height": 512
+      },
+      {
+        "src": "/images/services/truck-cab-rear-window.webp",
+        "width": 1536,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/services/workshop-and-service-van.webp": {
+    "width": 1400,
+    "height": 1050,
+    "sources": [
+      {
+        "src": "/images/services/workshop-and-service-van-480.webp",
+        "width": 480,
+        "height": 360
+      },
+      {
+        "src": "/images/services/workshop-and-service-van-768.webp",
+        "width": 768,
+        "height": 576
+      },
+      {
+        "src": "/images/services/workshop-and-service-van.webp",
+        "width": 1400,
+        "height": 1050
+      }
+    ]
+  },
+  "/images/gallery/bentley-after.webp": {
+    "width": 1000,
+    "height": 1067,
+    "sources": [
+      {
+        "src": "/images/gallery/bentley-after-480.webp",
+        "width": 480,
+        "height": 512
+      },
+      {
+        "src": "/images/gallery/bentley-after-768.webp",
+        "width": 720,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/bentley-after.webp",
+        "width": 1000,
+        "height": 1067
+      }
+    ]
+  },
+  "/images/gallery/bentley-before.webp": {
+    "width": 1000,
+    "height": 1067,
+    "sources": [
+      {
+        "src": "/images/gallery/bentley-before-480.webp",
+        "width": 480,
+        "height": 512
+      },
+      {
+        "src": "/images/gallery/bentley-before-768.webp",
+        "width": 720,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/bentley-before.webp",
+        "width": 1000,
+        "height": 1067
+      }
+    ]
+  },
+  "/images/gallery/corvette-blue-after.webp": {
+    "width": 1000,
+    "height": 1136,
+    "sources": [
+      {
+        "src": "/images/gallery/corvette-blue-after-480.webp",
+        "width": 480,
+        "height": 545
+      },
+      {
+        "src": "/images/gallery/corvette-blue-after-768.webp",
+        "width": 676,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/corvette-blue-after.webp",
+        "width": 1000,
+        "height": 1136
+      }
+    ]
+  },
+  "/images/gallery/corvette-blue-before.webp": {
+    "width": 1000,
+    "height": 1136,
+    "sources": [
+      {
+        "src": "/images/gallery/corvette-blue-before-480.webp",
+        "width": 480,
+        "height": 545
+      },
+      {
+        "src": "/images/gallery/corvette-blue-before-768.webp",
+        "width": 676,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/corvette-blue-before.webp",
+        "width": 1000,
+        "height": 1136
+      }
+    ]
+  },
+  "/images/gallery/corvette-red-after.webp": {
+    "width": 1000,
+    "height": 967,
+    "sources": [
+      {
+        "src": "/images/gallery/corvette-red-after-480.webp",
+        "width": 480,
+        "height": 464
+      },
+      {
+        "src": "/images/gallery/corvette-red-after-768.webp",
+        "width": 768,
+        "height": 743
+      },
+      {
+        "src": "/images/gallery/corvette-red-after.webp",
+        "width": 1000,
+        "height": 967
+      }
+    ]
+  },
+  "/images/gallery/corvette-red-before.webp": {
+    "width": 1000,
+    "height": 967,
+    "sources": [
+      {
+        "src": "/images/gallery/corvette-red-before-480.webp",
+        "width": 480,
+        "height": 464
+      },
+      {
+        "src": "/images/gallery/corvette-red-before-768.webp",
+        "width": 768,
+        "height": 743
+      },
+      {
+        "src": "/images/gallery/corvette-red-before.webp",
+        "width": 1000,
+        "height": 967
+      }
+    ]
+  },
+  "/images/gallery/gmc-after.webp": {
+    "width": 1000,
+    "height": 1040,
+    "sources": [
+      {
+        "src": "/images/gallery/gmc-after-480.webp",
+        "width": 480,
+        "height": 499
+      },
+      {
+        "src": "/images/gallery/gmc-after-768.webp",
+        "width": 738,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/gmc-after.webp",
+        "width": 1000,
+        "height": 1040
+      }
+    ]
+  },
+  "/images/gallery/gmc-before.webp": {
+    "width": 1000,
+    "height": 1040,
+    "sources": [
+      {
+        "src": "/images/gallery/gmc-before-480.webp",
+        "width": 480,
+        "height": 499
+      },
+      {
+        "src": "/images/gallery/gmc-before-768.webp",
+        "width": 738,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/gmc-before.webp",
+        "width": 1000,
+        "height": 1040
+      }
+    ]
+  },
+  "/images/gallery/isuzu-after.webp": {
+    "width": 1000,
+    "height": 1000,
+    "sources": [
+      {
+        "src": "/images/gallery/isuzu-after-480.webp",
+        "width": 480,
+        "height": 480
+      },
+      {
+        "src": "/images/gallery/isuzu-after-768.webp",
+        "width": 768,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/isuzu-after.webp",
+        "width": 1000,
+        "height": 1000
+      }
+    ]
+  },
+  "/images/gallery/isuzu-before.webp": {
+    "width": 1000,
+    "height": 1000,
+    "sources": [
+      {
+        "src": "/images/gallery/isuzu-before-480.webp",
+        "width": 480,
+        "height": 480
+      },
+      {
+        "src": "/images/gallery/isuzu-before-768.webp",
+        "width": 768,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/isuzu-before.webp",
+        "width": 1000,
+        "height": 1000
+      }
+    ]
+  },
+  "/images/gallery/peterbilt-after.webp": {
+    "width": 1000,
+    "height": 1066,
+    "sources": [
+      {
+        "src": "/images/gallery/peterbilt-after-480.webp",
+        "width": 480,
+        "height": 512
+      },
+      {
+        "src": "/images/gallery/peterbilt-after-768.webp",
+        "width": 720,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/peterbilt-after.webp",
+        "width": 1000,
+        "height": 1066
+      }
+    ]
+  },
+  "/images/gallery/peterbilt-before.webp": {
+    "width": 1000,
+    "height": 1066,
+    "sources": [
+      {
+        "src": "/images/gallery/peterbilt-before-480.webp",
+        "width": 480,
+        "height": 512
+      },
+      {
+        "src": "/images/gallery/peterbilt-before-768.webp",
+        "width": 720,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/peterbilt-before.webp",
+        "width": 1000,
+        "height": 1066
+      }
+    ]
+  },
+  "/images/gallery/sedan-after.webp": {
+    "width": 1000,
+    "height": 585,
+    "sources": [
+      {
+        "src": "/images/gallery/sedan-after-480.webp",
+        "width": 480,
+        "height": 281
+      },
+      {
+        "src": "/images/gallery/sedan-after-768.webp",
+        "width": 768,
+        "height": 449
+      },
+      {
+        "src": "/images/gallery/sedan-after.webp",
+        "width": 1000,
+        "height": 585
+      }
+    ]
+  },
+  "/images/gallery/sedan-before.webp": {
+    "width": 1000,
+    "height": 585,
+    "sources": [
+      {
+        "src": "/images/gallery/sedan-before-480.webp",
+        "width": 480,
+        "height": 281
+      },
+      {
+        "src": "/images/gallery/sedan-before-768.webp",
+        "width": 768,
+        "height": 449
+      },
+      {
+        "src": "/images/gallery/sedan-before.webp",
+        "width": 1000,
+        "height": 585
+      }
+    ]
+  },
+  "/images/gallery/tesla-after.webp": {
+    "width": 1000,
+    "height": 1106,
+    "sources": [
+      {
+        "src": "/images/gallery/tesla-after-480.webp",
+        "width": 480,
+        "height": 531
+      },
+      {
+        "src": "/images/gallery/tesla-after-768.webp",
+        "width": 694,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/tesla-after.webp",
+        "width": 1000,
+        "height": 1106
+      }
+    ]
+  },
+  "/images/gallery/tesla-before.webp": {
+    "width": 1000,
+    "height": 1106,
+    "sources": [
+      {
+        "src": "/images/gallery/tesla-before-480.webp",
+        "width": 480,
+        "height": 531
+      },
+      {
+        "src": "/images/gallery/tesla-before-768.webp",
+        "width": 694,
+        "height": 768
+      },
+      {
+        "src": "/images/gallery/tesla-before.webp",
+        "width": 1000,
+        "height": 1106
+      }
+    ]
+  },
+  "/images/gallery/truck-rear-window-after.webp": {
+    "width": 1000,
+    "height": 867,
+    "sources": [
+      {
+        "src": "/images/gallery/truck-rear-window-after-480.webp",
+        "width": 480,
+        "height": 416
+      },
+      {
+        "src": "/images/gallery/truck-rear-window-after-768.webp",
+        "width": 768,
+        "height": 666
+      },
+      {
+        "src": "/images/gallery/truck-rear-window-after.webp",
+        "width": 1000,
+        "height": 867
+      }
+    ]
+  },
+  "/images/gallery/truck-rear-window-before.webp": {
+    "width": 1000,
+    "height": 867,
+    "sources": [
+      {
+        "src": "/images/gallery/truck-rear-window-before-480.webp",
+        "width": 480,
+        "height": 416
+      },
+      {
+        "src": "/images/gallery/truck-rear-window-before-768.webp",
+        "width": 768,
+        "height": 666
+      },
+      {
+        "src": "/images/gallery/truck-rear-window-before.webp",
+        "width": 1000,
+        "height": 867
+      }
+    ]
+  },
+  "/images/brand/icon.png": {
+    "width": 512,
+    "height": 512,
+    "sources": [
+      {
+        "src": "/images/brand/icon-160.webp",
+        "width": 160,
+        "height": 160
+      },
+      {
+        "src": "/images/brand/icon-320.webp",
+        "width": 320,
+        "height": 320
+      },
+      {
+        "src": "/images/brand/icon.png",
+        "width": 512,
+        "height": 512
+      }
+    ]
+  },
+  "/images/badges/badge-best-service.webp": {
+    "width": 1024,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/badges/badge-best-service-320.webp",
+        "width": 320,
+        "height": 320
+      },
+      {
+        "src": "/images/badges/badge-best-service.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/badges/badge-locally-owned.webp": {
+    "width": 1024,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/badges/badge-locally-owned-320.webp",
+        "width": 320,
+        "height": 320
+      },
+      {
+        "src": "/images/badges/badge-locally-owned.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/badges/badge-premium-quality.webp": {
+    "width": 1024,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/badges/badge-premium-quality-320.webp",
+        "width": 320,
+        "height": 320
+      },
+      {
+        "src": "/images/badges/badge-premium-quality.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    ]
+  },
+  "/images/badges/badge-satisfaction.webp": {
+    "width": 1024,
+    "height": 1024,
+    "sources": [
+      {
+        "src": "/images/badges/badge-satisfaction-320.webp",
+        "width": 320,
+        "height": 320
+      },
+      {
+        "src": "/images/badges/badge-satisfaction.webp",
+        "width": 1024,
+        "height": 1024
+      }
+    ]
+  }
+}

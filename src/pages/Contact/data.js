@@ -6,7 +6,8 @@ export const data = {
   seo: {
     title: 'Contact Total Mobile Install | New Orleans Auto Glass',
     description:
-      'Call 1-504-207-7742 or contact Total Mobile Install at 5800 Morrison Rd, New Orleans. Request mobile or in-shop auto glass, tint, calibration, or detailing.',
+      'Contact Total Mobile Install at 2642 Tulane Ave, New Orleans, LA 70119. Call 1-504-207-7742 about auto glass, calibration, tint, detailing, and availability.',
+    image: '/images/services/workshop-and-service-van.webp',
   },
   eyebrow: 'Let us take a look',
   title: 'Good service starts with a conversation.',
@@ -22,7 +23,7 @@ export const data = {
   formHeading: 'Tell us what you need.',
   formDescription:
     'Send a service inquiry. The team will confirm availability and the next steps.',
-  mapHeading: 'Find us on Morrison Road',
+  mapHeading: 'Find us on Tulane Avenue',
   business,
   directionsHref: directionsUrl,
 };

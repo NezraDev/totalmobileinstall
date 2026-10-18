@@ -1,4 +1,5 @@
 node_modules/
+/.ssr-build/
 dist/
 .env
 .env.local

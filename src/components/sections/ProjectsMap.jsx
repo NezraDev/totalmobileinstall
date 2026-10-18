@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { ArrowUpRight, CarFront, LoaderCircle } from 'lucide-react';
 import { beforeAfter } from '../../content/assets';
 import { mapConfig, transformCartoRequest } from '../../integrations/mapConfig';
+import Photo from '../ui/Photo';
 
 const overviewCenter = [-90.0715, 29.9511];
 const overviewZoom = 10.2;
@@ -20,11 +21,11 @@ function ProjectPopup({ project }) {
       <span className="project-map-popup__service">{project.service}</span>
       <div className="project-map-popup__proof">
         <figure>
-          <img src={project.before.srcSmall} alt={project.before.alt} />
+          <Photo photo={project.before} sizes="150px" loading="eager" />
           <figcaption>Before</figcaption>
         </figure>
         <figure>
-          <img src={project.after.srcSmall} alt={project.after.alt} />
+          <Photo photo={project.after} sizes="150px" loading="eager" />
           <figcaption>After</figcaption>
         </figure>
       </div>

@@ -12,10 +12,15 @@ import './styles/brand.css';
 import './styles/comparison-controls.css';
 import './styles/spacing.css';
 import './styles/map.css';
+import './styles/motion.css';
 import App from './app/App';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const application = (
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+const root = document.getElementById('root');
+if (root.hasAttribute('data-prerendered'))
+  ReactDOM.hydrateRoot(root, application);
+else ReactDOM.createRoot(root).render(application);

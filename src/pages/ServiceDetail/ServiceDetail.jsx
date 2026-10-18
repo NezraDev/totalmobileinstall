@@ -8,6 +8,39 @@ import { business } from '../../content/business';
 import NotFound from '../NotFound/NotFound';
 import { data } from './data';
 
+const relatedServiceIds = {
+  'auto-glass-repair': [
+    'windshield-replacement',
+    'side-rear-glass',
+    'adas-calibration',
+  ],
+  'windshield-replacement': [
+    'auto-glass-repair',
+    'adas-calibration',
+    'side-rear-glass',
+  ],
+  'adas-calibration': [
+    'windshield-replacement',
+    'auto-glass-repair',
+    'side-rear-glass',
+  ],
+  'window-tinting': [
+    'mobile-detailing',
+    'side-rear-glass',
+    'windshield-replacement',
+  ],
+  'mobile-detailing': [
+    'window-tinting',
+    'auto-glass-repair',
+    'windshield-replacement',
+  ],
+  'side-rear-glass': [
+    'windshield-replacement',
+    'auto-glass-repair',
+    'window-tinting',
+  ],
+};
+
 export default function ServiceDetail() {
   const { slug } = useParams();
   const service = data.records[slug];
@@ -50,9 +83,7 @@ export default function ServiceDetail() {
         <div className="container">
           <h2>{data.relatedLabel}</h2>
           <ServiceGrid
-            items={Object.values(data.records)
-              .filter((item) => item.id !== slug)
-              .slice(0, 3)}
+            items={relatedServiceIds[slug].map((id) => data.records[id])}
           />
         </div>
       </section>

@@ -1,4 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import PageIntro from '../../components/ui/PageIntro';
 import PageMeta from '../../components/ui/PageMeta';
 import Photo from '../../components/ui/Photo';
@@ -7,6 +8,20 @@ import { data } from './data';
 
 export default function BookService() {
   const [params] = useSearchParams();
+  const query = params.toString();
+  const [request, setRequest] = useState({
+    service: '',
+    mode: '',
+    location: '',
+  });
+  useEffect(() => {
+    const search = new URLSearchParams(query);
+    setRequest({
+      service: search.get('service') || '',
+      mode: search.get('mode') || '',
+      location: (search.get('location') || '').slice(0, 180),
+    });
+  }, [query]);
   return (
     <>
       <PageMeta {...data.seo} />
@@ -17,9 +32,10 @@ export default function BookService() {
             <h2>{data.formHeading}</h2>
             <p>{data.formDescription}</p>
             <BookingForm
-              initialService={params.get('service') || ''}
-              initialMode={params.get('mode') || ''}
-              initialLocation={(params.get('location') || '').slice(0, 180)}
+              key={JSON.stringify(request)}
+              initialService={request.service}
+              initialMode={request.mode}
+              initialLocation={request.location}
             />
           </div>
           <aside className="booking-aside">

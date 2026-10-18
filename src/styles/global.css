@@ -1398,19 +1398,6 @@ main:focus {
   min-height: 50vh;
   color: var(--muted);
 }
-main {
-  animation: route-settle 0.5s var(--ease);
-}
-@keyframes route-settle {
-  from {
-    filter: brightness(0.98);
-    transform: translateY(5px);
-  }
-  to {
-    filter: brightness(1);
-    transform: translateY(0);
-  }
-}
 @keyframes photo-settle {
   from {
     filter: brightness(0.93);

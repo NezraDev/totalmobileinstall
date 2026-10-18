@@ -3,6 +3,7 @@ import { ArrowUpRight, Check, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageIntro from '../../components/ui/PageIntro';
 import PageMeta from '../../components/ui/PageMeta';
+import Photo from '../../components/ui/Photo';
 import ProjectsMap from '../../components/sections/ProjectsMap';
 import { beforeAfter } from '../../content/assets';
 import { data } from './data';
@@ -50,20 +51,16 @@ export default function Projects() {
                 >
                   <div className="project-card__proof">
                     <figure>
-                      <img
-                        src={project.before.srcSmall}
-                        alt={project.before.alt}
-                        loading="lazy"
-                        decoding="async"
+                      <Photo
+                        photo={project.before}
+                        sizes="(max-width: 700px) 45vw, (max-width: 980px) 23vw, 16vw"
                       />
                       <figcaption>Before</figcaption>
                     </figure>
                     <figure>
-                      <img
-                        src={project.after.srcSmall}
-                        alt={project.after.alt}
-                        loading="lazy"
-                        decoding="async"
+                      <Photo
+                        photo={project.after}
+                        sizes="(max-width: 700px) 45vw, (max-width: 980px) 23vw, 16vw"
                       />
                       <figcaption>After</figcaption>
                     </figure>

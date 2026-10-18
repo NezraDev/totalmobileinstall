@@ -28,7 +28,10 @@ export default function Gallery() {
           <div className="photo-grid">
             {data.gallery.map((item) => (
               <figure className="photo-tile" key={item.id}>
-                <Photo photo={item.photo} />
+                <Photo
+                  photo={item.photo}
+                  sizes="(max-width: 1000px) 50vw, 33vw"
+                />
                 <figcaption>{item.caption}</figcaption>
               </figure>
             ))}

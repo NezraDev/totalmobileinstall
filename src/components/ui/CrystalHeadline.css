@@ -1,0 +1,165 @@
+/* The headline keeps the hero's type scale and exact two-line composition. */
+.hero h1.crystal-headline .crystal-headline__line {
+  --crystal-mid: #dceaff;
+  --crystal-low: #b8d2f5;
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  color: #f3f8ff;
+  text-shadow: 0 2px 2px rgb(0 16 72 / 28%);
+}
+
+.hero h1.crystal-headline .crystal-headline__line + .crystal-headline__line {
+  --crystal-mid: #c8e0ff;
+  --crystal-low: #a6c5f0;
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .hero h1.crystal-headline .crystal-headline__line {
+    background-image: linear-gradient(
+      166deg,
+      #fff 0%,
+      #eff8ff 26%,
+      var(--crystal-mid) 27%,
+      #fbfdff 46%,
+      #fff 47%,
+      var(--crystal-low) 68%,
+      #e8f4ff 69%,
+      #fff 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0.35px rgb(255 255 255 / 45%);
+  }
+
+  .hero h1.crystal-headline .crystal-headline__line::before,
+  .hero h1.crystal-headline .crystal-headline__line::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    display: block;
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    white-space: inherit;
+    pointer-events: none;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+  }
+
+  /* A small set of broad, nonrepeating planes catches the first light. */
+  .hero h1.crystal-headline .crystal-headline__line::before {
+    background-image: linear-gradient(
+      118deg,
+      transparent 10%,
+      rgb(255 255 255 / 75%) 10.2%,
+      transparent 23%,
+      transparent 43%,
+      rgb(225 244 255 / 62%) 43.2%,
+      transparent 55%,
+      transparent 72%,
+      rgb(255 255 255 / 60%) 72.2%,
+      transparent 84%
+    );
+    opacity: 0.55;
+    animation: crystal-face-form 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--crystal-line) * 120ms);
+  }
+
+  .hero h1.crystal-headline .crystal-headline__line::after {
+    background-image: linear-gradient(
+      112deg,
+      transparent 42%,
+      rgb(255 255 255 / 28%) 47%,
+      #fff 49.5%,
+      rgb(232 249 255 / 80%) 50.5%,
+      transparent 57%
+    );
+    background-size: 260% 100%;
+    background-position: 165% 0;
+    opacity: 0;
+    animation: crystal-light-pass 12s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    animation-delay: calc(650ms + var(--crystal-line) * 120ms);
+  }
+
+  .hero
+    h1.crystal-headline[data-motion='paused']
+    .crystal-headline__line::before,
+  .hero
+    h1.crystal-headline[data-motion='paused']
+    .crystal-headline__line::after {
+    animation-play-state: paused;
+  }
+
+  .hero
+    h1.crystal-headline[data-motion='active']
+    .crystal-headline__line::before,
+  .hero
+    h1.crystal-headline[data-motion='active']
+    .crystal-headline__line::after {
+    animation-play-state: running;
+  }
+}
+
+@keyframes crystal-face-form {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    opacity: 0.15;
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 0.55;
+  }
+}
+
+@keyframes crystal-light-pass {
+  0% {
+    background-position: 165% 0;
+    opacity: 0;
+  }
+  1% {
+    opacity: 0.8;
+  }
+  11% {
+    background-position: -65% 0;
+    opacity: 0.8;
+  }
+  13%,
+  100% {
+    background-position: -65% 0;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero h1.crystal-headline .crystal-headline__line::before {
+    animation: none;
+    clip-path: none;
+    opacity: 0.35;
+  }
+
+  .hero h1.crystal-headline .crystal-headline__line::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .hero h1.crystal-headline .crystal-headline__line {
+    color: CanvasText;
+    background: none;
+    -webkit-text-fill-color: CanvasText;
+    -webkit-text-stroke: 0;
+    text-shadow: none;
+  }
+
+  .hero h1.crystal-headline .crystal-headline__line::before,
+  .hero h1.crystal-headline .crystal-headline__line::after {
+    content: none;
+  }
+}

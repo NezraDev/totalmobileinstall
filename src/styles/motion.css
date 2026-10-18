@@ -1,0 +1,233 @@
+/* A single crystal focal moment, with quiet continuity across the other pages. */
+:root {
+  --motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-quick: 180ms;
+  --motion-control: 280ms;
+  --motion-arrival: 640ms;
+}
+
+.site-header {
+  transition:
+    box-shadow 360ms var(--motion-ease),
+    border-color 360ms ease;
+}
+
+.site-header[data-scrolled='true'] {
+  border-bottom-color: #dce2ee;
+  box-shadow: 0 10px 28px rgb(1 26 130 / 0.07);
+}
+
+.text-link,
+.text-link:hover {
+  gap: 15px;
+}
+
+.text-link {
+  transition:
+    color var(--motion-quick) ease,
+    border-color var(--motion-control) ease;
+}
+
+.text-link svg {
+  transition: transform var(--motion-control) var(--motion-ease);
+}
+
+.booking-form-wrap {
+  transition: box-shadow 360ms ease;
+}
+
+.booking-form-wrap:focus-within {
+  box-shadow: 0 12px 32px rgb(1 26 130 / 0.065);
+}
+
+.faq-list summary svg {
+  transition: transform var(--motion-control) var(--motion-ease);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .route-frame {
+    animation: premium-route 480ms var(--motion-ease) both;
+  }
+
+  .route-frame[data-home='true'] {
+    animation: none;
+  }
+
+  .photo-hero .hero-side {
+    animation: premium-arrive-copy 720ms var(--motion-ease) 100ms both;
+  }
+
+  .photo-hero .hero-note {
+    animation: premium-arrive-copy 720ms var(--motion-ease) 180ms both;
+  }
+
+  .motion-arrived[data-arrival='copy'] {
+    animation: premium-arrive-copy var(--motion-arrival) var(--motion-ease) both;
+  }
+
+  .motion-arrived[data-arrival='media'] {
+    animation: premium-arrive-media 800ms var(--motion-ease) both;
+  }
+
+  .motion-arrived[data-arrival='collection'] {
+    animation: premium-arrive-collection 560ms var(--motion-ease)
+      var(--arrival-delay, 0ms) both;
+  }
+
+  .faq-list details[open] > div {
+    animation: premium-answer 280ms var(--motion-ease) both;
+  }
+
+  .button {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+      background var(--motion-control) ease,
+      color var(--motion-control) ease,
+      box-shadow 400ms var(--motion-ease),
+      transform var(--motion-control) var(--motion-ease);
+  }
+
+  .button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      rgb(255 255 255 / 0.18) 50%,
+      transparent 70%
+    );
+    transform: translateX(-120%);
+    transition: transform 620ms var(--motion-ease);
+    pointer-events: none;
+  }
+
+  .button:active:not(:disabled) {
+    transform: translateY(0) scale(0.985);
+  }
+
+  .icon-button,
+  .comparison-button,
+  .menu-toggle {
+    transition:
+      background var(--motion-control) ease,
+      color var(--motion-control) ease,
+      border-color var(--motion-control) ease,
+      transform var(--motion-quick) var(--motion-ease);
+  }
+
+  .icon-button:active:not(:disabled),
+  .comparison-button:active:not(:disabled),
+  .menu-toggle:active {
+    transform: scale(0.96);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .button:hover:not(:disabled)::before,
+    .button:focus-visible::before {
+      transform: translateX(120%);
+    }
+
+    .text-link:hover svg {
+      transform: translate(3px, -2px);
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .navigation.is-open {
+      animation: premium-menu 320ms var(--motion-ease) both;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .motion-arrived[data-arrival='collection'] {
+      animation-delay: 0ms;
+    }
+  }
+}
+
+@keyframes premium-route {
+  from {
+    opacity: 0.88;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes premium-arrive-copy {
+  from {
+    opacity: 0.76;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes premium-arrive-media {
+  from {
+    clip-path: inset(3% 0 0 0);
+    filter: saturate(0.88) brightness(0.98);
+  }
+  to {
+    clip-path: inset(0);
+    filter: none;
+  }
+}
+
+@keyframes premium-arrive-collection {
+  from {
+    opacity: 0.8;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes premium-answer {
+  from {
+    opacity: 0.72;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes premium-menu {
+  from {
+    opacity: 0.9;
+    transform: translateY(-6px);
+    clip-path: inset(0 0 4% 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-link:hover svg,
+  .button:hover:not(:disabled),
+  .button:active:not(:disabled),
+  .icon-button:active:not(:disabled),
+  .comparison-button:active:not(:disabled),
+  .menu-toggle:active {
+    transform: none;
+  }
+}

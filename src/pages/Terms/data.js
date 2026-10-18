@@ -6,6 +6,7 @@ export const data = {
     title: 'Terms of Use | Total Mobile Install',
     description:
       'Terms of Use availability and contact information for the Total Mobile Install website.',
+    noindex: true,
   },
   eyebrow: 'Website information',
   title: 'Terms of Use',

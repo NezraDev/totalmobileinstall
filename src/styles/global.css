@@ -1134,11 +1134,7 @@ main:focus {
   color: var(--blue);
 }
 .honeypot {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
+  display: none;
 }
 .form-success {
   padding: 60px 35px;

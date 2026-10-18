@@ -395,14 +395,19 @@ export default function BookingForm({
             )}
           </div>
           <div className="honeypot" aria-hidden="true">
-            <label htmlFor={`${formId}-website`}>{c.labels.website}</label>
+            <label htmlFor={`${formId}-extra-check`}>Leave this field blank</label>
             <input
-              id={`${formId}-website`}
-              name="website"
+              id={`${formId}-extra-check`}
+              name="company_profile_url_check"
               tabIndex="-1"
               value={values.website}
-              onChange={update}
-              autoComplete="off"
+              onChange={(event) =>
+                setValues((current) => ({
+                  ...current,
+                  website: event.target.value,
+                }))
+              }
+              autoComplete="new-password"
             />
           </div>
         </div>

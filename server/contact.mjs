@@ -44,7 +44,9 @@ export function createContactHandler({
     if (path === '/health' && request.method === 'GET')
       return reply(200, { ok: true });
     if (path !== '/api/contact') return reply(404, { accepted: false });
-    if (!origin || !origins.has(origin)) return reply(403, { accepted: false });
+    const requestOrigin = new URL(request.url).origin;
+    if (!origin || (origin !== requestOrigin && !origins.has(origin)))
+      return reply(403, { accepted: false });
     headers['Access-Control-Allow-Origin'] = origin;
     if (request.method === 'OPTIONS') {
       headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS';

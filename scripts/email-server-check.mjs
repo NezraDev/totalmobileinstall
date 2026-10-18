@@ -44,6 +44,28 @@ assert.equal(
   (await handle(request(valid, { Origin: 'https://evil.test' }))).status,
   403,
 );
+const sameOriginHandler = createContactHandler({
+  env: { ...env, URL: 'https://default-site.netlify.app', ALLOWED_ORIGINS: '' },
+  send: async () => Response.json({ id: 'same-origin-request' }),
+});
+const sameOriginRequest = (requestOrigin) =>
+  new Request('https://custom-domain.test/api/contact', {
+    method: 'POST',
+    headers: {
+      Origin: requestOrigin,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(valid),
+  });
+assert.equal(
+  (await sameOriginHandler(sameOriginRequest('https://custom-domain.test')))
+    .status,
+  202,
+);
+assert.equal(
+  (await sameOriginHandler(sameOriginRequest('https://evil.test'))).status,
+  403,
+);
 assert.equal((await handle(request({ ...valid, email: 'bad' }))).status, 422);
 assert.equal(
   (await handle(request({ ...valid, fullName: { unexpected: true } }))).status,

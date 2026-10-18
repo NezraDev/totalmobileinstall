@@ -8,3 +8,4 @@ dist/
 .impeccable/review/
 .impeccable/config.local.json
 artifacts/
+.netlify/

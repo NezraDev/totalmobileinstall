@@ -61,7 +61,7 @@ The shop map uses MapLibre at the exact client-supplied coordinates (29.96136565
 
 ## Static hosting and search
 
-`npm run build` produces complete HTML for 17 routes plus a 404 page, sitemap.xml, robots.txt, social metadata and truthful structured data. It retains the existing React interface and hydrates the generated pages. Deploy the full `dist` using the existing Sites workflow with `static.not_found_handling: "404-page"`. Flat HTML files support the established slashless URLs; `_redirects` supplies permanent legacy and duplicate-path redirects. Do not restore a catch-all SPA 200 rewrite or publish `.ssr-build`.
+`npm run build` produces complete HTML for 17 routes plus a 404 page, sitemap.xml, robots.txt, social metadata and truthful structured data. It retains the existing React interface and hydrates the generated pages. Deploy the full `dist` using the existing Sites workflow with `static.not_found_handling: "404-page"`. For Netlify, `netlify.toml` sets `npm run build`, Node 22, and `dist` as the publish directory; see [NETLIFY_DEPLOY.md](NETLIFY_DEPLOY.md) for Git-connected and manual deploy steps. Flat HTML files support the established slashless URLs; `_redirects` supplies permanent legacy and duplicate-path redirects. Do not restore a catch-all SPA 200 rewrite or publish `.ssr-build`.
 
 The configured production origin is the existing HTTPS Site URL. It is currently owner-private and anonymous requests return 401, so Google indexing requires the owner to choose a public audience. This work does not change sharing. See [SEO.md](SEO.md) for canonical-domain configuration, Search Console verification, sitemap submission, image variants and host checks, and [SEO_AUDIT.md](SEO_AUDIT.md) for the implementation audit and launch limitations.
 

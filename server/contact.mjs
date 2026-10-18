@@ -151,10 +151,30 @@ export function createContactHandler({
         }),
       });
       const result = await response.json().catch(() => null);
-      if (!response.ok || typeof result?.id !== 'string' || !result.id)
+      if (!response.ok) {
+        console.error('[contact] Resend rejected the email request', {
+          status: response.status,
+          errorType:
+            typeof result?.name === 'string'
+              ? result.name
+              : typeof result?.code === 'string'
+                ? result.code
+                : 'unknown',
+        });
         return reply(502, { accepted: false });
+      }
+      if (typeof result?.id !== 'string' || !result.id) {
+        console.error('[contact] Resend returned no email ID', {
+          status: response.status,
+        });
+        return reply(502, { accepted: false });
+      }
       return reply(202, { accepted: true, requestId: result.id });
-    } catch {
+    } catch (error) {
+      console.error('[contact] Resend request could not be completed', {
+        errorType:
+          error && typeof error.name === 'string' ? error.name : 'unknown',
+      });
       return reply(502, { accepted: false });
     }
   };

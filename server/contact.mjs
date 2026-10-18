@@ -15,8 +15,7 @@ export function createContactHandler({
   now = Date.now,
 } = {}) {
   const origins = new Set(
-    (env.ALLOWED_ORIGINS || '')
-      .split(',')
+    [env.URL || '', ...(env.ALLOWED_ORIGINS || '').split(',')]
       .map((s) => s.trim())
       .filter(Boolean),
   );
@@ -56,10 +55,7 @@ export function createContactHandler({
       headers.Allow = 'POST, OPTIONS';
       return reply(405, { accepted: false });
     }
-    // Render's reverse proxy shares socket addresses. Do not trust spoofable forwarding headers.
-    if (
-      limited(env.RENDER ? 'render-global' : `ip:${ip}`, env.RENDER ? 200 : 20)
-    ) {
+    if (limited(`ip:${ip}`, 20)) {
       headers['Retry-After'] = '900';
       return reply(429, { accepted: false });
     }
@@ -167,7 +163,6 @@ export function createContactHandler({
 export function startContactServer(env = process.env) {
   const handle = createContactHandler({ env });
   const server = createServer(async (req, res) => {
-    // Render terminates TLS; use its fixed public origin rather than untrusted Host.
     const url = new URL(req.url, 'http://contact.internal');
     try {
       let bytes = 0;

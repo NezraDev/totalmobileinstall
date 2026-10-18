@@ -7,7 +7,8 @@ import {
 export { validateContactRequest } from './contactValidation.js';
 
 export const CONTACT_ENDPOINT = (
-  import.meta.env.VITE_CONTACT_ENDPOINT || ''
+  import.meta.env.VITE_CONTACT_ENDPOINT ||
+  (import.meta.env.DEV ? '' : '/api/contact')
 ).trim();
 
 export class ContactRequestError extends Error {
@@ -20,6 +21,7 @@ export class ContactRequestError extends Error {
 }
 
 export function isContactConfigured() {
+  if (CONTACT_ENDPOINT === '/api/contact') return true;
   try {
     const url = new URL(CONTACT_ENDPOINT);
     return (

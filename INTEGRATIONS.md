@@ -1,6 +1,6 @@
 # Integration and deployment setup
 
-Updated October 18, 2026. The React/Vite frontend remains static. A separate Node email backend is included in `server/contact.mjs`, with Render deployment configuration. See `EMAIL_SETUP.md`.
+Updated October 18, 2026. The React/Vite site is prerendered for Netlify, with a server-side Netlify Function at `/api/contact` that calls Resend. The shared request validation and email handling live in `server/contact.mjs`. See `EMAIL_SETUP.md`.
 
 ## Public configuration
 
@@ -8,7 +8,7 @@ Copy `.env.example` to `.env.local`, fill in confirmed values, and rebuild. Vite
 
 | Variable                                     | Purpose                                                                                       |
 | -------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `VITE_CONTACT_ENDPOINT`                      | HTTPS URL for the separately managed contact endpoint                                         |
+| `VITE_CONTACT_ENDPOINT`                      | Optional local override; production defaults to the same-origin `/api/contact` Netlify Function |
 | `VITE_CARTO_API_KEY`                         | Public, hostname-restricted CARTO Basemaps key; without it, MapLibre uses OpenStreetMap tiles |
 | `VITE_MAP_LONGITUDE` and `VITE_MAP_LATITUDE` | Optional paired overrides for the confirmed shop coordinates                                  |
 | `VITE_SITE_URL`                              | Confirmed canonical website origin                                                            |
@@ -17,7 +17,7 @@ All photo and brand files live in `public/images`. Reference them as `/images/..
 
 ## Resend endpoint contract
 
-`src/integrations/emailClient.js` sends one JSON `POST` to `VITE_CONTACT_ENDPOINT`. The browser sends no credential, arbitrary recipient, or sender. The endpoint must accept `Content-Type: application/json`, handle `OPTIONS` for the final website origin, and return JSON. Use HTTPS in production. Do not accept arbitrary CORS origins.
+`src/integrations/emailClient.js` sends one JSON `POST` to `/api/contact` by default. Netlify routes that same-origin path directly to `netlify/functions/contact.mjs`; a `VITE_CONTACT_ENDPOINT` override is only needed for local backend development. The browser sends no credential, arbitrary recipient, or sender. The endpoint accepts `Content-Type: application/json`, handles `OPTIONS`, and returns JSON. The server accepts the Netlify site's primary `URL` plus any exact extra origins listed in `ALLOWED_ORIGINS`; do not accept arbitrary origins.
 
 ```json
 {
@@ -45,7 +45,7 @@ All photo and brand files live in `public/images`. Reference them as `/images/..
 - The client times out after 15 seconds and does not retry automatically. The endpoint should support duplicate protection and short-lived request tracing. Do not log unnecessary personal details.
 - Validate and escape user text on the endpoint, enforce origin checks and rate/abuse limits, cap payload size, and fix the destinations to `quotes@totalmobileglass.com` and `amartin@totalmobileglass.com`. Send from the verified `amartin@totalmobileglass.com` domain address and use the validated customer email for reply-to only.
 
-The operator needs a Resend account, a private sending API key, and a verified `totalmobileglass.com` domain. Complete the required DNS verification and configure `Total Mobile Install <amartin@totalmobileglass.com>` as the sender. Keep the key in that trusted service's secret store. [Resend Node.js prerequisites](https://resend.com/docs/send-with-nodejs), [Resend verified domains](https://resend.com/docs/dashboard/domains/introduction)
+The operator needs a Resend account, a private sending API key, and a verified `totalmobileglass.com` domain. Complete the required DNS verification and configure `Total Mobile Install <amartin@totalmobileglass.com>` as the sender. Store the key in Netlify's server environment with Functions scope; never use a `VITE_` variable. [Resend Node.js prerequisites](https://resend.com/docs/send-with-nodejs), [Resend verified domains](https://resend.com/docs/dashboard/domains/introduction), [Netlify Functions environment variables](https://docs.netlify.com/build/functions/environment-variables/)
 
 The trusted service calls Resend's send-email API and handles its returned error or ID. A send API response is not evidence of final delivery. Any later delivery monitoring belongs to that service. [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email)
 
@@ -61,6 +61,6 @@ Without a CARTO key, MapLibre loads OpenStreetMap raster tiles and shows only Op
 
 ## Static hosting
 
-Run `npm ci`, then `npm run build`, and deploy the generated `dist` through the existing Sites workflow. The build prerenders known routes and a 404 page, with sitemap/robots/metadata; it retains the React application and adds no runtime backend. Configure static 404-page handling and retain the generated 301 redirects rather than a catch-all SPA 200 rewrite. `npm run preview` inspects the generated responses locally. See [SEO.md](SEO.md) for the canonical origin, Search Console token and indexing/access limitations.
+Run `npm ci`, then `npm run build`, and deploy the generated static pages together with the Netlify Function through a Git-connected Netlify deploy or the Netlify CLI. The build prerenders known routes and a 404 page, with sitemap/robots/metadata. Configure static 404-page handling and retain the generated 301 redirects rather than a catch-all SPA 200 rewrite. `npm run preview` inspects the generated static responses locally. See [NETLIFY_DEPLOY.md](NETLIFY_DEPLOY.md) and [SEO.md](SEO.md) for deployment and indexing details.
 
 Page copy is maintained in local `data.js` modules. Editing those files requires rebuilding and redeploying. Confirm the final domain before enabling canonical URLs; review the drafted FAQ, policy pages, claims, service availability, and testimonial permissions before public launch.

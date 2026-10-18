@@ -10,17 +10,17 @@ In Netlify, import `NezraDev/totalmobileinstall` as a new site or update the exi
 - Publish directory: `dist`
 - Node.js: 22
 
-The lockfile is committed, so Netlify installs the project's dependencies before building. Commit and push `netlify.toml` before redeploying so Netlify uses these settings.
+The lockfile is committed, so Netlify installs the project's dependencies before building. Commit and push `netlify.toml` and `netlify/functions/contact.mjs` before redeploying so Netlify publishes the site and function together.
 
-## Manual deploy
+## Deploy the site and function
 
-From the repository root, run `npm ci` and `npm run build`, then upload the generated `dist` directory as the published site. Do not upload the repository root, the `src` folder, or just `index.html`.
+Use a Git-connected Netlify deploy or the Netlify CLI so both the generated `dist` site and `netlify/functions/contact.mjs` are published. A drag-and-drop upload of `dist` alone does not include the email function.
 
 ## Set the production domain
 
 After Netlify assigns the site's public HTTPS URL, add `VITE_SITE_URL` in **Site configuration → Environment variables** with that exact origin, such as `https://your-site.netlify.app` (no path or trailing slash), then trigger a new deploy. Use your confirmed custom HTTPS domain instead if one is already connected. This keeps canonical links, structured data, Open Graph URLs, and `sitemap.xml` pointed at Netlify.
 
-To activate online service requests, set the public `VITE_CONTACT_ENDPOINT` to the actual HTTPS Render endpoint ending in `/api/contact`, then rebuild. Keep `RESEND_API_KEY` and `RESEND_FROM` only in Render's server environment. See [EMAIL_SETUP.md](EMAIL_SETUP.md).
+The booking form uses the same-origin `/api/contact` Netlify Function by default; no public endpoint URL is needed. In **Site configuration → Environment variables**, set `RESEND_API_KEY` to a fresh Resend sending key with Functions scope and set `RESEND_FROM` to `Total Mobile Install <amartin@totalmobileglass.com>`. Add any additional website origins to `ALLOWED_ORIGINS`; the function already allows Netlify's primary site URL. Save and redeploy. Do not put the Resend key in a `VITE_` variable or in `netlify.toml`. See [EMAIL_SETUP.md](EMAIL_SETUP.md).
 
 ## Check the deployed pages
 

@@ -3,6 +3,10 @@ import {
   createContactHandler,
   startContactServer,
 } from '../server/contact.mjs';
+import {
+  config as netlifyConfig,
+  createNetlifyContactHandler,
+} from '../netlify/functions/contact.mjs';
 
 const origin = 'https://website.test';
 const env = {
@@ -87,6 +91,22 @@ assert.match(
   calls[0].options.headers.Authorization,
   /^Bearer test-server-key$/,
 );
+assert.equal(netlifyConfig.path, '/api/contact');
+let netlifyPayload;
+const netlifyHandle = createNetlifyContactHandler({
+  env,
+  send: async (_url, options) => {
+    netlifyPayload = JSON.parse(options.body);
+    return Response.json({ id: 'mock-netlify-request' });
+  },
+});
+const netlifyResponse = await netlifyHandle(
+  request(),
+  { ip: '203.0.113.12' },
+);
+assert.equal(netlifyResponse.status, 202);
+assert.equal((await netlifyResponse.json()).requestId, 'mock-netlify-request');
+assert.equal(netlifyPayload.to[1], 'amartin@totalmobileglass.com');
 await handle(request(valid));
 assert.equal(
   calls[0].options.headers['Idempotency-Key'],

@@ -1,36 +1,33 @@
-# Direct service-request email
+# Service-request email on Netlify
 
-The booking form now uses **Send service request**, not an email draft. It only shows success after the backend receives a successful Resend response with an email ID. Provider acceptance does not confirm inbox delivery or an appointment.
-
-The existing Sites deployment is static. `server/contact.mjs` is a separate, dependency-free Node 22 service deployable on Render. No Render or Resend account credentials were supplied, so the backend is not live yet. The frontend intentionally disables sending while `VITE_CONTACT_ENDPOINT` is blank.
+The booking form sends requests to the same-origin `/api/contact` path. Netlify routes it to `netlify/functions/contact.mjs`, which calls Resend through the shared server-only handler in `server/contact.mjs`. The browser never receives the Resend key, and production does not need a separate backend URL.
 
 ## Activate
 
-1. Verify `totalmobileglass.com` in Resend and create a sending API key. Once the domain is verified, use `Total Mobile Install <amartin@totalmobileglass.com>` as the sender.
-2. Put this repository in a Git repository accessible to your Render account. Create a Blueprint from `render.yaml` (or a Node Web Service with build command `node --version`, start command `node server/contact.mjs`, and health path `/health`). The service root must contain `server/` and `src/`. Select the Render plan appropriate for the business; deployment may incur charges.
-3. In **Render → service → Environment**, set:
+1. In Resend, verify `totalmobileglass.com` and create a **Sending access** API key restricted to that domain. Revoke any key that was pasted into chat and use a fresh key. Resend displays a new key once, so copy it directly into Netlify; do not send it in chat or commit it to the repository.
+2. Deploy this repository to Netlify from GitHub or with the Netlify CLI so the site and function deploy together. A manual upload of only `dist` publishes the static pages but not the function.
+3. In **Netlify → Site configuration → Environment variables**, add:
 
-   | Server variable | Value |
+   | Variable | Value |
    | --- | --- |
-   | `RESEND_API_KEY` | Private Resend sending key; never use a `VITE_` prefix |
-   | `RESEND_FROM` | `Total Mobile Install <amartin@totalmobileglass.com>` (after domain verification) |
-   | `ALLOWED_ORIGINS` | Exact website origins separated by commas, without paths or trailing slashes. The Blueprint contains the existing Site origin. Add the custom domain if used. |
+   | `RESEND_API_KEY` | The private Resend sending key. Ensure its scope includes Functions (or all scopes). |
+   | `RESEND_FROM` | `Total Mobile Install <amartin@totalmobileglass.com>` after domain verification. |
+   | `ALLOWED_ORIGINS` | Optional additional exact site origins, comma-separated, without paths or trailing slashes. The function also accepts Netlify's primary `URL`. |
 
-4. Deploy the service and verify `/health` returns `{"ok":true}`. Health verifies the process, not credentials or deliverability.
-5. Set the website's public build value `VITE_CONTACT_ENDPOINT` to the service's actual HTTPS URL followed by `/api/contact`. Rebuild and publish the frontend. Do not place the server key in the website build settings.
-6. Submit one authorized real booking test and check Resend's delivery logs and the receiving mailbox. No real email was sent during automated verification.
+   Keep `RESEND_API_KEY` out of `netlify.toml`, `.env.example`, all `VITE_` variables, and the browser bundle. Netlify Functions read server variables from `process.env`; values defined in `netlify.toml` are not available to functions. [Netlify Functions environment variables](https://docs.netlify.com/build/functions/environment-variables/)
+4. Save the variables and trigger a new Netlify deploy. Confirm the deployment lists the `contact` function and that `/api/contact` is routed to it. The endpoint returns `405` for a GET request; that response confirms the path is live, not that Resend credentials or delivery work.
+5. Submit one authorized real test request and check Resend's logs and both receiving inboxes. No real email is sent by the automated checks.
 
-Each request notification is sent to **quotes@totalmobileglass.com** and **amartin@totalmobileglass.com**, from **Total Mobile Install <amartin@totalmobileglass.com>**. The customer's address is the reply-to address, so replying to the notification addresses the customer. Send that reply from the Amartin mailbox to ensure the reply comes from Amartin; Resend sends the notification but does not host or control either inbox. The server ignores arbitrary sender/recipient fields and returns no provider error details or secrets. No automatic customer confirmation email is sent.
+Each request notification goes to **quotes@totalmobileglass.com** and **amartin@totalmobileglass.com**, from **Total Mobile Install <amartin@totalmobileglass.com>**. The customer's address is the Reply-To address. Reply from the Amartin mailbox to send your response from Amartin; Resend sends notifications but does not host or control the inboxes. A successful API acceptance is not proof of inbox delivery or an appointment confirmation.
 
 ## Behavior and limits
 
-- Validates service and mobile/shop compatibility, field lengths/types, location and preferred dates again on the server.
-- Accepts JSON only, caps requests at 16 KB, checks the exact Origin, rejects filled honeypots, and times out provider calls after 10 seconds.
-- In-memory limits expire after 15 minutes: five attempts per customer email, plus 200 requests across a Render instance (20 per socket IP for local/other hosting). Render shares proxy socket addresses, so the server does not trust client-supplied forwarding headers. Origin checks are not authentication.
-- Identical normalized requests in the same 15-minute bucket share a Resend idempotency key. Retries across bucket boundaries may send again. No automatic retry is performed.
-- Limits reset on restart and are not shared between instances. The Blueprint specifies one instance. Add persistent/shared rate limiting and stronger bot protection if traffic requires scaling.
-- No customer records, credentials, or email bodies are logged or stored by this service. Resend handles email processing under the business's account.
+- The server revalidates service and mobile/shop compatibility, field types and lengths, location, and preferred dates.
+- Requests must be JSON, stay under 16 KB, pass exact-origin checks, and leave the anti-spam field empty. Provider calls time out after 10 seconds.
+- In-memory limits allow five requests per customer email and 20 requests per client IP per warm function instance in 15 minutes. Function instances can restart or scale independently, so these limits are best-effort rather than a shared global quota. Add shared rate limiting and stronger bot protection if traffic requires it.
+- Identical normalized requests in the same 15-minute window share a Resend idempotency key. Retries across windows may send again; automatic retry is disabled.
+- The service does not log or store customer records, credentials, or email bodies. Resend handles email processing under the business's account.
 
-Run `npm run test:email` for mocked provider tests and local HTTP health checks. Run `npm run start:email` with server environment values for local backend development. For local form testing, use a loopback endpoint in `VITE_CONTACT_ENDPOINT` and explicitly allow the local website origin in `ALLOWED_ORIGINS`.
+Run `npm run check` for content, integration, and mocked email checks, and `npm run build` for the production site. These checks do not send real email. For local backend development, run `npm run start:email` with `RESEND_API_KEY`, `RESEND_FROM`, and `ALLOWED_ORIGINS=http://localhost:5173`; set `VITE_CONTACT_ENDPOINT=http://localhost:3001/api/contact` in the local frontend environment. Keep the local endpoint setting out of production.
 
-Official references: [Resend email API](https://resend.com/docs/api-reference/emails/send-email), [Resend domain verification](https://resend.com/docs/dashboard/domains/introduction), [Render Node deployment](https://render.com/docs/deploy-node-express-app).
+Official references: [Resend email API](https://resend.com/docs/api-reference/emails/send-email), [Resend domain verification](https://resend.com/docs/dashboard/domains/introduction), [Netlify Functions](https://docs.netlify.com/build/functions/overview/), [Netlify Function environment variables](https://docs.netlify.com/build/functions/environment-variables/).

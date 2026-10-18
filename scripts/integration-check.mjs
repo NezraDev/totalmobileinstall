@@ -78,13 +78,14 @@ const valid = {
 
 try {
   await check(
-    'Unconfigured or insecure production endpoints cannot submit',
+    'Netlify same-origin endpoint works by default and insecure overrides are rejected',
     async () => {
-      for (const value of [
-        '',
-        'not a URL',
-        'http://contact.example.test/request',
-      ]) {
+      const production = await loadIntegration('emailClient', {
+        VITE_CONTACT_ENDPOINT: '',
+      });
+      assert.equal(production.CONTACT_ENDPOINT, '/api/contact');
+      assert.equal(production.isContactConfigured(), true);
+      for (const value of ['not a URL', 'http://contact.example.test/request']) {
         const client = await loadIntegration('emailClient', {
           VITE_CONTACT_ENDPOINT: value,
         });
@@ -94,6 +95,10 @@ try {
           (error) => error.code === 'unconfigured',
         );
       }
+      const unconfiguredDev = await loadIntegration('emailClient', {
+        DEV: true,
+      });
+      assert.equal(unconfiguredDev.isContactConfigured(), false);
       const local = await loadIntegration('emailClient', {
         DEV: true,
         VITE_CONTACT_ENDPOINT: 'http://localhost:4444/contact',

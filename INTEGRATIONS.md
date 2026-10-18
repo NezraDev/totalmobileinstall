@@ -43,9 +43,9 @@ All photo and brand files live in `public/images`. Reference them as `/images/..
 - Validation: HTTP `400` or `422`, `{"accepted":false,"fieldErrors":{"email":"Enter a valid email address."}}`.
 - Rate limit: HTTP `429`, `{"accepted":false}`. Other failures: non-2xx JSON with `accepted:false`. A malformed body or 2xx response without `accepted:true` is treated as failure.
 - The client times out after 15 seconds and does not retry automatically. The endpoint should support duplicate protection and short-lived request tracing. Do not log unnecessary personal details.
-- Validate and escape user text on the endpoint, enforce origin checks and rate/abuse limits, cap payload size, and fix the destination to `quotes@totalmobileglass.com`. Use the validated customer email for reply-to only.
+- Validate and escape user text on the endpoint, enforce origin checks and rate/abuse limits, cap payload size, and fix the destinations to `quotes@totalmobileglass.com` and `amartin@totalmobileglass.com`. Send from the verified `amartin@totalmobileglass.com` domain address and use the validated customer email for reply-to only.
 
-The operator needs a Resend account, a private sending API key, and a verified domain they control. Complete the required DNS verification and configure a sender on that domain; no sender address has been invented here. Keep the key in that trusted service's secret store. [Resend Node.js prerequisites](https://resend.com/docs/send-with-nodejs), [Resend verified domains](https://resend.com/docs/dashboard/domains/introduction)
+The operator needs a Resend account, a private sending API key, and a verified `totalmobileglass.com` domain. Complete the required DNS verification and configure `Total Mobile Install <amartin@totalmobileglass.com>` as the sender. Keep the key in that trusted service's secret store. [Resend Node.js prerequisites](https://resend.com/docs/send-with-nodejs), [Resend verified domains](https://resend.com/docs/dashboard/domains/introduction)
 
 The trusted service calls Resend's send-email API and handles its returned error or ID. A send API response is not evidence of final delivery. Any later delivery monitoring belongs to that service. [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email)
 

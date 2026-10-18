@@ -148,7 +148,7 @@ export function createContactHandler({
         },
         body: JSON.stringify({
           from: env.RESEND_FROM,
-          to: ['quotes@totalmobileglass.com'],
+          to: ['quotes@totalmobileglass.com', 'amartin@totalmobileglass.com'],
           reply_to: values.email,
           subject: `Service request: ${service.name}`,
           text,

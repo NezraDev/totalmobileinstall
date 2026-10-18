@@ -12,6 +12,6 @@ services:
       - key: RESEND_API_KEY
         sync: false
       - key: RESEND_FROM
-        sync: false
+        value: "Total Mobile Install <amartin@totalmobileglass.com>"
       - key: ALLOWED_ORIGINS
         value: https://total-mobile-install-2026.nuttypika64.chatgpt.site

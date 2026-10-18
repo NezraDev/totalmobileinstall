@@ -9,7 +9,7 @@ import {
 import { services } from '../src/content/services.js';
 
 export const RESEND_FROM =
-  'Total Mobile Install <amartin@totalmobileglass.com>';
+  'Total Mobile Install <amartin@totalmobileinstall.com>';
 
 // No browser bundle imports this file. Credentials and routing stay server-side.
 export function createContactHandler({

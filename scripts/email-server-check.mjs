@@ -108,7 +108,7 @@ assert.deepEqual(payload.to, [
 ]);
 assert.equal(
   RESEND_FROM,
-  'Total Mobile Install <amartin@totalmobileglass.com>',
+  'Total Mobile Install <amartin@totalmobileinstall.com>',
 );
 assert.equal(payload.from, RESEND_FROM);
 assert.equal(payload.reply_to, valid.email);

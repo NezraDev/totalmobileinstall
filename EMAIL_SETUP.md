@@ -4,7 +4,7 @@ The booking form sends requests to the same-origin `/api/contact` path. Netlify 
 
 ## Activate
 
-1. In Resend, add and verify **`totalmobileglass.com`**. Add the DNS records Resend generates for this exact domain to the authoritative DNS zone for **`totalmobileglass.com`**. Use the exact record names and values shown in Resend. After Resend marks `totalmobileglass.com` **Verified**, the sender will be `Total Mobile Install <amartin@totalmobileglass.com>`. Create a **Sending access** API key scoped to the verified domain. Revoke any key that was pasted into chat and use a fresh key. Resend displays a new key once, so copy it directly into Netlify; do not send it in chat or commit it to the repository.
+1. In Resend, use the verified domain **`totalmobileinstall.com`** and add its generated DNS records to the authoritative DNS zone for **`totalmobileinstall.com`**. Use the exact record names and values shown in Resend. The sender will be `Total Mobile Install <amartin@totalmobileinstall.com>`. Create a **Sending access** API key scoped to `totalmobileinstall.com`. Revoke any key that was pasted into chat and use a fresh key. Resend displays a new key once, so copy it directly into Netlify; do not send it in chat or commit it to the repository.
 2. Deploy this repository to Netlify from GitHub or with the Netlify CLI so the site and function deploy together. A manual upload of only `dist` publishes the static pages but not the function.
 3. In **Netlify → Site configuration → Environment variables**, add:
 
@@ -13,11 +13,11 @@ The booking form sends requests to the same-origin `/api/contact` path. Netlify 
    | `RESEND_API_KEY` | The private Resend sending key. Ensure its scope includes Functions (or all scopes). |
    | `ALLOWED_ORIGINS` | Optional additional exact site origins, comma-separated, without paths or trailing slashes. The function also accepts Netlify's primary `URL`. |
 
-   The server code sets the sender to `Total Mobile Install <amartin@totalmobileglass.com>`; you do not need a `RESEND_FROM` variable. Keep `RESEND_API_KEY` out of `netlify.toml`, `.env.example`, all `VITE_` variables, and the browser bundle. Netlify Functions read server variables from `process.env`; values defined in `netlify.toml` are not available to functions. [Netlify Functions environment variables](https://docs.netlify.com/build/functions/environment-variables/)
+   The server code sets the sender to `Total Mobile Install <amartin@totalmobileinstall.com>`; you do not need a `RESEND_FROM` variable. Keep `RESEND_API_KEY` out of `netlify.toml`, `.env.example`, all `VITE_` variables, and the browser bundle. Netlify Functions read server variables from `process.env`; values defined in `netlify.toml` are not available to functions. [Netlify Functions environment variables](https://docs.netlify.com/build/functions/environment-variables/)
 4. Save the variables and trigger a new Netlify deploy. Confirm the deployment lists the `contact` function and that `/api/contact` is routed to it. The endpoint returns `405` for a GET request; that response confirms the path is live, not that Resend credentials or delivery work.
 5. Submit one authorized real test request and check Resend's logs and both receiving inboxes. No real email is sent by the automated checks.
 
-Each request notification goes to the existing inboxes **quotes@totalmobileglass.com** and **amartin@totalmobileglass.com**. Those recipient addresses remain unchanged. Its From address is `Total Mobile Install <amartin@totalmobileglass.com>`; Resend must mark `totalmobileglass.com` **Verified** before it can accept that sender. The customer's address is the Reply-To address. Reply from the Amartin mailbox to send your response from that mailbox; Resend sends notifications but does not host or control the inboxes. A successful API acceptance is not proof of inbox delivery or an appointment confirmation.
+Each request notification goes to the existing inboxes **quotes@totalmobileglass.com** and **amartin@totalmobileglass.com**. Those recipient addresses remain unchanged. Its From address is `Total Mobile Install <amartin@totalmobileinstall.com>`; Resend must mark `totalmobileinstall.com` **Verified** and the API key must be authorized for it. The customer's address is the Reply-To address. Reply from the Amartin mailbox to send your response from that mailbox; Resend sends notifications but does not host or control the inboxes. A successful API acceptance is not proof of inbox delivery or an appointment confirmation.
 
 ## Behavior and limits
 

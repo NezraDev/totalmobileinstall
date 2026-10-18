@@ -9,6 +9,7 @@ import {
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import SiteMotion from '../components/layout/SiteMotion';
+import Chatbot from '../components/layout/Chatbot';
 import Home from '../pages/Home/Home';
 import { ui } from '../content/navigation';
 const Services = lazy(() => import('../pages/Services/Services'));
@@ -88,6 +89,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <SiteContent />
+      <Chatbot />
     </BrowserRouter>
   );
 }

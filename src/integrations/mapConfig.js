@@ -95,7 +95,7 @@ export function transformCartoRequest(url) {
   }
 }
 
-export const directionsUrl = 'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A';
+export const directionsUrl = business.directionsUrl;
 
 export const mapConfig = Object.freeze({
   configured: true,

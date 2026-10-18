@@ -13,6 +13,7 @@ import './styles/comparison-controls.css';
 import './styles/spacing.css';
 import './styles/map.css';
 import './styles/motion.css';
+import './styles/chatbot.css';
 import App from './app/App';
 
 const application = (

@@ -41,6 +41,29 @@ assert.equal(await desktop.locator('.section-soft .service-card').count(), 6);
 await desktop.screenshot({ path: `${out}/desktop.png`, fullPage: true });
 assert.equal(await desktop.locator('.photo-hero button').count(), 0);
 assert.equal(await desktop.locator('.hero-slide-progress span').count(), 5);
+await desktop.getByRole('button', { name: 'Open TMI Quick Answers' }).click();
+const desktopChat = desktop.getByRole('dialog');
+await desktopChat
+  .getByRole('textbox', { name: 'Ask a question' })
+  .fill('How do you repair windshield cracks?');
+await desktopChat.getByRole('button', { name: 'Send question' }).click();
+const desktopChatAnswer = desktop
+  .locator('.tmi-chat-message.is-assistant')
+  .last();
+await desktopChatAnswer.waitFor();
+assert.ok((await desktopChatAnswer.innerText()).includes('under 30 minutes'));
+assert.ok(
+  await desktopChatAnswer.evaluate((answer) => {
+    const log = answer.closest('.tmi-chat-log');
+    return (
+      Math.abs(
+        answer.getBoundingClientRect().top - log.getBoundingClientRect().top,
+      ) < 28
+    );
+  }),
+  'Long chatbot answers should start in view instead of opening at their clipped end.',
+);
+await desktop.getByRole('button', { name: 'Close chat' }).click();
 const firstPair = await desktop.locator('.transformation-top h3').innerText();
 await desktop
   .getByRole('button', { name: 'Next transformation', exact: true })
@@ -163,7 +186,7 @@ assert.ok(detailingCopy.includes('2642 Tulane Ave'));
 assert.ok(detailingCopy.includes('shop-only'));
 await desktop.goto(`${baseUrl}/service-areas`, { waitUntil: 'networkidle' });
 const coverageCopy = await desktop.locator('main').innerText();
-assert.ok(coverageCopy.includes('40-mile service radius'));
+assert.ok(coverageCopy.includes('40-mile mobile service radius'));
 assert.ok(coverageCopy.includes('North Shore'));
 assert.equal(await desktop.locator('.location-map--coverage').count(), 1);
 assert.ok(
@@ -220,9 +243,7 @@ assert.equal(
   1,
 );
 assert.ok(
-  await desktop
-    .getByText('Online form delivery is not connected yet')
-    .isVisible(),
+  await desktop.getByText('Online requests are not available yet').isVisible(),
 );
 const modeSelect = desktop.getByLabel('Preferred service mode');
 assert.equal(await modeSelect.inputValue(), 'mobile');
@@ -315,7 +336,7 @@ for (const detail of [
   '25% visible-light transmission',
   '12% on the rearmost window',
   'lifetime warranty',
-  '40-mile radius',
+  'within 40 miles',
   'daily drivers to exotics',
 ]) {
   assert.ok(
@@ -354,6 +375,29 @@ mobile.on('pageerror', (e) => problems.push(e.message));
 await mobile.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
 await settlePhotos(mobile);
 await mobile.screenshot({ path: `${out}/mobile.png`, fullPage: true });
+await mobile.getByRole('button', { name: 'Open TMI Quick Answers' }).click();
+const mobileChat = mobile.getByRole('dialog');
+await mobileChat
+  .getByRole('textbox', { name: 'Ask a question' })
+  .fill('How do you repair windshield cracks?');
+await mobileChat.getByRole('button', { name: 'Send question' }).click();
+const mobileChatAnswer = mobile
+  .locator('.tmi-chat-message.is-assistant')
+  .last();
+await mobileChatAnswer.waitFor();
+assert.ok((await mobileChatAnswer.innerText()).includes('under 30 minutes'));
+assert.ok(
+  await mobileChatAnswer.evaluate((answer) => {
+    const log = answer.closest('.tmi-chat-log');
+    return (
+      Math.abs(
+        answer.getBoundingClientRect().top - log.getBoundingClientRect().top,
+      ) < 28
+    );
+  }),
+  'Long chatbot answers should start in view on mobile.',
+);
+await mobile.getByRole('button', { name: 'Close chat' }).click();
 await mobile
   .getByRole('button', { name: 'Open navigation', exact: true })
   .click();

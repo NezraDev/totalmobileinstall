@@ -15,7 +15,7 @@ function ProjectPopup({ project }) {
   return (
     <div className="project-map-popup">
       <span className="project-map-popup__eyebrow">
-        Selected project · New Orleans portfolio
+        Selected project · New Orleans
       </span>
       <strong>{project.title}</strong>
       <span className="project-map-popup__service">{project.service}</span>
@@ -29,7 +29,7 @@ function ProjectPopup({ project }) {
           <figcaption>After</figcaption>
         </figure>
       </div>
-      <small>Portfolio area only. Exact client locations are not shown.</small>
+      <small>General project area only; client addresses are not shown.</small>
     </div>
   );
 }
@@ -144,9 +144,9 @@ export default function ProjectsMap({ selectedProject }) {
         markerElement.className = 'projects-map-marker';
         markerElement.setAttribute(
           'aria-label',
-          `Open selected project proof from ${beforeAfter.length} supplied projects in the New Orleans portfolio`,
+          `Open project photos from ${beforeAfter.length} New Orleans projects`,
         );
-        markerElement.title = 'Open selected project proof';
+        markerElement.title = 'Open project photos';
         markerRoot = createRoot(markerElement);
         markerRoot.render(
           <>
@@ -241,8 +241,8 @@ export default function ProjectsMap({ selectedProject }) {
         {state === 'error' && (
           <div className="projects-map__fallback" role="status">
             <CarFront size={30} aria-hidden="true" />
-            <strong>Explore the New Orleans portfolio area</strong>
-            <span>The project proof remains available below the map.</span>
+            <strong>Explore New Orleans project areas</strong>
+            <span>Project photos are available below the map.</span>
             <a
               href={openStreetMapUrl}
               target="_blank"
@@ -257,7 +257,7 @@ export default function ProjectsMap({ selectedProject }) {
             <CarFront size={17} />
           </span>
           <span>
-            <strong>New Orleans portfolio area</strong>
+            <strong>New Orleans project area</strong>
             <small>{beforeAfter.length} photo-documented projects</small>
           </span>
         </div>

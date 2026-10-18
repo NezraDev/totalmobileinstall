@@ -25,7 +25,7 @@ export default function FAQ() {
             ))}
           </div>
           <div className="notice">
-            <h2>Explore the service behind your question</h2>
+            <h2>Explore related services</h2>
             <p>
               Compare{' '}
               <Link className="text-link" to="/services/auto-glass-repair">

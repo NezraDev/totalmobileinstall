@@ -33,7 +33,7 @@ export default function Projects() {
         <div className="container">
           <div className="section-heading projects-gallery-heading">
             <div>
-              <span className="eyebrow">Matched photo proof</span>
+              <span className="eyebrow">Before-and-after photos</span>
               <h2>{data.projectsHeading}</h2>
               <p>{data.projectsDescription}</p>
             </div>

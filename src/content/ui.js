@@ -1,27 +1,25 @@
 export const formCopy = {
   title: 'Tell us about your vehicle.',
-  description:
-    'Share a few details. Our team will follow up to confirm the service, location, and timing.',
-  emailFallbackTitle: 'Online form delivery is not connected yet',
-  emailFallbackDescription:
-    'Please call or email us while online sending is being connected.',
+  description: 'Share your vehicle details and choose the service you need.',
+  emailFallbackTitle: 'Online requests are not available yet',
+  emailFallbackDescription: 'Please call or email us to request service.',
   labels: {
     fullName: 'Full name',
     phone: 'Phone',
-    email: 'Email',
+    email: 'Email address',
     serviceId: 'Service needed',
     vehicle: 'Vehicle year, make, and model',
     serviceMode: 'Preferred service mode',
     location: 'Service address or ZIP code',
     preferredDate: 'Preferred date (optional)',
-    message: 'Tell us about the issue (optional)',
+    message: 'Anything else we should know? (optional)',
     detailType: 'Detailing service',
     website: 'Website',
   },
   selectService: 'Select a service',
   selectMode: 'Select a service mode',
   vehicleHint: 'For example: 2022 Toyota Camry',
-  locationHint: 'For mobile service within our 40-mile New Orleans radius',
+  locationHint: 'For mobile service within 40 miles of our New Orleans shop',
   dateHint:
     'Requested date only. Times are confirmed by the team in Central Time.',
   required: 'Fields marked * are required.',
@@ -45,7 +43,7 @@ export const formCopy = {
   modeNote:
     'Choose Mobile Service or Shop. Your preference is a request; our team will confirm availability.',
   validationSummary: 'Please check the highlighted fields.',
-  privacyLabel: 'Privacy information',
+  privacyLabel: 'Privacy Policy',
   dateError: 'Choose today or a future date.',
 };
 export const mapCopy = {
@@ -54,7 +52,7 @@ export const mapCopy = {
   loading: 'Loading location map…',
   unavailable: 'Find our shop',
   fallback:
-    'Use directions to plan your visit, or call to confirm the right service location.',
+    'View the shop address and directions below, or call us if you need help choosing a service location.',
   error:
     'The interactive map is unavailable. The address and directions are still available below.',
   attribution: '\u00a9 CARTO \u00b7 \u00a9 OpenStreetMap contributors',
@@ -78,7 +76,7 @@ export const transformationCopy = {
 export const ctaCopy = {
   title: 'Your next clear view starts here.',
   description:
-    'At your door or in our shop. Let’s find the right service for your vehicle.',
+    'Request mobile service or ask about an in-shop visit. We’ll help you choose the right option for your vehicle.',
   action: 'Book Mobile Service',
   call: 'Call 1-504-207-7742',
 };

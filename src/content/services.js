@@ -90,7 +90,7 @@ export const services = [
     modes: ['mobile', 'shop'],
     points: [
       'Static and dynamic calibrations',
-      'OEM targets and scan tooling',
+      'OEM calibration targets and scan tools',
       'Pre- and post-scan reports included',
       'Domestic, European, and Asian makes',
     ],
@@ -104,9 +104,9 @@ export const services = [
     short: 'Comfort, clarity, and a clean finish.',
     detailHeading: 'Premium Ceramic Window Tinting',
     description:
-      'Stay cool in the Louisiana sun with ceramic films that reject heat and up to 99% of UV rays without interfering with vehicle electronics.',
+      'Stay cool in the Louisiana sun with ceramic films that reject heat and block up to 99% of UV rays without interfering with vehicle electronics.',
     detail:
-      'Choose from ceramic and carbon film options. We use computer-cut patterns for clean edges, and the film warranty covers bubbling, peeling, or fading for life.',
+      'Choose from ceramic and carbon film options. We use computer-cut patterns for clean edges, and the lifetime film warranty covers bubbling, peeling, or fading.',
     imageKey: 'tint',
     modes: ['shop'],
     points: [
@@ -144,8 +144,8 @@ export const services = [
     specialtyId: 'auto-glass',
     name: 'Side & Rear Glass Replacement',
     short: 'Put broken glass behind you.',
-    detailHeading: 'Side and Rear Window Glass',
-    description: 'Replacement for door, quarter, and rear window glass.',
+    detailHeading: 'Side and rear window glass replacement',
+    description: 'We replace door, quarter, and rear window glass.',
     detail:
       'Tell us which window is damaged and share your vehicle details. Our team will confirm the correct glass, service location, and next steps.',
     imageKey: 'rearGlass',

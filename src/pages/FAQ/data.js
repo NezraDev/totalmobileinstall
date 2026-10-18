@@ -52,7 +52,7 @@ export const data = {
       id: 'mobile',
       question: 'Can you service vehicles at my office?',
       answer:
-        'Absolutely. We serve homes, offices, fleet yards, and dealerships within a 40-mile radius of New Orleans. We bring power and protective covers, so you do not have to lift a finger.',
+        'Absolutely. We serve homes, offices, fleet yards, and dealerships within 40 miles of our shop at 2642 Tulane Ave. We bring power and protective covers, so you do not have to lift a finger. Contact us to confirm availability for your ZIP code.',
     },
     {
       id: 'vehicles',

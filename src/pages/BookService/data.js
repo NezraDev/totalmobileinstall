@@ -12,10 +12,10 @@ export const data = {
   eyebrow: 'Your next step to a clearer drive',
   title: 'Let us take care of it.',
   description:
-    'Tell us about your vehicle and the service you need. Your request goes to our team to review and confirm.',
+    'Tell us what your vehicle needs. Our team can help confirm the service and next steps.',
   formHeading: 'Request your service',
   formDescription:
-    'A few details help us understand what your vehicle needs. Your preferred date is a request, and we will confirm your appointment directly.',
+    'A few details help us understand what your vehicle needs. Your preferred date is a request; our team will confirm the appointment time with you.',
   image: photos.glassWork,
   helpHeading: 'Prefer a conversation?',
   helpCopy:
@@ -25,7 +25,7 @@ export const data = {
   email: business.email,
   hoursHeading: 'Business hours',
   hours: business.hours,
-  timezoneNote: 'New Orleans time (America/Chicago).',
+  timezoneNote: 'Hours are listed in New Orleans local time (Central Time).',
   detailingNote:
     'Mobile detailing covers interior and hand-wash services. Paint correction, polishing, and ceramic coating are shop-only.',
 };

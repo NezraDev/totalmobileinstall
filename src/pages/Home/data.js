@@ -10,7 +10,7 @@ export const data = {
     title: ['Windshield Repair,', 'At Your Door.'],
     label: 'New Orleans · Mobile & in-shop services',
     description:
-      'Expert auto glass care, wherever your vehicle lives. A local, family-owned team with precision in every detail.',
+      'Auto glass, calibration, tint, and detailing from a local, family-owned team. We bring eligible services to your home or workplace.',
     primary: 'Book Mobile Service',
     secondary: 'Call 1-504-207-7742',
     note: 'Your vehicle. Your place. Our precision.',
@@ -37,7 +37,7 @@ export const data = {
         id: 'experience',
         value: 9,
         suffix: '+',
-        label: 'Years serving NOLA',
+        label: 'Years serving New Orleans',
         detail: 'Local roots. Lasting care.',
       },
       {
@@ -76,16 +76,16 @@ export const data = {
   about: {
     title: 'Family-owned care. A higher standard.',
     description:
-      'Total Mobile Install Auto Glass & Tint has proudly served New Orleans and surrounding communities for more than nine years. We’re a family-operated business focused on precision, safety, and showroom-quality results, delivered to wherever your vehicle lives.',
+      'Total Mobile Install Auto Glass & Tint has proudly served New Orleans and surrounding communities for more than nine years. We’re a family-operated business focused on precision, safety, and showroom-quality results for your vehicle.',
     secondary:
-      'From windshield replacements and ADAS calibration to window tinting and detailing, we put care into every step.',
+      'From windshield and side or rear glass to calibration, tint, and detailing, we put care into every step.',
     image: photos.redCorvette,
     caption: 'A little extra care. A lot of pride in the finish.',
     action: 'Get to know our team',
     stats: [
-      { value: '9+', label: 'Years serving NOLA' },
-      { value: 'Family', label: 'Owned & operated' },
-      { value: 'Your place', label: 'Or our New Orleans shop' },
+      { value: '9+', label: 'Years serving New Orleans' },
+      { value: 'Family-owned', label: 'Locally operated' },
+      { value: 'Mobile or in-shop', label: 'Service to fit the work' },
     ],
   },
   services: {
@@ -203,7 +203,7 @@ export const data = {
   contact: {
     title: 'Let’s get you a clearer view.',
     description:
-      'Tell us about your vehicle. Our team will help you find the right service and confirm the next steps.',
+      'Tell us what your vehicle needs. Our team can help you choose a service and confirm the next steps.',
     phoneLabel: 'Give us a call',
     emailLabel: 'Send us a note',
     addressLabel: 'Find our shop',

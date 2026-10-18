@@ -12,7 +12,7 @@ const origin = 'https://website.test';
 const env = {
   ALLOWED_ORIGINS: origin,
   RESEND_API_KEY: 'test-server-key',
-  RESEND_FROM: 'Total Mobile Install <amartin@totalmobileglass.com>',
+  RESEND_FROM: 'Total Mobile Install <amartin@service.totalmobileglass.com>',
 };
 const valid = {
   schemaVersion: 1,

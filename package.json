@@ -11,7 +11,7 @@
     "test:seo-browser": "node scripts/seo-browser-check.mjs",
     "check": "node scripts/check-content.mjs && node scripts/integration-check.mjs && npm run test:email && npm run test:chatbot",
     "test:browser": "node scripts/browser-check.mjs",
-    "start:email": "node server/contact.mjs",
+    "start:email": "node --env-file-if-exists=.env.local server/contact.mjs",
     "test:email": "node scripts/email-server-check.mjs",
     "test:chatbot": "node scripts/chatbot-check.mjs"
   },

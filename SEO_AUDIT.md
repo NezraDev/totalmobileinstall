@@ -8,7 +8,7 @@ Scope: source, production build output, browser behavior, and the anonymous publ
 
 - Canonicals, Open Graph URLs, business schema, robots.txt, and sitemap now use `https://totalmobileinstall.com` by default. `netlify.toml` fixes the canonical build origin as well.
 - Server prerender and browser hydration render the same site content, including the chatbot. The chatbot is lazy-loaded into its own browser chunk.
-- Forced clean-URL redirects cover `/index.html` and `*.html`; local preview and SEO checks exercise representative aliases and real 404 responses.
+- The build emits forced clean-URL redirects for `/index.html` and every prerendered `.html` alias. Netlify does not support the earlier `/*.html` middle-wildcard pattern, so each route now receives an exact rule.
 - Unverified awards, satisfaction guarantees, 10K+ vehicle counts, certification claims, lifetime warranty terms, and fixed arrival estimates no longer appear as public promises. Warranty and arrival answers now tell customers to confirm service-specific details with the team.
 - Removed the remaining visible certification and dealership-grade wording, unsupported 99% UV and repair-time claims, and dust-free/climate-stable finish claims. Service pages keep the actual service names and New Orleans relevance.
 - Each of the six New Orleans service pages now includes service-specific questions and useful internal links. Project cards include grounded descriptions of the supplied photo pairs and link to the matching service page. Project locations and customer details remain private.
@@ -26,11 +26,9 @@ Scope: source, production build output, browser behavior, and the anonymous publ
 
 ## Production and account tasks
 
-The production website is public, but it has **not yet received this working-tree build**. A current public crawl still shows the unconfirmed 10K+ vehicle count and award/quality/satisfaction badges on the homepage. Confirm that the existing `quotes@totalmobileglass.com` contact address is still correct; the owner confirmed the canonical website domain and shop address, not a replacement email. Production canonical, sitemap, redirects, and host-level 404 behavior must be checked after deployment.
+Commit `8ef0dc0` was pushed to `main` and is live on Netlify. Cache-bypass checks confirmed the homepage canonical is `https://totalmobileinstall.com/`, the live sitemap has 15 URLs all on that domain, robots.txt points to the correct sitemap, and the homepage no longer shows the unconfirmed 10K+ figure or award/quality/satisfaction badges. The live `.html` aliases still returned 200 during testing; the exact-rule fix in this follow-up needs a new deploy and live recheck. Confirm whether `quotes@totalmobileglass.com` remains the correct public email; the owner confirmed the canonical domain and shop address, not an email change.
 
-The repository remote points to GitHub, but this workspace has no Netlify site link or Netlify CLI, and `.git` is read-only here. No commit or deployment was made. Publish the reviewed repository through its Git-connected Netlify site or an authorized deployment environment before expecting the live pages to reflect these fixes.
-
-Search Console ownership, sitemap submission, and page-indexing status require access to the owner's Google account; none has been claimed. Google Business Profile verification, categories, live address, and coverage should also be confirmed in that account. Field Core Web Vitals have not been measured; check PageSpeed Insights and Search Console after deployment and real-user traffic.
+The owner has begun Search Console setup and reported the prior sitemap's 15 old-domain URL errors. After the redirect-fix deploy, resubmit `sitemap.xml` and inspect the homepage and service pages. Google Business Profile categories, business verification, and service coverage still need review in the owner's account. Field Core Web Vitals have not been measured; check PageSpeed Insights and Search Console after the latest deployment and real-user traffic.
 
 Privacy Policy and Terms pages remain `noindex` because approved business and data-handling terms were not supplied. Keep them out of the sitemap until accurate, approved copy replaces the notices.
 
@@ -42,3 +40,4 @@ Keyword stuffing was not added. The pages target the genuine services and New Or
 - [Google canonical guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)
 - [Google local ranking guidance](https://support.google.com/business/answer/7091)
 - [Netlify environment variable precedence](https://docs.netlify.com/build/environment-variables/overview/)
+- [Netlify redirect options and wildcard limits](https://docs.netlify.com/manage/routing/redirects/redirect-options/)

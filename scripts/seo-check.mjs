@@ -153,6 +153,10 @@ assert.ok(
     '/* /index.html 200',
   ),
 );
+assert.ok(
+  !(await fs.readFile('dist/_redirects', 'utf8')).includes('/*.html'),
+  'Netlify does not support wildcards in the middle of a path segment',
+);
 assert.equal(
   JSON.parse(await fs.readFile('.openai/hosting.json', 'utf8')).static
     .not_found_handling,
@@ -191,6 +195,7 @@ try {
   for (const [from, to] of [
     ['/home-service', '/our-work'],
     ['/services/', '/services'],
+    ['/services.html', '/services'],
     ['/contact.html', '/contact'],
     ['/services/window-tinting.html', '/services/window-tinting'],
     ['/index.html', '/'],

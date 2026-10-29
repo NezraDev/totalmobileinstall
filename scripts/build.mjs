@@ -73,12 +73,16 @@ await fs.writeFile(
   `User-agent: *\nAllow: /\n\nSitemap: ${site.canonicalBase}/sitemap.xml\n`,
 );
 const redirects = await fs.readFile('public/_redirects', 'utf8');
+const flatHtmlRedirects = pageRoutes
+  .map(({ path }) => `${path === '/' ? '/index.html' : `${path}.html`} ${path} 301!`)
+  .join('\n');
+const cleanRouteRedirects = pageRoutes
+  .filter(({ path }) => path !== '/')
+  .map(({ path }) => `${path}/ ${path} 301\n${path}/index.html ${path} 301`)
+  .join('\n');
 await fs.writeFile(
   'dist/_redirects',
-  `${redirects.trim()}\n${pageRoutes
-    .filter(({ path }) => path !== '/')
-    .map(({ path }) => `${path}/ ${path} 301\n${path}/index.html ${path} 301`)
-    .join('\n')}\n`,
+  `${redirects.trim()}\n${flatHtmlRedirects}\n${cleanRouteRedirects}\n`,
 );
 await fs.writeFile(
   'dist/_headers',

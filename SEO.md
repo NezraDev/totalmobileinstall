@@ -14,13 +14,13 @@ The business source of truth is `src/content/business.js`: the supplied Tulane A
 
 ## Hosting and HTTP behavior
 
-Deploy the full generated `dist` from this repository through its production host. `.openai/hosting.json` configures a separate, owner-only ChatGPT preview and does not control `totalmobileinstall.com`. Flat route files such as `about.html` and `services/window-tinting.html` contain prerendered content. `_redirects` declares the legacy `/home-service` redirect and forced `.html` to clean-URL redirects, including `/index.html` to `/`. `netlify.toml` holds the approved canonical origin if the production host is Netlify. Confirm actual host redirects and 404 handling after deployment.
+Deploy the full generated `dist` from this repository through its production host. `.openai/hosting.json` configures a separate, owner-only ChatGPT preview and does not control `totalmobileinstall.com`. Flat route files such as `about.html` and `services/window-tinting.html` contain prerendered content. The build generates exact forced 301 redirects for every route's `.html` alias and `_redirects` declares the legacy `/home-service` redirect. Netlify does not support a wildcard in the middle of a path segment, so do not use a pattern such as `/*.html`. `netlify.toml` holds the approved canonical origin if the production host is Netlify. Confirm actual host redirects and 404 handling after deployment.
 
 `npm run preview -- --port 4174` serves the built output locally and exercises declared clean routes, 301s, and 404s. It does not prove CDN behavior. During the 2026-10-29 audit, `https://totalmobileinstall.com` returned public 200 responses for the sitemap routes. Confirm redirect and 404 behavior again after deployment. The separate ChatGPT preview is private; it is not the approved canonical website. Robots.txt is not access control.
 
 ## Search Console
 
-1. After approving a public launch, select the deployed HTTPS URL-prefix property in Google Search Console. Domain verification for a custom domain requires DNS access.
+1. Select the deployed HTTPS URL-prefix property in Google Search Console, or verify the Domain property using DNS. Domain verification for a custom domain requires DNS access.
 2. Set `VITE_GOOGLE_SITE_VERIFICATION` to the public HTML-tag token supplied by Search Console and rebuild/deploy. This token is intentionally public; never substitute an API key or account credential. Alternatively, use the account's DNS verification method without code changes.
 3. Verify ownership in Search Console, then submit `sitemap.xml` at the configured origin. The sitemap contains only canonical, indexable routes, with no query variants or fabricated modification dates.
 4. Inspect the homepage and representative service pages. Check the live canonical, rendered content, indexing status, and Core Web Vitals after traffic data becomes available. No Search Console account verification or sitemap submission has been claimed.

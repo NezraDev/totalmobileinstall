@@ -26,6 +26,26 @@ for (const route of [...report.routes, { ...report.notFound, path: '/404' }]) {
   const file =
     route.path === '/' ? 'dist/index.html' : `dist${route.path}.html`;
   const html = await fs.readFile(file, 'utf8');
+  const visibleClaimsToConfirm = [
+    '10k+',
+    'certified, family-owned care',
+    'certified technicians',
+    'dealership-grade work',
+    'dealership-grade care',
+    '100% customer satisfaction guaranteed',
+    'premium quality guaranteed',
+    'awarded best service provider',
+    'lifetime leak warranty',
+    'lifetime film warranty',
+    'up to 99% uv rejection',
+    'under 30 minutes',
+    'showroom-quality results',
+  ];
+  for (const claim of visibleClaimsToConfirm)
+    assert.ok(
+      !html.toLowerCase().includes(claim),
+      `Unconfirmed claim is not visible: ${claim} (${route.path})`,
+    );
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `One H1: ${route.path}`);
   assert.equal(
     (html.match(/<title\b/g) || []).length,
@@ -172,6 +192,7 @@ try {
     ['/home-service', '/our-work'],
     ['/services/', '/services'],
     ['/contact.html', '/contact'],
+    ['/services/window-tinting.html', '/services/window-tinting'],
     ['/index.html', '/'],
   ]) {
     const response = await fetch(`${origin}${from}`, { redirect: 'manual' });

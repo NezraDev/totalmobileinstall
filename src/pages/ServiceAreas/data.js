@@ -12,11 +12,11 @@ export const data = {
   eyebrow: 'Greater New Orleans mobile service',
   title: 'Where We Serve',
   description:
-    'Our mobile service area extends 40 miles from our New Orleans shop at 2642 Tulane Ave, covering Greater New Orleans, the West Bank, and the North Shore. Get dealership-grade work at home or work. Contact us to confirm service for your ZIP code.',
+    'Our mobile service area extends 40 miles from our New Orleans shop at 2642 Tulane Ave, covering Greater New Orleans, the West Bank, and the North Shore. Request service at home or work, and contact us to confirm availability for your ZIP code.',
   image: photos.mobileService,
   heading: 'Four specialties. One family-owned operation.',
   paragraphs: [
-    'Our certified team provides auto glass, ADAS calibration, ceramic window tint, and detailing through one family-owned operation.',
+    'Our team provides auto glass, ADAS calibration, ceramic window tint, and detailing through one family-owned operation.',
     'Tell us where your vehicle is and what it needs. We will confirm the right service and location for your request.',
     'Prefer to bring your vehicle in? Ask about in-shop service at 2642 Tulane Ave in New Orleans.',
   ],

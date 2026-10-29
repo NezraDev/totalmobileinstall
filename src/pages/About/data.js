@@ -14,7 +14,7 @@ export const data = {
     'Vehicle care with the personal attention of a family-operated business. Proudly serving New Orleans for more than nine years.',
   heading: 'A family business, built around care.',
   paragraphs: [
-    "Total Mobile Install Auto Glass & Tint has proudly served New Orleans and surrounding communities for more than nine years. We're a family-operated business focused on precision, safety, and showroom-quality results for your vehicle.",
+    "Total Mobile Install Auto Glass & Tint has proudly served New Orleans and surrounding communities for more than nine years. We're a family-operated business focused on careful work, safety, and clear service options for your vehicle.",
   ],
   unconfirmedParagraph:
     'From OEM-spec windshield replacements and ADAS calibration to high-class window tinting and detailing, every install is performed by certified technicians using premium materials and backed by our written satisfaction guarantee.',

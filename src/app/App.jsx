@@ -9,9 +9,9 @@ import {
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import SiteMotion from '../components/layout/SiteMotion';
-import Chatbot from '../components/layout/Chatbot';
 import Home from '../pages/Home/Home';
 import { ui } from '../content/navigation';
+const Chatbot = lazy(() => import('../components/layout/Chatbot'));
 const Services = lazy(() => import('../pages/Services/Services'));
 const ServiceDetail = lazy(
   () => import('../pages/ServiceDetail/ServiceDetail'),
@@ -85,11 +85,22 @@ export function SiteContent() {
     </>
   );
 }
+
+export function ApplicationContent() {
+  return (
+    <>
+      <SiteContent />
+      <Suspense fallback={null}>
+        <Chatbot />
+      </Suspense>
+    </>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
-      <SiteContent />
-      <Chatbot />
+      <ApplicationContent />
     </BrowserRouter>
   );
 }

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import PageIntro from '../../components/ui/PageIntro';
 import PageMeta from '../../components/ui/PageMeta';
+import { site } from '../../config/site';
 import { data } from './data';
 
 export default function FAQ() {
@@ -12,7 +13,12 @@ export default function FAQ() {
       <section className="section page-section">
         <div className="container">
           <div className="faq-list">
-            {data.items.map((item) => (
+            {data.items
+              .filter(
+                (item) =>
+                  !item.requiresConfirmation || site.showUnconfirmedClaims,
+              )
+              .map((item) => (
               <details key={item.id}>
                 <summary>
                   {item.question}

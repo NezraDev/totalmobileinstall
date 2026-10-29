@@ -4,7 +4,7 @@ The existing React/Vite application is preserved. `npm run build` builds the bro
 
 ## Production origin
 
-`src/config/site.js` defaults to the existing deployed origin, `https://total-mobile-install-2026.nuttypika64.chatgpt.site`. Set the public build variable `VITE_SITE_URL` to a confirmed custom HTTPS origin when switching domains, then rebuild and deploy. Do not include a path, query, fragment, or credentials. Canonical URLs, social URLs, schema, and sitemap use this one origin. Booking parameters and fragments are excluded from canonical URLs. No external production domain has been invented.
+The approved production domain is `https://totalmobileinstall.com`. Both `src/config/site.js` and `netlify.toml` use it so canonical URLs, social URLs, schema, and the sitemap share one origin. Do not configure `VITE_SITE_URL` to the separate owner-only ChatGPT preview or the legacy `totalmobileglass.com` website. Booking parameters and fragments are excluded from canonical URLs.
 
 ## Editing pages
 
@@ -14,9 +14,9 @@ The business source of truth is `src/content/business.js`: the supplied Tulane A
 
 ## Hosting and HTTP behavior
 
-Deploy the full generated `dist` through the existing Sites workflow. `.openai/hosting.json` requests static `not_found_handling: "404-page"`. Flat files such as `about.html` and `services/window-tinting.html` support the established slashless URLs. The generated root `404.html` replaces the previous catch-all SPA 200 rule. `_redirects` declares the legacy `/home-service`301 and canonical slash/index forms; `_headers` declares cache policy and noindex headers for placeholders/errors. The hosting platform already redirects HTTP to HTTPS.
+Deploy the full generated `dist` from this repository through its production host. `.openai/hosting.json` configures a separate, owner-only ChatGPT preview and does not control `totalmobileinstall.com`. Flat route files such as `about.html` and `services/window-tinting.html` contain prerendered content. `_redirects` declares the legacy `/home-service` redirect and forced `.html` to clean-URL redirects, including `/index.html` to `/`. `netlify.toml` holds the approved canonical origin if the production host is Netlify. Confirm actual host redirects and 404 handling after deployment.
 
-`npm run preview -- --port 4174` serves the built output locally with the same declared routes, 301s, and 404s. It is an inspection server, not a replacement production backend. Actual CDN routing must also be verified once anonymous access is allowed. The current Site is owner-private and returns401 to anonymous visitors; Google cannot crawl it in this state. Robots.txt is not access control. No private routes, API handlers, credentials, or source files are shipped with the static assets.
+`npm run preview -- --port 4174` serves the built output locally and exercises declared clean routes, 301s, and 404s. It does not prove CDN behavior. During the 2026-10-29 audit, `https://totalmobileinstall.com` returned public 200 responses for the sitemap routes. Confirm redirect and 404 behavior again after deployment. The separate ChatGPT preview is private; it is not the approved canonical website. Robots.txt is not access control.
 
 ## Search Console
 

@@ -1,9 +1,12 @@
 import { business } from '../content/business.js';
 import { services } from '../content/services.js';
 import { data as faq } from '../pages/FAQ/data.js';
+import { site } from '../config/site.js';
 
 const faqAnswer = Object.fromEntries(
-  faq.items.map((item) => [item.id, item.answer]),
+  faq.items
+    .filter((item) => !item.requiresConfirmation || site.showUnconfirmedClaims)
+    .map((item) => [item.id, item.answer]),
 );
 
 const phoneAction = {
@@ -328,7 +331,7 @@ const rules = [
       'how soon can you service',
     ],
     reply: () => ({
-      text: `${faqAnswer.arrival} Availability depends on your ZIP code and the service requested, so please call to confirm.`,
+      text: faqAnswer.arrival,
       actions: contactActions,
     }),
   },
@@ -711,11 +714,10 @@ const rules = [
       'how long does crack repair take',
       'how long to fix a chip',
       'time to repair windshield',
-      'repair under 30 minutes',
       'small windshield chip',
     ],
     reply: () => ({
-      text: 'Chip and crack repair is listed as under 30 minutes. The technician will first confirm whether the damage is suitable for repair.',
+      text: 'Repair time depends on the damage and your vehicle. The technician will first confirm whether the chip or crack is suitable for repair.',
       actions: [serviceAction('auto-glass-repair'), ...contactActions],
     }),
   },
@@ -894,7 +896,7 @@ const rules = [
       'wind screen repair',
     ],
     reply: () => ({
-      text: `${serviceFacts('auto-glass-repair')} Chip and crack repair is listed as under 30 minutes when repair is suitable. The team can assess whether you need repair or replacement.`,
+      text: `${serviceFacts('auto-glass-repair')} Repair time depends on the damage and your vehicle. The team can assess whether you need repair or replacement.`,
       actions: [
         serviceAction('auto-glass-repair'),
         bookingAction,

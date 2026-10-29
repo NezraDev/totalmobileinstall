@@ -51,7 +51,11 @@ const desktopChatAnswer = desktop
   .locator('.tmi-chat-message.is-assistant')
   .last();
 await desktopChatAnswer.waitFor();
-assert.ok((await desktopChatAnswer.innerText()).includes('under 30 minutes'));
+assert.ok(
+  (await desktopChatAnswer.innerText()).includes(
+    'repair is suitable for your vehicle',
+  ),
+);
 assert.ok(
   await desktopChatAnswer.evaluate((answer) => {
     const log = answer.closest('.tmi-chat-log');
@@ -152,14 +156,16 @@ await desktop.goto(`${baseUrl}/services/auto-glass-repair`, {
   waitUntil: 'networkidle',
 });
 const autoGlassCopy = await desktop.locator('main').innerText();
-assert.ok(autoGlassCopy.includes('under 30 minutes'));
+assert.ok(
+  autoGlassCopy.includes('Repair options for eligible chips and cracks'),
+);
 assert.ok(autoGlassCopy.includes('Damage assessment before repair'));
-assert.ok(autoGlassCopy.includes('Insurance claims handled for you'));
+assert.ok(autoGlassCopy.includes('Help with insurance claims'));
 await desktop.goto(`${baseUrl}/services/windshield-replacement`, {
   waitUntil: 'networkidle',
 });
 const replacementCopy = await desktop.locator('main').innerText();
-assert.ok(replacementCopy.includes('lifetime leak warranty'));
+assert.ok(replacementCopy.includes('written warranty terms'));
 assert.ok(replacementCopy.includes('Vehicle-specific windshield selection'));
 await desktop.goto(`${baseUrl}/services/adas-calibration`, {
   waitUntil: 'networkidle',
@@ -176,8 +182,10 @@ await desktop.goto(`${baseUrl}/services/window-tinting`, {
   waitUntil: 'networkidle',
 });
 const tintCopy = await desktop.locator('main').innerText();
-assert.ok(tintCopy.includes('Up to 99% UV rejection'));
-assert.ok(tintCopy.includes('Lifetime film warranty'));
+assert.ok(
+  tintCopy.includes('Film options for heat rejection and UV protection'),
+);
+assert.ok(tintCopy.includes('written warranty terms'));
 await desktop.goto(`${baseUrl}/services/mobile-detailing`, {
   waitUntil: 'networkidle',
 });
@@ -330,14 +338,14 @@ const faqAnswers = await desktop
   .allTextContents();
 for (const detail of [
   'no additional charge',
-  'under 60 minutes',
+  'confirm the next available time',
   '45 to 90 minutes',
   'pre- and post-scan documentation',
   '25% visible-light transmission',
   '12% on the rearmost window',
-  'lifetime warranty',
+  'written terms that apply',
   'within 40 miles',
-  'daily drivers to exotics',
+  'range of makes and models',
 ]) {
   assert.ok(
     faqAnswers.some((text) => text.includes(detail)),
@@ -385,7 +393,11 @@ const mobileChatAnswer = mobile
   .locator('.tmi-chat-message.is-assistant')
   .last();
 await mobileChatAnswer.waitFor();
-assert.ok((await mobileChatAnswer.innerText()).includes('under 30 minutes'));
+assert.ok(
+  (await mobileChatAnswer.innerText()).includes(
+    'repair is suitable for your vehicle',
+  ),
+);
 assert.ok(
   await mobileChatAnswer.evaluate((answer) => {
     const log = answer.closest('.tmi-chat-log');

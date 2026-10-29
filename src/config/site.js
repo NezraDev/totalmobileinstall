@@ -1,6 +1,5 @@
 const environment = import.meta.env || {};
-const deployedOrigin =
-  'https://total-mobile-install-2026.nuttypika64.chatgpt.site';
+const deployedOrigin = 'https://totalmobileinstall.com';
 const configuredUrl = new URL(environment.VITE_SITE_URL || deployedOrigin);
 if (
   configuredUrl.protocol !== 'https:' &&

@@ -47,6 +47,7 @@ export const data = {
         compact: true,
         label: 'Vehicles serviced',
         detail: 'Across our auto services.',
+        requiresConfirmation: true,
         sourceStatus:
           'Client-supplied 10K+ figure. Confirm before public launch.',
       },
@@ -76,7 +77,7 @@ export const data = {
   about: {
     title: 'Family-owned care. A higher standard.',
     description:
-      'Total Mobile Install Auto Glass & Tint has proudly served New Orleans and surrounding communities for more than nine years. We’re a family-operated business focused on precision, safety, and showroom-quality results for your vehicle.',
+      'Total Mobile Install Auto Glass & Tint has proudly served New Orleans and surrounding communities for more than nine years. We’re a family-operated business focused on careful work, safety, and clear service options for your vehicle.',
     secondary:
       'From windshield and side or rear glass to calibration, tint, and detailing, we put care into every step.',
     image: photos.redCorvette,
@@ -91,7 +92,7 @@ export const data = {
   services: {
     title: 'Six services. Four specialties.',
     description:
-      'Windshield repair and replacement, side and rear glass, ADAS calibration, ceramic window tint, and detailing from one certified, family-owned team.',
+      'Windshield repair and replacement, side and rear glass, ADAS calibration, ceramic window tint, and detailing from a local, family-owned team in New Orleans.',
     action: 'Explore all services',
   },
   why: {
@@ -138,6 +139,7 @@ export const data = {
         id: 'best-service',
         src: '/images/badges/badge-best-service.webp',
         alt: 'Awarded Best Service Provider',
+        requiresConfirmation: true,
       },
       {
         id: 'locally-owned',
@@ -148,11 +150,13 @@ export const data = {
         id: 'premium-quality',
         src: '/images/badges/badge-premium-quality.webp',
         alt: 'Premium Quality Guaranteed',
+        requiresConfirmation: true,
       },
       {
         id: 'satisfaction',
         src: '/images/badges/badge-satisfaction.webp',
         alt: '100% Customer Satisfaction Guaranteed',
+        requiresConfirmation: true,
       },
     ],
     items: [

@@ -2,7 +2,7 @@ import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import { prerenderToNodeStream } from 'react-dom/static';
 import { renderToString } from 'react-dom/server';
-import { SiteContent } from './app/App';
+import { ApplicationContent } from './app/App';
 export { pageRoutes, notFoundMetadata } from './seo/routes';
 export { renderMetadata, escapeHtml } from './seo/metadata';
 export { site } from './config/site';
@@ -12,7 +12,7 @@ export async function renderRoute(pathname) {
   const tree = (
     <React.StrictMode>
       <StaticRouter location={pathname}>
-        <SiteContent />
+        <ApplicationContent />
       </StaticRouter>
     </React.StrictMode>
   );

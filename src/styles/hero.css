@@ -3,7 +3,7 @@
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  min-height: calc(100svh - 100px);
+  min-height: calc(100svh - 85px);
   background: var(--blue);
 }
 

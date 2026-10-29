@@ -87,6 +87,21 @@ export default function ServiceDetail() {
           />
         </div>
       </section>
+      <section className="section page-section">
+        <div className="container">
+          <h2>Questions about {service.name.toLowerCase()}</h2>
+          <div className="faq-list">
+            {service.questions.map((item) => (
+              <details key={item.question}>
+                <summary>{item.question}</summary>
+                <div>
+                  <p>{item.answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

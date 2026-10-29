@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { site } from '../../config/site';
 
 function displayValue(item, progress) {
   const value = Math.round(item.value * progress);
@@ -14,6 +15,9 @@ function displayValue(item, progress) {
 }
 
 export default function MetricsStrip({ label, items }) {
+  const visibleItems = items.filter(
+    (item) => !item.requiresConfirmation || site.showUnconfirmedClaims,
+  );
   const host = useRef(null);
   const [progress, setProgress] = useState(1);
   const [entered, setEntered] = useState(false);
@@ -60,7 +64,7 @@ export default function MetricsStrip({ label, items }) {
       aria-label={label}
     >
       <div className="container metrics-grid">
-        {items.map((item) => (
+        {visibleItems.map((item) => (
           <div className="metric" key={item.id}>
             <strong className="metric-value" aria-hidden="true">
               {displayValue(item, progress)}

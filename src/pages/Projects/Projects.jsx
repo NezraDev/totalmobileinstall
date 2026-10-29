@@ -69,6 +69,11 @@ export default function Projects() {
                     <div>
                       <h3>{project.title}</h3>
                       <p>{project.service}</p>
+                      <p>{project.caseDescription}</p>
+                      <Link className="text-link" to={project.serviceHref}>
+                        Explore {project.service.toLowerCase()}
+                        <ArrowUpRight size={16} aria-hidden="true" />
+                      </Link>
                     </div>
                     <button
                       className="project-card__select"

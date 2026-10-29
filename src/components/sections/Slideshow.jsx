@@ -18,6 +18,8 @@ export default function Slideshow({
   const loaded = useRef(new Set());
   const pending = useRef(null);
   const firstImage = useRef(null);
+  const slideshow = useRef(null);
+  const [inView, setInView] = useState(false);
 
   const requestSlide = (next) => {
     setRequested((previous) => {
@@ -44,6 +46,19 @@ export default function Slideshow({
   };
 
   useEffect(() => {
+    if (!('IntersectionObserver' in window)) {
+      setInView(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: '200px 0px' },
+    );
+    observer.observe(slideshow.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const visibility = () => setHidden(document.hidden);
     const query = window.matchMedia('(prefers-reduced-motion: reduce)');
     const motion = (e) => setReduced(e.matches);
@@ -59,7 +74,8 @@ export default function Slideshow({
       query.removeEventListener('change', motion);
     };
   }, []);
-  const auto = !paused && !hover && !focused && !hidden && !reduced;
+  const auto =
+    inView && !paused && !hover && !focused && !hidden && !reduced;
 
   // Fetch one photograph ahead after the first image finishes, so hidden slides
   // do not compete with the initial hero image. Keep requested images cached.
@@ -97,6 +113,7 @@ export default function Slideshow({
       }
       aria-label={settings.label}
       aria-roledescription="carousel"
+      ref={slideshow}
       onMouseEnter={() => !hero && setHover(true)}
       onMouseLeave={() => setHover(false)}
       onFocus={(e) => {

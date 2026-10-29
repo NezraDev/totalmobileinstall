@@ -8,6 +8,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  VITE_SITE_URL = "https://totalmobileinstall.com"
 
 # The build already emits one HTML file for each route. Keep the site's
 # canonical slashless URLs and our explicit redirect rules in control.

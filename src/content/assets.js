@@ -245,6 +245,9 @@ export const beforeAfter = [
     id: 'corvette-blue',
     title: 'Blue Corvette windshield',
     service: 'Windshield replacement',
+    caseDescription:
+      'Matched photographs show the windshield before removal and after installation on the same blue Corvette. The camera viewpoints differ.',
+    serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
     before: {
@@ -273,6 +276,9 @@ export const beforeAfter = [
     id: 'bentley',
     title: 'Bentley windshield',
     service: 'Windshield replacement',
+    caseDescription:
+      'Matched photographs show a Bentley windshield replacement, from the removed glass to the completed installation. The camera viewpoints differ.',
+    serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
     before: {
@@ -301,6 +307,9 @@ export const beforeAfter = [
     id: 'truck-rear-window',
     title: 'Truck cab rear window',
     service: 'Rear glass replacement',
+    caseDescription:
+      'The before-and-after photos document rear window replacement on a truck cab.',
+    serviceHref: '/services/side-rear-glass',
     beforeLabel: 'Damaged rear window',
     afterLabel: 'Rear window installed',
     before: {
@@ -329,6 +338,9 @@ export const beforeAfter = [
     id: 'sedan',
     title: 'Sedan windshield',
     service: 'Windshield replacement',
+    caseDescription:
+      'Matched photos document a sedan windshield replacement, with views before removal and after installation.',
+    serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
     before: {
@@ -357,6 +369,9 @@ export const beforeAfter = [
     id: 'isuzu',
     title: 'Isuzu truck windshield',
     service: 'Commercial auto glass',
+    caseDescription:
+      'The photo pair shows commercial windshield work on an Isuzu box truck, before removal and after installation.',
+    serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
     before: {
@@ -385,6 +400,9 @@ export const beforeAfter = [
     id: 'gmc',
     title: 'GMC pickup windshield',
     service: 'Windshield replacement',
+    caseDescription:
+      'Matched photos document a GMC pickup windshield replacement from removal through installation.',
+    serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
     before: {
@@ -413,6 +431,9 @@ export const beforeAfter = [
     id: 'peterbilt',
     title: 'Peterbilt truck windshield',
     service: 'Commercial auto glass',
+    caseDescription:
+      'The photo pair shows windshield replacement work on a Peterbilt truck, before removal and after installation.',
+    serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
     before: {
@@ -441,6 +462,9 @@ export const beforeAfter = [
     id: 'tesla',
     title: 'Tesla rear glass',
     service: 'Rear glass replacement',
+    caseDescription:
+      'Matched photos document rear glass replacement on a Tesla, with views of the removed glass and completed installation.',
+    serviceHref: '/services/side-rear-glass',
     beforeLabel: 'Rear glass removed',
     afterLabel: 'Rear glass installed',
     before: {
@@ -469,6 +493,9 @@ export const beforeAfter = [
     id: 'corvette-red',
     title: 'Red Corvette windshield',
     service: 'Windshield replacement',
+    caseDescription:
+      'Photos document windshield replacement on a red Corvette. The before image is taken from a different camera angle.',
+    serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
     before: {

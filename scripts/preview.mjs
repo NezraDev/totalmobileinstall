@@ -32,6 +32,15 @@ export async function createPreviewServer(directory = 'dist') {
     .split(/\r?\n/)
     .filter((line) => line.trim() && !line.startsWith('#'))
     .map((line) => line.trim().split(/\s+/));
+  const matchRule = (pattern, pathname) => {
+    const expression = new RegExp(
+      `^${pattern
+        .split('*')
+        .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        .join('(.*)')}$`,
+    );
+    return expression.exec(pathname);
+  };
   return http.createServer(async (request, response) => {
     try {
       if (!['GET', 'HEAD'].includes(request.method)) {
@@ -41,15 +50,28 @@ export async function createPreviewServer(directory = 'dist') {
       }
       const url = new URL(request.url, 'http://localhost');
       const pathname = decodeURIComponent(url.pathname);
-      const redirect = redirects.find(([from]) => from === pathname);
+      const redirect = redirects
+        .map(([from, to, status]) => ({
+          match: matchRule(from, pathname),
+          to,
+          status,
+        }))
+        .find((rule) => rule.match);
       if (redirect) {
-        response.writeHead(Number(redirect[2]), {
-          Location: `${redirect[1]}${url.search}`,
+        const target = redirect.to.replace(
+          ':splat',
+          redirect.match[1] || '',
+        );
+        response.writeHead(Number(redirect.status.replace('!', '')), {
+          Location: `${target}${url.search}`,
         });
         response.end();
         return;
       }
-      let clean = pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+      let clean = pathname
+        .replace(/\/index\.html$/i, '')
+        .replace(/\.html$/i, '')
+        .replace(/\/+$/, '') || '/';
       const pageFile = path.resolve(
         root,
         `.${clean === '/' ? '/index' : clean}.html`,

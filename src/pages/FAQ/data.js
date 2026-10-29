@@ -22,7 +22,7 @@ export const data = {
       id: 'arrival',
       question: 'How fast can a mobile technician arrive?',
       answer:
-        'Our average arrival window across Greater New Orleans is under 60 minutes during business hours. Same-day service is available for most metro-area ZIP codes.',
+        'Arrival and same-day availability depend on your location, vehicle, requested service, and the current schedule. Call with your ZIP code and our team will confirm the next available time.',
     },
     {
       id: 'replacement-time',
@@ -46,7 +46,7 @@ export const data = {
       id: 'warranty',
       question: 'Do you offer a warranty?',
       answer:
-        'Yes. Every windshield installation carries a lifetime warranty against leaks and adhesive failure. Window tint and ceramic coating packages carry a manufacturer-backed lifetime warranty. We can confirm the terms for your selected product.',
+        'Warranty terms depend on the service and product. Ask our team for the written terms that apply to your vehicle and the option you choose.',
     },
     {
       id: 'mobile',
@@ -58,7 +58,7 @@ export const data = {
       id: 'vehicles',
       question: 'Do you only work on luxury vehicles?',
       answer:
-        'No. We service every make and model, from daily drivers to exotics, with the same certified process and premium materials.',
+        'We work on a range of makes and models. Share your vehicle details when you request service and our team will confirm availability for your vehicle and glass type.',
     },
   ],
   contactTitle: 'Have a question about your vehicle?',

@@ -33,7 +33,7 @@ try {
   assert.ok(
     (
       await page.locator('.site-header .brand-icon img').getAttribute('src')
-    ).endsWith('/icon.png'),
+    ).endsWith('/icon-160.webp'),
   );
   const counterChanges = await page
     .locator('.metrics-strip')
@@ -57,7 +57,7 @@ try {
     counterChanges.length > 2,
     'Metrics count up when scrolled into view',
   );
-  await expect(page.locator('.metric-value').nth(1)).toHaveText('10K+', {
+  await expect(page.locator('.metric-value').nth(1)).toHaveText('6', {
     timeout: 3000,
   });
   await page
@@ -75,9 +75,15 @@ try {
     .getByRole('button', { name: 'Next transformation', exact: true })
     .click();
   assert.notEqual(await result.innerText(), before);
-  await expect(page.locator('.comparison-hint')).toBeVisible();
+  await expect(
+    page.locator('.transformations .comparison-hint'),
+  ).toBeVisible();
   assert.ok(
-    (await page.locator('.comparison-hint').innerText()).includes('buttons'),
+    (
+      await page
+        .locator('.transformations .comparison-hint')
+        .innerText()
+    ).includes('buttons'),
   );
   const mobile = await browser.newPage({
     viewport: { width: 390, height: 844 },
@@ -116,29 +122,14 @@ try {
   });
   const map = page.locator('.location-map').first();
   await map.scrollIntoViewIfNeeded();
-  const embed = map.locator('iframe');
-  await expect(embed).toBeVisible();
-  assert.equal(
-    new URL(await embed.getAttribute('src')).searchParams.get('marker'),
-    '29.961365651200683,-90.09014810481109',
-  );
-  await expect(
-    page.frameLocator('iframe.map-embed').locator('.maplibregl-marker'),
-  ).toBeVisible({ timeout: 30000 });
-  const mapFrame = await (await embed.elementHandle()).contentFrame();
-  await mapFrame.waitForLoadState('networkidle');
-  await mapFrame.evaluate(
-    () =>
-      new Promise((resolve) =>
-        requestAnimationFrame(() =>
-          requestAnimationFrame(() => requestAnimationFrame(resolve)),
-        ),
-      ),
-  );
-  const attribution = page
-    .frameLocator('iframe.map-embed')
-    .locator('.maplibregl-ctrl-attrib');
-  await expect(attribution).toBeVisible();
+  const marker = map.getByRole('button', {
+    name: 'Map marker for Total Mobile Install',
+  });
+  await expect(marker).toBeVisible({ timeout: 30000 });
+  const popup = map.locator('.map-popup');
+  await expect(popup).toBeVisible({ timeout: 30000 });
+  assert.match(await popup.innerText(), /2642 Tulane Ave/);
+  await expect(map.locator('.maplibregl-ctrl-attrib')).toBeVisible();
   await map.screenshot({ path: `${out}/map-revision-desktop.png` });
   assert.equal(
     await page

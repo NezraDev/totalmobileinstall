@@ -9,6 +9,7 @@ import {
   Quote,
 } from 'lucide-react';
 import { data as d } from './data';
+import { site } from '../../config/site';
 import { business } from '../../content/business';
 import { getResponsiveImageProps } from '../../content/image-sources';
 import PageMeta from '../../components/ui/PageMeta';
@@ -193,7 +194,12 @@ export default function Home() {
             ))}
           </div>
           <ul className="home-trust-badges" aria-label={d.reviews.badgesLabel}>
-            {d.reviews.badges.map((badge) => (
+            {d.reviews.badges
+              .filter(
+                (badge) =>
+                  !badge.requiresConfirmation || site.showUnconfirmedClaims,
+              )
+              .map((badge) => (
               <li key={badge.id}>
                 <img
                   {...getResponsiveImageProps(badge.src, {
@@ -207,7 +213,7 @@ export default function Home() {
                   decoding="async"
                 />
               </li>
-            ))}
+              ))}
           </ul>
           {business.reviewUrl && (
             <div className="reviews-more">

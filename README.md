@@ -57,13 +57,13 @@ The shop map uses MapLibre at the exact client-supplied coordinates (29.96136565
 - Approve final Privacy Policy and Terms. Current pages explicitly state that approved text is pending.
 - Review linked-page copy/FAQ answers, testimonial publication, and eligible service modes. The 40-mile New Orleans coverage claim is client-supplied; the team confirms availability for each exact address.
 - Confirm certification, 10K+ vehicle, 100% satisfaction, award, and warranty claims before displaying them. Original supplied statistics are retained in page data. Unconfirmed certification, warranty, award and satisfaction claims are gated off by default in `src/config/site.js`; the vehicle metric requested by the client uses the brief's existing 10K+ figure and remains on the launch verification checklist. Badge files are preserved without implying verified credentials.
-- The canonical origin defaults to the existing deployed Site. Set `VITE_SITE_URL` only when moving to a confirmed custom HTTPS origin. The supplied Google review destination is configured; no autoplay video is downloaded.
+- The canonical production origin is the confirmed public `https://totalmobileinstall.com`; `netlify.toml` keeps the build aligned with it. The supplied Google review destination is configured; no autoplay video is downloaded.
 
 ## Static hosting and search
 
 `npm run build` produces complete HTML for 17 routes plus a 404 page, sitemap.xml, robots.txt, social metadata and truthful structured data. It retains the React interface and hydrates the generated pages. Netlify reads `netlify.toml` for the build, Node 22, `dist` publish directory, and serverless function directory; connect the repository or deploy with the Netlify CLI so both static files and the `/api/contact` function are published. See [NETLIFY_DEPLOY.md](NETLIFY_DEPLOY.md). Flat HTML files support the established slashless URLs; `_redirects` supplies permanent legacy and duplicate-path redirects. Do not restore a catch-all SPA 200 rewrite or publish `.ssr-build`.
 
-The configured production origin is the existing HTTPS Site URL. It is currently owner-private and anonymous requests return 401, so Google indexing requires the owner to choose a public audience. This work does not change sharing. See [SEO.md](SEO.md) for canonical-domain configuration, Search Console verification, sitemap submission, image variants and host checks, and [SEO_AUDIT.md](SEO_AUDIT.md) for the implementation audit and launch limitations.
+The confirmed public website is `https://totalmobileinstall.com`. The separate ChatGPT preview is owner-private. Search Console ownership/submission remains an account task. See [SEO.md](SEO.md) for canonical URLs, sitemap submission, verification, and host checks, and [SEO_AUDIT.md](SEO_AUDIT.md) for current fixes and remaining launch tasks.
 
 ## Validation
 

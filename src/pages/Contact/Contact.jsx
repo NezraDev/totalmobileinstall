@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Clock, ArrowUpRight } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import PageIntro from '../../components/ui/PageIntro';
 import PageMeta from '../../components/ui/PageMeta';
 import BookingForm from '../../components/sections/BookingForm';
@@ -11,9 +11,9 @@ export default function Contact() {
     <>
       <PageMeta {...data.seo} />
       <PageIntro title={data.title} description={data.description}></PageIntro>
-      <section className="section page-section">
-        <div className="container split">
-          <div className="split-copy">
+      <section className="section page-section request-section">
+        <div className="container">
+          <div>
             <h2>{data.detailsHeading}</h2>
             <div className="contact-details">
               <div className="contact-row">
@@ -35,15 +35,6 @@ export default function Contact() {
                 <div>
                   <h3>{data.addressLabel}</h3>
                   <p>{b.address}</p>
-                  <a
-                    className="text-link"
-                    href={data.directionsHref}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {data.directionsLabel}
-                    <ArrowUpRight size={15} aria-hidden="true" />
-                  </a>
                 </div>
               </div>
               <div className="contact-row">
@@ -60,7 +51,7 @@ export default function Contact() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="request-center">
             <h2>{data.formHeading}</h2>
             <p>{data.formDescription}</p>
             <BookingForm />
@@ -70,7 +61,7 @@ export default function Contact() {
       <section className="section section-soft">
         <div className="container">
           <h2>{data.mapHeading}</h2>
-          <LocationMap />
+          <LocationMap showCoverage />
         </div>
       </section>
     </>

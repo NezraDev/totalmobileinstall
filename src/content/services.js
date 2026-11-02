@@ -28,9 +28,9 @@ export const serviceSpecialties = [
   {
     id: 'mobile-detailing',
     routeId: 'mobile-detailing',
-    name: 'Mobile and Shop Detailing',
+    name: 'Mobile Detailing',
     description:
-      'Interior detailing and hand washing at your location, with paint and coating work at our shop.',
+      'Interior detailing, hand washing, paint correction, polishing, and ceramic coating at your location.',
     imageKey: 'detailing',
   },
 ];
@@ -45,17 +45,23 @@ export const services = [
     description:
       'A chip or crack does not always mean a new windshield. Our New Orleans team assesses the damage and helps determine whether a repair is suitable for your vehicle.',
     detail:
-      'Share your vehicle details and tell us where the glass is damaged. You can request mobile service at home or work, or a visit to our shop. If the damage needs a replacement instead, we will explain the next step and help handle your insurance claim.',
+      'Share your vehicle details and tell us where the glass is damaged. You can request mobile service at home or work. If the damage needs a replacement instead, we will explain the next step and help handle your insurance claim.',
     imageKey: 'repair',
-    modes: ['mobile', 'shop'],
     points: [
       'Repair options for eligible chips and cracks',
       'Damage assessment before repair',
-      'Mobile or in-shop service requests',
+      'Mobile service requests',
       'Help with insurance claims',
     ],
     modeNote:
       'Mobile technicians serve the New Orleans area; availability is confirmed for your address and vehicle.',
+    guide: {
+      heading: 'Repair or replace a damaged windshield?',
+      paragraphs: [
+        'Small chips are often the best candidates for repair, especially when they are looked at early, before dirt and moisture settle into the damage. Size, depth, and position all matter. A crack that reaches the edge of the glass, damage directly in the driver’s line of sight, or damage near a windshield-mounted camera can point toward replacement instead.',
+        'Heat, sudden temperature changes, and rough roads can make a small chip spread, so it is worth having damage checked soon. Tell us your vehicle year, make, and model, and describe where the damage is and how large it looks. That gives the team what it needs to advise you on the next step.',
+      ],
+    },
     questions: [
       {
         question: 'Can every windshield chip or crack be repaired?',
@@ -65,7 +71,7 @@ export const services = [
       {
         question: 'Can I request mobile windshield repair in New Orleans?',
         answer:
-          'Yes. Request service at home or work, or ask about an in-shop visit. The team confirms coverage for your address and vehicle before scheduling.',
+          'Yes. Request service at home or work. The team confirms coverage for your address and vehicle before scheduling.',
       },
     ],
   },
@@ -78,9 +84,8 @@ export const services = [
     description:
       'When a windshield needs replacing, our technicians confirm the correct OEM-equivalent glass for your vehicle and bring the glass, urethane, and tooling for installation.',
     detail:
-      'Request a replacement at your home or office, or arrange in-shop service. Our team helps handle your insurance claim and confirms the installation details, safe drive-away time, and whether your vehicle also requires ADAS calibration.',
+      'Request a replacement at your home or office. Our team helps handle your insurance claim and confirms the installation details, safe drive-away time, and whether your vehicle also requires ADAS calibration.',
     imageKey: 'windshield',
-    modes: ['mobile', 'shop'],
     points: [
       'Vehicle-specific windshield selection',
       site.showUnconfirmedClaims
@@ -91,11 +96,18 @@ export const services = [
     ],
     modeNote:
       'Safe drive-away time and any warranty details are confirmed by the team.',
+    guide: {
+      heading: 'What to expect from a windshield replacement',
+      paragraphs: [
+        'A standard replacement takes 45 to 90 minutes on-site, followed by a 30 to 60 minute safe drive-away window. The exact cure time depends on the adhesive and the outdoor temperature, so your technician will tell you when the vehicle is ready to drive.',
+        'Windshields differ by vehicle and equipment. Rain sensors, heated glass, and driver-assistance cameras can all change which glass fits, so your year, make, and model help the team find the right part. If your vehicle has a camera mounted at the windshield, ask whether it needs ADAS calibration after the new glass is installed.',
+      ],
+    },
     questions: [
       {
         question: 'What information helps you quote a windshield replacement?',
         answer:
-          'Share your vehicle year, make, and model, which glass needs replacement, and whether you prefer mobile or in-shop service. The team confirms the correct glass and next steps.',
+          'Share your vehicle year, make, and model, which glass needs replacement, and where the vehicle will be. The team confirms the correct glass and next steps.',
       },
       {
         question: 'Can you help with an insurance claim?',
@@ -115,7 +127,6 @@ export const services = [
     detail:
       'We check your vehicle requirements and confirm the right static or dynamic calibration procedure. Pre- and post-scan reports are included.',
     imageKey: 'adas',
-    modes: ['mobile', 'shop'],
     points: [
       'Static and dynamic calibrations',
       'OEM calibration targets and scan tools',
@@ -124,6 +135,13 @@ export const services = [
     ],
     modeNote:
       'Choose a preferred location. The team will confirm the right calibration procedure and setting for your vehicle.',
+    guide: {
+      heading: 'Why calibration can matter after windshield work',
+      paragraphs: [
+        'Many driver-assistance features rely on a forward-facing camera mounted at the windshield or on radar sensors at the front of the vehicle. Lane keeping, collision warning, and adaptive cruise depend on those sensors reading the road correctly, and windshield work can change what they need.',
+        'Static calibration is done with targets in a controlled setup, while dynamic calibration is completed on the road under the right driving conditions. Some vehicles require one, some the other, and some both. Share your vehicle details so the team can check the procedure that applies, with pre- and post-scan reports included.',
+      ],
+    },
     questions: [
       {
         question: 'Will my vehicle need ADAS calibration after windshield replacement?',
@@ -140,6 +158,7 @@ export const services = [
   {
     id: 'window-tinting',
     specialtyId: 'window-tinting',
+    unavailable: true,
     name: 'Window Tinting',
     short: 'Comfort, clarity, and a clean finish.',
     detailHeading: 'Ceramic Window Tinting',
@@ -150,7 +169,6 @@ export const services = [
         ? 'Choose from ceramic and carbon film options. We use computer-cut patterns for clean edges, and the lifetime film warranty covers bubbling, peeling, or fading.'
         : 'Choose from ceramic and carbon film options. We use computer-cut patterns for clean edges. Ask our team for the written warranty terms for the film you choose.',
     imageKey: 'tint',
-    modes: ['shop'],
     points: [
       'Ceramic and carbon film options',
       'Film options for heat rejection and UV protection',
@@ -160,12 +178,19 @@ export const services = [
         : 'Ask about the written warranty terms for your selected film',
     ],
     modeNote:
-      'Window tint installation is available in-shop for a clean, controlled finish.',
+      'Window tinting is not available as of now.',
+    guide: {
+      heading: 'Choosing window tint for New Orleans driving',
+      paragraphs: [
+        'Ceramic and carbon films both help with heat and UV exposure without the signal interference that metallic films can cause. Ceramic film generally offers stronger heat rejection, while carbon film is a popular option for a deep, even look. The team can walk you through both for your vehicle and how you drive.',
+        'For most vehicles, Louisiana requires at least 25% visible-light transmission on front and rear side windows and at least 12% on the rearmost window, with some exemptions by vehicle type. Our FAQ explains these requirements in more detail, and the team can help match film to your vehicle.',
+      ],
+    },
     questions: [
       {
-        question: 'Is window tint installation mobile?',
+        question: 'Can I request window tinting right now?',
         answer:
-          'Window tint is installed in the shop. Contact the team to discuss ceramic or carbon film options for your vehicle.',
+          'Window tinting is not available as of now. Contact the team if you have questions about ceramic or carbon film for your vehicle.',
       },
       {
         question: 'Should I ask about Louisiana tint requirements?',
@@ -179,31 +204,37 @@ export const services = [
     specialtyId: 'mobile-detailing',
     name: 'Mobile Detailing',
     short: 'Thoughtful interior care and a polished finish.',
-    detailHeading: 'Mobile and Shop Detailing',
+    detailHeading: 'Mobile Detailing at Your Location',
     description:
-      'Interior deep cleans and hand washes are available at your home or office. Exterior paint correction, polishing, and ceramic coating are performed at our shop at 2642 Tulane Ave.',
+      'Interior deep cleans, hand washes, paint correction, polishing, and ceramic coating can all be requested at your home or office.',
     detail:
-      'Choose the detailing service that fits your vehicle. Mobile appointments cover interior steam and shampoo, plus hand washing and decontamination. Paint correction, polishing, and ceramic coating packages are shop-only.',
+      'Choose the detailing service that fits your vehicle. Mobile appointments cover interior steam and shampoo, hand washing and decontamination, paint correction, polishing, and ceramic coating packages.',
     imageKey: 'detailing',
-    modes: ['mobile', 'shop'],
     points: [
-      'Interior steam and shampoo (mobile)',
-      'Hand wash and decontamination (mobile)',
-      'Paint correction and polishing (shop only)',
-      'Ceramic coating packages (shop only)',
+      'Interior steam and shampoo',
+      'Hand wash and decontamination',
+      'Paint correction and polishing',
+      'Ceramic coating packages',
     ],
     modeNote:
-      'Mobile service covers interior detailing and hand washing. Paint correction, polishing, and ceramic coating are shop-only.',
+      'All detailing services can be requested as mobile service. The team confirms availability for your address and vehicle.',
+    guide: {
+      heading: 'Which detailing service fits your vehicle?',
+      paragraphs: [
+        'Choose a deep interior clean or a careful hand wash when everyday use has caught up with your vehicle. Interior steam and shampoo address seats, carpets, and everyday buildup, while hand washing and decontamination take care of the exterior surface.',
+        'Choose paint correction or polishing when the paint itself needs attention, and ceramic coating when you want a protective layer afterward. Tell us about your vehicle and what you would like improved, and the team will suggest where to start.',
+      ],
+    },
     questions: [
       {
         question: 'Which detailing services are available at my home or office?',
         answer:
-          'Interior detailing and hand washing may be requested as mobile service. The team confirms availability for your address.',
+          'All detailing services may be requested as mobile service, including interior detailing, hand washing, paint correction, polishing, and ceramic coating. The team confirms availability for your address.',
       },
       {
-        question: 'Which detailing work is done at the shop?',
+        question: 'What should I share when I request detailing?',
         answer:
-          'Paint correction, polishing, and ceramic coating are shop-only. Contact the team to discuss the right service for your vehicle.',
+          'Share your vehicle details and the detailing work you would like. Contact the team to discuss the right service for your vehicle.',
       },
     ],
   },
@@ -217,7 +248,6 @@ export const services = [
     detail:
       'Tell us which window is damaged and share your vehicle details. Our team will confirm the correct glass, service location, and next steps.',
     imageKey: 'rearGlass',
-    modes: ['mobile', 'shop'],
     points: [
       'Door and quarter glass',
       'Rear window replacement',
@@ -225,6 +255,13 @@ export const services = [
     ],
     modeNote:
       'Choose a preferred location. The team will confirm availability for your vehicle and glass type.',
+    guide: {
+      heading: 'What to do about a broken side or rear window',
+      paragraphs: [
+        'Side and rear windows are commonly made of tempered glass, which breaks into many small pieces instead of cracking in place. Those pieces can end up inside the door, on the seats, and in the cargo area, and they can interfere with window or lock mechanisms. Avoid running a damaged power window until it has been looked at.',
+        'When you reach out, tell us which window broke and whether it is a door, quarter, or rear window. Mention any rear defroster, antenna, or tint on that glass, along with your vehicle year, make, and model. Those details help the team confirm the correct glass and the next step.',
+      ],
+    },
     questions: [
       {
         question: 'Do you replace door and rear window glass?',
@@ -234,30 +271,9 @@ export const services = [
       {
         question: 'Can I request mobile side or rear glass replacement?',
         answer:
-          'You can request mobile or in-shop service. The team confirms availability for your vehicle, glass type, and location.',
+          'You can request mobile service. The team confirms availability for your vehicle, glass type, and location.',
       },
     ],
   },
 ];
 
-export const serviceModes = {
-  mobile: 'Mobile Service',
-  shop: 'Shop',
-};
-
-const detailingShopOnlyTypes = new Set([
-  'paint-correction',
-  'polishing',
-  'ceramic-coating',
-]);
-const detailingMobileOnlyTypes = new Set(['interior', 'hand-wash']);
-
-export function getAvailableServiceModes(service, detailType = '') {
-  if (!service) return [];
-  if (service.id === 'mobile-detailing') {
-    if (detailingShopOnlyTypes.has(detailType)) return ['shop'];
-    if (detailingMobileOnlyTypes.has(detailType)) return ['mobile'];
-    return [];
-  }
-  return service.modes.filter((mode) => mode === 'mobile' || mode === 'shop');
-}

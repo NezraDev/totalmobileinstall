@@ -14,6 +14,8 @@ import './styles/spacing.css';
 import './styles/map.css';
 import './styles/motion.css';
 import './styles/chatbot.css';
+import './styles/premium.css';
+import './styles/premium-motion.css';
 import App from './app/App';
 
 const application = (

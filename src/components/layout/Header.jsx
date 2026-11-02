@@ -47,7 +47,7 @@ export default function Header() {
           ))}
           <Link
             className="button button-primary nav-book"
-            to="/book-service?mode=mobile"
+            to="/book-service"
           >
             {ui.book}
             <ArrowUpRight size={16} />

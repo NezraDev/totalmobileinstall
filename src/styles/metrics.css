@@ -33,7 +33,7 @@
   white-space: nowrap;
 }
 
-.metric h2 {
+.metric-label {
   color: var(--blue);
   font-size: 14px;
   font-weight: 700;
@@ -46,7 +46,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.7;
   color: var(--muted);
   margin-top: 7px;
@@ -75,11 +75,11 @@ a.metric-detail:hover {
   .metric {
     padding-inline: 18px;
   }
-  .metric h2 {
-    font-size: 12px;
+  .metric-label {
+    font-size: 13px;
   }
   .metric-detail {
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 
@@ -101,12 +101,12 @@ a.metric-detail:hover {
   .metric-value {
     font-size: 43px;
   }
-  .metric h2 {
+  .metric-label {
     font-size: 13px;
     margin-top: 9px;
   }
   .metric-detail {
-    font-size: 11px;
+    font-size: 13px;
   }
   .metric:last-child {
     grid-column: 1 / -1;

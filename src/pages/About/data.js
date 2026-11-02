@@ -3,7 +3,7 @@ export const data = {
   sourceStatus:
     'Supplied business paragraph and 9+ years figure. Proposed headings and approach copy are draft editorial. Certification, vehicle count, satisfaction, and guarantee claims need confirmation.',
   seo: {
-    title: 'Family-Owned Auto Glass in New Orleans | Total Mobile Install',
+    title: 'Family-Owned Auto Glass New Orleans | Total Mobile Install',
     description:
       'Meet Total Mobile Install, a family-operated New Orleans auto glass and tint business serving the community for more than nine years.',
     image: '/images/services/mobile-service-bentley.webp',
@@ -33,11 +33,11 @@ export const data = {
     },
     {
       title: 'Care that fits the service',
-      copy: 'The right setting depends on the service. We confirm whether your vehicle can be serviced at your location or in our shop before scheduling.',
+      copy: 'We confirm the service details for your vehicle and location before scheduling.',
     },
     {
       title: 'Close to home',
-      copy: 'Our shop is at 2642 Tulane Ave in New Orleans. Whether you request mobile or in-shop service, you work with a local family business.',
+      copy: 'We are based in New Orleans and bring our services to you, so you always work with a local family business.',
     },
   ],
   secondImage: photos.mobileService,

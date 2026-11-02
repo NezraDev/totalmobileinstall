@@ -1,5 +1,4 @@
 import { business } from '../../content/business';
-import { directionsUrl } from '../../integrations/mapConfig';
 export const data = {
   sourceStatus:
     'Confirmed business details from supplied homepage. Introductory copy is draft editorial content.',
@@ -16,14 +15,12 @@ export const data = {
   detailsHeading: 'Talk to your local team.',
   phoneLabel: 'Give us a call',
   emailLabel: 'Send us an email',
-  addressLabel: 'Find the shop',
+  addressLabel: 'Business address',
   hoursLabel: 'Business hours',
   timezoneNote: 'Hours are listed in New Orleans local time (Central Time).',
-  directionsLabel: 'Get directions',
   formHeading: 'Tell us what you need.',
   formDescription:
-    'Share your vehicle details and service preference. Our team can confirm availability and next steps.',
-  mapHeading: 'Find us on Tulane Avenue',
+    'Share your vehicle details and service location. Our team can confirm availability and next steps.',
+  mapHeading: 'Our 40-mile mobile service area',
   business,
-  directionsHref: directionsUrl,
 };

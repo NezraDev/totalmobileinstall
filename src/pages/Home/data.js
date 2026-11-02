@@ -1,14 +1,14 @@
 import { slides, photos } from '../../content/assets';
 export const data = {
   seo: {
-    title: 'New Orleans Auto Glass & Windshield Repair | Total Mobile Install',
+    title: 'New Orleans Windshield & Auto Glass | Total Mobile Install',
     description:
-      'Request windshield repair, replacement, side and rear glass, ADAS calibration, tint, or detailing from family-owned Total Mobile Install in New Orleans.',
+      'Mobile windshield repair and replacement, side and rear glass, ADAS calibration, tint, and detailing at your home or work across Greater New Orleans.',
     image: '/images/services/corvette-red-windshield.webp',
   },
   hero: {
     title: ['Windshield Repair,', 'At Your Door.'],
-    label: 'New Orleans · Mobile & in-shop services',
+    label: 'New Orleans · Mobile services',
     description:
       'Auto glass, calibration, tint, and detailing from a local, family-owned team. We bring eligible services to your home or workplace.',
     primary: 'Book Mobile Service',
@@ -86,7 +86,7 @@ export const data = {
     stats: [
       { value: '9+', label: 'Years serving New Orleans' },
       { value: 'Family-owned', label: 'Locally operated' },
-      { value: 'Mobile or in-shop', label: 'Service to fit the work' },
+      { value: 'Mobile service', label: 'Service to fit the work' },
     ],
   },
   services: {
@@ -113,7 +113,7 @@ export const data = {
       {
         title: 'We work around your day.',
         description:
-          'Request mobile service at home or work, or arrange a visit to our shop.',
+          'Request mobile service at your home or workplace.',
       },
     ],
     image: photos.mobileService,
@@ -145,12 +145,6 @@ export const data = {
         id: 'locally-owned',
         src: '/images/badges/badge-locally-owned.webp',
         alt: 'Locally Owned',
-      },
-      {
-        id: 'premium-quality',
-        src: '/images/badges/badge-premium-quality.webp',
-        alt: 'Premium Quality Guaranteed',
-        requiresConfirmation: true,
       },
       {
         id: 'satisfaction',
@@ -210,9 +204,9 @@ export const data = {
       'Tell us what your vehicle needs. Our team can help you choose a service and confirm the next steps.',
     phoneLabel: 'Give us a call',
     emailLabel: 'Send us a note',
-    addressLabel: 'Find our shop',
-    hoursLabel: 'Shop hours',
-    hoursNote: 'All hours are Central Time. Please call to confirm your visit.',
+    addressLabel: 'Business address',
+    hoursLabel: 'Business hours',
+    hoursNote: 'All hours are Central Time. Please call to confirm your appointment.',
   },
   sourceStatus: {
     editorial: 'Draft adaptations of supplied homepage content.',

@@ -30,7 +30,7 @@ export const photos = {
   bentley: {
     src: '/images/services/bentley-windshield.webp',
     srcSmall: '/images/services/bentley-windshield-768.webp',
-    alt: 'Front view of a dark Bentley with installed windshield outside the workshop.',
+    alt: 'Front view of a dark Bentley with installed windshield.',
     width: 1536,
     height: 1024,
     position: '50% 50%',
@@ -100,7 +100,7 @@ export const photos = {
   tesla: {
     src: '/images/services/tesla-rear-glass.webp',
     srcSmall: '/images/services/tesla-rear-glass-768.webp',
-    alt: 'Rear view of a red Tesla with installed rear glass in a workshop.',
+    alt: 'Rear view of a red Tesla with installed rear glass.',
     width: 1086,
     height: 1448,
     position: '50% 50%',
@@ -130,7 +130,7 @@ export const photos = {
   porsche: {
     src: '/images/services/porsche-classic-windshield.webp',
     srcSmall: '/images/services/porsche-classic-windshield-768.webp',
-    alt: 'Red classic Porsche with installed windshield outside the workshop.',
+    alt: 'Red classic Porsche with installed windshield.',
     width: 1536,
     height: 1024,
     position: '50% 50%',
@@ -140,7 +140,7 @@ export const photos = {
   mobileService: {
     src: '/images/services/mobile-service-bentley.webp',
     srcSmall: '/images/services/mobile-service-bentley-768.webp',
-    alt: 'A Bentley outside the workshop beside the Total Mobile Install service van.',
+    alt: 'A Bentley beside the Total Mobile Install service van.',
     width: 1400,
     height: 1050,
     position: '50% 50%',
@@ -158,7 +158,7 @@ export const photos = {
   workshop: {
     src: '/images/services/workshop-and-service-van.webp',
     srcSmall: '/images/services/workshop-and-service-van-768.webp',
-    alt: 'A Bentley and the Total Mobile Install service van outside the workshop.',
+    alt: 'A Bentley and the Total Mobile Install service van.',
     width: 1400,
     height: 1050,
     position: '50% 50%',
@@ -199,7 +199,7 @@ export const slides = [
   {
     src: '/images/services/mobile-service-bentley.webp',
     srcSmall: '/images/services/mobile-service-bentley-768.webp',
-    alt: 'A Bentley outside the workshop beside the Total Mobile Install service van.',
+    alt: 'A Bentley beside the Total Mobile Install service van.',
     width: 1400,
     height: 1050,
     position: '50% 50%',
@@ -207,8 +207,8 @@ export const slides = [
     id: 'mobileService',
     title: 'Your vehicle. Our attention.',
     caption:
-      'The Total Mobile Install service van alongside a Bentley at the workshop.',
-    category: 'Mobile and in-shop service',
+      'The Total Mobile Install service van alongside a Bentley.',
+    category: 'Mobile service',
   },
   {
     src: '/images/services/mobile-glass-work.webp',

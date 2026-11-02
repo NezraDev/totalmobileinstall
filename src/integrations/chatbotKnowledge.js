@@ -27,24 +27,13 @@ const bookingAction = {
 };
 const mobileBookingAction = {
   label: 'Request mobile service',
-  href: '/book-service?mode=mobile',
-  icon: 'arrow',
-};
-const shopBookingAction = {
-  label: 'Request shop service',
-  href: '/book-service?mode=shop',
+  href: '/book-service',
   icon: 'arrow',
 };
 const allServicesAction = {
   label: 'Explore all services',
   href: '/services',
   icon: 'arrow',
-};
-const directionsAction = {
-  label: 'Get directions',
-  href: business.directionsUrl,
-  external: true,
-  icon: 'map',
 };
 const reviewsAction = {
   label: 'Read Google reviews',
@@ -171,7 +160,7 @@ const rules = [
       'windshield film',
     ],
     reply: () => ({
-      text: 'The published tint information covers window film options and shop installation, but it does not confirm windshield-specific tint availability or legality for your vehicle. Please check current Louisiana requirements and contact the team before requesting this work.',
+      text: 'Window tinting is not available as of now, and the published tint information does not confirm windshield-specific tint availability or legality for your vehicle. Please check current Louisiana requirements and contact the team with questions.',
       actions: [serviceAction('window-tinting'), ...contactActions],
     }),
   },
@@ -488,7 +477,7 @@ const rules = [
       'louisiana tint',
     ],
     reply: () => ({
-      text: faqAnswer['tint-law'],
+      text: `Window tinting is not available from us as of now. ${faqAnswer['tint-law']}`,
       actions: [serviceAction('window-tinting'), ...contactActions],
     }),
   },
@@ -591,8 +580,8 @@ const rules = [
       'shop located',
     ],
     reply: () => ({
-      text: `Our shop is at ${business.address}. Use the directions link to navigate there.`,
-      actions: [directionsAction, ...contactActions],
+      text: `Our business address is ${business.address}. We are a mobile-only service, so we come to your home or workplace within 40 miles of New Orleans.`,
+      actions: [serviceAreaAction, mobileBookingAction, ...contactActions],
     }),
   },
   {
@@ -652,7 +641,7 @@ const rules = [
       'does mobile service include my area',
     ],
     reply: () => ({
-      text: 'Mobile service can be requested at homes, offices, fleet yards, and dealerships within a 40-mile radius of our New Orleans shop. The area includes Greater New Orleans, the West Bank, and the North Shore. Exact ZIP-code availability depends on the service, so the team will confirm your location.',
+      text: 'Mobile service can be requested at homes, offices, fleet yards, and dealerships within a 40-mile radius of New Orleans. The area includes Greater New Orleans, the West Bank, and the North Shore. Exact ZIP-code availability depends on the service, so the team will confirm your location.',
       actions: [serviceAreaAction, mobileBookingAction, ...contactActions],
     }),
   },
@@ -735,7 +724,7 @@ const rules = [
       'glass',
     ],
     reply: () => ({
-      text: 'Auto glass service includes windshield chip and crack repair, OEM-equivalent windshield replacement, and side or rear window glass replacement. The team assesses damage, confirms the correct vehicle-specific glass, and verifies whether mobile or shop service is available for your request.',
+      text: 'Auto glass service includes windshield chip and crack repair, OEM-equivalent windshield replacement, and side or rear window glass replacement. The team assesses damage, confirms the correct vehicle-specific glass, and confirms mobile service availability for your request.',
       actions: [
         serviceAction('auto-glass-repair'),
         serviceAction('windshield-replacement'),
@@ -781,7 +770,7 @@ const rules = [
       'paint decontamination',
     ],
     reply: () => ({
-      text: `${serviceFacts('mobile-detailing')} Mobile interior and hand-wash service is done at your location; paint correction, polishing, and ceramic coating are shop-only at ${business.address}.`,
+      text: `${serviceFacts('mobile-detailing')} Interior detailing, hand washing, paint correction, polishing, and ceramic coating can all be requested as mobile service at your location.`,
       actions: [
         serviceAction('mobile-detailing'),
         bookingAction,
@@ -818,7 +807,7 @@ const rules = [
       'shattered window',
     ],
     reply: () => ({
-      text: `${serviceFacts('side-rear-glass')} Requests can be for mobile or shop service; the team will confirm glass availability and the right location for your vehicle.`,
+      text: `${serviceFacts('side-rear-glass')} Requests are for mobile service; the team will confirm glass availability for your vehicle and location.`,
       actions: [
         serviceAction('side-rear-glass'),
         bookingAction,
@@ -845,7 +834,7 @@ const rules = [
       'wind screen replacement',
     ],
     reply: () => ({
-      text: `${serviceFacts('windshield-replacement')} You can request mobile or in-shop service. The team will confirm the correct glass and whether your vehicle needs ADAS calibration.`,
+      text: `${serviceFacts('windshield-replacement')} You can request mobile service. The team will confirm the correct glass and whether your vehicle needs ADAS calibration.`,
       actions: [
         serviceAction('windshield-replacement'),
         bookingAction,
@@ -938,7 +927,7 @@ const rules = [
       'tint on my vehicle',
     ],
     reply: () => ({
-      text: `${serviceFacts('window-tinting')} Tint installation is available at the shop, not as a mobile service.`,
+      text: 'Window tinting is not available as of now. Our other services remain available, and the team can answer questions about ceramic or carbon film.',
       actions: [serviceAction('window-tinting'), ...contactActions],
     }),
   },
@@ -1006,8 +995,7 @@ const rules = [
       'which services can be mobile',
       'which services can i request mobile',
       'which services are in shop',
-      'which services are shop only',
-      'what can you do at home',
+            'what can you do at home',
       'what can you do at the shop',
       'what services are mobile',
       'what services can be mobile',
@@ -1023,7 +1011,7 @@ const rules = [
       'do all services come to my home',
     ],
     reply: () => ({
-      text: 'Windshield repair, windshield replacement, ADAS calibration, and side or rear glass can be requested as mobile or shop service; the team confirms what fits your vehicle and location. Window tinting is shop-only. Mobile detailing covers interior steam and shampoo plus hand washing; paint correction, polishing, and ceramic coating are shop-only.',
+      text: 'All available services can be requested as mobile service, including every detailing service: interior steam and shampoo, hand washing, paint correction, polishing, and ceramic coating. Window tinting is not available as of now. The team confirms what fits your vehicle and location.',
       actions: [allServicesAction, bookingAction, serviceAreaAction],
     }),
   },
@@ -1038,8 +1026,7 @@ const rules = [
       'drop off',
       'drop off my car',
       'bring my vehicle',
-      'shop only',
-      'in-shop service',
+            'in-shop service',
       'shop appointment',
       'visit your shop',
       'come to your location',
@@ -1048,8 +1035,8 @@ const rules = [
       'in person',
     ],
     reply: () => ({
-      text: `Shop service is at ${business.address}. Window tinting and detailing paint correction, polishing, and ceramic coating are shop-only. Other services may be requested mobile or in-shop; the team will confirm what suits your vehicle.`,
-      actions: [directionsAction, shopBookingAction],
+      text: `We are a mobile-only service, so we come to your home or workplace within 40 miles of New Orleans. There is no shop visit to arrange; request service and the team will confirm what suits your vehicle.`,
+      actions: [serviceAreaAction, mobileBookingAction],
     }),
   },
   {
@@ -1219,9 +1206,8 @@ const rules = [
       'service map',
     ],
     reply: () => ({
-      text: 'Choose the map you need: directions to the Tulane Avenue shop, the 40-mile mobile service area, or Our Work for photo-documented projects. Project pins show general areas, not client addresses.',
+      text: 'Choose the map you need: the 40-mile mobile service area or Our Work for photo-documented projects. Project pins show general areas, not client addresses.',
       actions: [
-        directionsAction,
         serviceAreaAction,
         { label: 'View Our Work', href: '/our-work', icon: 'map' },
       ],
@@ -1320,8 +1306,8 @@ const rules = [
       'can i stop by',
     ],
     reply: () => ({
-      text: 'I do not have confirmed walk-in availability. Please call before traveling to the shop. Website service requests are inquiries, and the team confirms the appointment time and service details.',
-      actions: [directionsAction, ...contactActions],
+      text: 'We are a mobile-only service, so there is no walk-in location. Request service and we will come to you. Website service requests are inquiries, and the team confirms the appointment time and service details.',
+      actions: [mobileBookingAction, ...contactActions],
     }),
   },
   {
@@ -1480,7 +1466,7 @@ const rules = [
       'book shop service',
     ],
     reply: () => ({
-      text: 'Use the service request form to select the service, enter your vehicle year/make/model, choose Mobile Service or Shop when available, and provide your contact details. Mobile requests also need an address or ZIP code. A preferred date is optional. Submitting the form sends an inquiry, not a confirmed appointment; the team will contact you to confirm availability and timing.',
+      text: 'Use the service request form to select the service, choose urgent or rush service, an appointment, or a quotation, enter your vehicle year/make/model and your service address or ZIP code, and provide your contact details. A preferred date is optional. Submitting the form sends an inquiry, not a confirmed appointment; the team will contact you to confirm availability and timing.',
       actions: [bookingAction, ...contactActions],
     }),
   },
@@ -1506,7 +1492,7 @@ const rules = [
       'what do you do',
     ],
     reply: () => ({
-      text: `We offer ${services.length} services: ${services.map((service) => service.name).join('; ')}. Choose one in the request form and our team will confirm the right location and availability.`,
+      text: `We offer ${services.filter((service) => !service.unavailable).length} services right now: ${services.filter((service) => !service.unavailable).map((service) => service.name).join('; ')}. Window Tinting is not available as of now. Choose one in the request form and our team will confirm the right location and availability.`,
       actions: [allServicesAction, bookingAction],
     }),
   },
@@ -1574,7 +1560,7 @@ const rules = [
       'what can you help with',
     ],
     reply: () => ({
-      text: 'I can answer common questions about services, mobile or shop options, hours, location, insurance, warranties, and booking. Try one of the suggested questions, or contact the team for something I can’t confirm.',
+      text: 'I can answer common questions about services, mobile service, hours, service area, insurance, warranties, and booking. Try one of the suggested questions, or contact the team for something I can’t confirm.',
       actions: contactActions,
     }),
   },
@@ -1630,7 +1616,7 @@ export function getChatbotReply(question) {
   const query = normalize(question);
   if (!query) {
     return {
-      text: 'Type a question about our services, service area, shop, hours, or booking.',
+      text: 'Type a question about our services, service area, hours, or booking.',
       actions: [],
     };
   }
@@ -1708,11 +1694,11 @@ export function getChatbotReply(question) {
 export const chatbotSuggestions = [
   'What services do you offer?',
   'Do you come to my home?',
-  'Where is the shop?',
+  'What areas do you serve?',
   'Do you help with insurance claims?',
 ];
 
 export const chatbotWelcome = {
-  text: 'Hi, I’m TMI Quick Answers. Ask about any service, pricing, insurance, mobile or shop options, timing, booking, warranties, hours, directions, reviews, or past work. If I can’t confirm something, I’ll connect you with the team.',
+  text: 'Hi, I’m TMI Quick Answers. Ask about any service, pricing, insurance, mobile service, timing, booking, warranties, hours, service area, reviews, or past work. If I can’t confirm something, I’ll connect you with the team.',
   actions: [],
 };

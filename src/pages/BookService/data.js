@@ -4,9 +4,9 @@ export const data = {
   sourceStatus:
     'Draft inquiry-page copy grounded in supplied booking workflow. Appointments require confirmation.',
   seo: {
-    title: 'Request Mobile or Shop Service | Total Mobile Install',
+    title: 'Request Mobile Service | Total Mobile Install',
     description:
-      'Request mobile or shop service in New Orleans. Choose auto glass, ADAS calibration, tint, or detailing and share your vehicle details for team confirmation.',
+      'Request mobile service in New Orleans. Choose auto glass, ADAS calibration, tint, or detailing and share your vehicle details for team confirmation.',
     image: '/images/services/mobile-glass-work.webp',
   },
   eyebrow: 'Your next step to a clearer drive',
@@ -19,7 +19,7 @@ export const data = {
   image: photos.glassWork,
   helpHeading: 'Prefer a conversation?',
   helpCopy:
-    'Call or email us to discuss your vehicle and ask about mobile or in-shop service.',
+    'Call or email us to discuss your vehicle and ask about mobile service.',
   phone: business.phone,
   phoneHref: business.phoneHref,
   email: business.email,
@@ -27,5 +27,5 @@ export const data = {
   hours: business.hours,
   timezoneNote: 'Hours are listed in New Orleans local time (Central Time).',
   detailingNote:
-    'Mobile detailing covers interior and hand-wash services. Paint correction, polishing, and ceramic coating are shop-only.',
+    'All services can be requested as mobile service at your home or workplace. The team confirms availability for your address and vehicle.',
 };

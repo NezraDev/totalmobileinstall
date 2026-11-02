@@ -6,6 +6,8 @@ The user delegated decisions and pinned a white header, supplied blue/red palett
 
 A considered automotive service journal: confident blue fields, crisp white reading surfaces, documentary vehicle photography, generous alignment, and precise controls. Manrope is self-hosted at 400, 500, 600, and 700. Reading sizes begin at 16px and body copy uses a comfortable line height and bounded measure.
 
+The user-approved premium theme lives in `src/styles/premium.css`. The home page runs on night navy `#010b3d` with white type, photo-tile services, a white before-and-after section, and a red `#d30103` closing panel. Inner pages open on night navy and keep white reading surfaces. The header and footer stay white so the logo stays legible. Contact uses a four-part details row above a centered form. Book Service uses a centered four-step form, with all fields still in one form. Interface text has a 12px floor.
+
 ## First viewport
 
 The supplied icon and a code-rendered brand wordmark sit on a white navigation strip. Real vehicle photographs crossfade behind a translucent blue gradient and the stable two-column headline and booking actions. A quiet caption strip sits over the same image, with no pause or arrow controls as requested. The hero fills the first screen and automatically advances every 4.5 seconds. A scroll-triggered metric band follows immediately. Nothing essential waits for an entrance animation.
@@ -19,6 +21,8 @@ The paired transformation viewer lets visitors inspect a genuine damaged/complet
 The homepage headline alone uses bright crystal letter faces, a brief crystallization pass, and a sparse light glint contained inside the glyphs. Its light pauses offscreen or in hidden tabs. Soft 0.8-second hero photo crossfades support this focal moment. Other pages settle into place over 480ms; copy arrives gently, photographs open with a subtle crop and color settling, and equivalent service or gallery entries use a short, capped stagger. Controls share precise press, hover, and focus feedback; FAQ answers settle when opened. The white header gains a soft shadow while scrolling. Visible content is the default, and forms and maps stay spatially stable. Reduced motion keeps a static crystal face and removes nonessential movement and automatic slides. Keyboard focus temporarily suspends hero rotation. Metric figures count to their sourced values once when entering the viewport, without repeated looping. Hidden tabs suspend the timer. Hovering the photographic hero does not stop automatic playback.
 
 The Our Work route uses a single city-level portfolio marker because verified job areas were not supplied. A compact project browser selects the case shown in the marker popup, including the real before-and-after photographs, while explicitly keeping client addresses private.
+
+The premium motion layer in `src/styles/premium-motion.css` adds photographs that clear into view, a single glint across service tiles, a slow settle on each hero photo, a hero progress bar tied to the rotation timer, and booking-step feedback. Reduced motion removes these effects.
 
 ## Scope and risks
 

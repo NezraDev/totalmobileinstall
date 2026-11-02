@@ -26,10 +26,8 @@ await desktop.evaluate(() => document.fonts.ready);
 assert.equal(await desktop.locator('h1').count(), 1);
 assert.ok((await desktop.locator('h1').innerText()).includes('At Your Door.'));
 assert.equal(
-  await desktop
-    .locator('.home-contact select[name="serviceMode"]')
-    .inputValue(),
-  'mobile',
+  await desktop.locator('select[name="serviceMode"]').count(),
+  0,
 );
 await settlePhotos(desktop);
 assert.ok(
@@ -113,15 +111,11 @@ for (const route of paths) {
     `Overflow ${route}: ${JSON.stringify(metrics)}`,
   );
   assert.ok((await desktop.title()).includes('Total Mobile Install'), route);
-  if (route === '/contact') {
-    assert.equal(
-      await desktop
-        .getByRole('link', { name: 'Get directions', exact: true })
-        .first()
-        .getAttribute('href'),
-      'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
-    );
-  }
+  assert.equal(
+    await desktop.getByRole('link', { name: 'Get directions' }).count(),
+    0,
+    route,
+  );
   const broken = await desktop
     .locator('img')
     .evaluateAll((imgs) =>
@@ -186,12 +180,18 @@ assert.ok(
   tintCopy.includes('Film options for heat rejection and UV protection'),
 );
 assert.ok(tintCopy.includes('written warranty terms'));
+assert.ok(tintCopy.includes('Not available as of now'));
+assert.equal(
+  await desktop.getByRole('link', { name: 'Request this service' }).count(),
+  0,
+);
 await desktop.goto(`${baseUrl}/services/mobile-detailing`, {
   waitUntil: 'networkidle',
 });
 const detailingCopy = await desktop.locator('main').innerText();
-assert.ok(detailingCopy.includes('2642 Tulane Ave'));
-assert.ok(detailingCopy.includes('shop-only'));
+assert.ok(detailingCopy.includes('Ceramic coating packages'));
+assert.ok(!/\bshop\b/i.test(detailingCopy));
+assert.ok(!/shop[- ]only/i.test(detailingCopy));
 await desktop.goto(`${baseUrl}/service-areas`, { waitUntil: 'networkidle' });
 const coverageCopy = await desktop.locator('main').innerText();
 assert.ok(coverageCopy.includes('40-mile mobile service radius'));
@@ -250,84 +250,23 @@ assert.equal(
   await desktop.getByLabel('Vehicle year, make, and model').count(),
   1,
 );
-assert.ok(
-  await desktop.getByText('Online requests are not available yet').isVisible(),
-);
-const modeSelect = desktop.getByLabel('Preferred service mode');
-assert.equal(await modeSelect.inputValue(), 'mobile');
-assert.equal(
-  await modeSelect.locator('option[value="shop"]').isDisabled(),
-  true,
-);
-await desktop
-  .getByLabel('Detailing service', { exact: true })
-  .selectOption('ceramic-coating');
-assert.equal(await modeSelect.inputValue(), 'shop');
-assert.equal(
-  await modeSelect.locator('option[value="mobile"]').isDisabled(),
-  true,
-);
-await desktop
-  .getByLabel('Detailing service', { exact: true })
-  .selectOption('hand-wash');
-assert.equal(await modeSelect.inputValue(), 'mobile');
-assert.equal(
-  await modeSelect.locator('option[value="shop"]').isDisabled(),
-  true,
-);
-assert.ok(
-  await desktop
-    .getByRole('button', { name: 'Send service request' })
-    .isDisabled(),
-);
-await desktop
-  .getByLabel('Service needed')
-  .selectOption('windshield-replacement');
-await desktop.getByLabel('Preferred service mode').selectOption('mobile');
+assert.equal(await desktop.getByLabel('Detailing service').count(), 0);
+assert.equal(await desktop.getByLabel('Preferred service mode').count(), 0);
+assert.equal(await desktop.locator('input[name="requestType"]').count(), 3);
 assert.ok(await desktop.getByLabel('Service address or ZIP code').isVisible());
-await desktop.goto(
-  `${baseUrl}/book-service?service=windshield-replacement&mode=mobile`,
-  { waitUntil: 'networkidle' },
-);
-assert.equal(
-  await desktop.getByLabel('Preferred service mode').inputValue(),
-  'mobile',
-);
-assert.ok(await desktop.getByLabel('Service address or ZIP code').isVisible());
-await desktop.goto(`${baseUrl}/book-service?mode=mobile`, {
+await desktop.goto(`${baseUrl}/book-service?service=window-tinting&mode=shop`, {
   waitUntil: 'networkidle',
 });
-assert.equal(
-  await desktop.getByLabel('Preferred service mode').inputValue(),
-  'mobile',
+assert.equal(await desktop.getByLabel('Service needed').inputValue(), '');
+assert.ok(
+  (
+    await desktop
+      .getByLabel('Service needed')
+      .locator('option[value="window-tinting"]')
+      .innerText()
+  ).includes('Not available as of now'),
 );
-await desktop.getByLabel('Service needed').selectOption('window-tinting');
-assert.equal(
-  await desktop.getByLabel('Preferred service mode').inputValue(),
-  'shop',
-);
-assert.equal(
-  await desktop
-    .getByLabel('Preferred service mode')
-    .locator('option[value="mobile"]')
-    .isDisabled(),
-  true,
-);
-await desktop.goto(`${baseUrl}/book-service?mode=shop`, {
-  waitUntil: 'networkidle',
-});
-const shopModeSelect = desktop.getByLabel('Preferred service mode');
-assert.equal(await shopModeSelect.inputValue(), 'shop');
-await desktop.getByLabel('Service needed').selectOption('mobile-detailing');
-assert.equal(
-  await desktop.getByLabel('Detailing service', { exact: true }).inputValue(),
-  'paint-correction',
-);
-assert.equal(await shopModeSelect.inputValue(), 'shop');
-assert.equal(
-  await shopModeSelect.locator('option[value="mobile"]').isDisabled(),
-  true,
-);
+assert.equal(await desktop.getByLabel('Preferred service mode').count(), 0);
 await desktop.goto(`${baseUrl}/faq`, { waitUntil: 'networkidle' });
 assert.equal(await desktop.locator('.faq-list details').count(), 8);
 const faqQuestions = await desktop
@@ -469,7 +408,7 @@ fs.writeFileSync(
         'Local photos load',
         'Slideshow and transformation controls',
         'Mobile navigation and Escape',
-        'Mobile and shop mode availability with disabled options',
+        'Mobile-only requests without a service mode choice',
         'Six listed services across four specialties and full service details',
         'Client-approved New Orleans service radius',
         'Mobile location field',

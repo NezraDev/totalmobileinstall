@@ -140,7 +140,7 @@ export default function Slideshow({
                 fetchPriority={i === 0 ? 'high' : 'low'}
                 sizes={
                   hero
-                    ? `(max-aspect-ratio: ${s.width}/${s.height}) ${Math.ceil((s.width / s.height) * 100)}vh, 100vw`
+                    ? `(max-width: 700px) 380px, (max-aspect-ratio: ${s.width}/${s.height}) ${Math.ceil((s.width / s.height) * 100)}vh, 100vw`
                     : '100vw'
                 }
                 ref={i === 0 ? firstImage : undefined}
@@ -161,7 +161,11 @@ export default function Slideshow({
           </div>
         </div>
         {hero ? (
-          <div className="hero-slide-progress" aria-hidden="true">
+          <div
+            className="hero-slide-progress"
+            aria-hidden="true"
+            data-running={auto && firstReady ? 'true' : undefined}
+          >
             {slides.map((s, i) => (
               <span key={s.id} className={i === index ? 'active' : ''} />
             ))}

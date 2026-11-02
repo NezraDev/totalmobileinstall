@@ -99,6 +99,7 @@ export async function submitContactRequest(payload, { signal } = {}) {
     return {
       accepted: true,
       requestId: typeof result.requestId === 'string' ? result.requestId : null,
+      copySent: result.copySent === true,
       message:
         'Request received. Our team will contact you to confirm availability. Your appointment is not confirmed yet.',
     };

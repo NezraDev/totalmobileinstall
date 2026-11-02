@@ -26,6 +26,12 @@ for (const route of [...report.routes, { ...report.notFound, path: '/404' }]) {
   const file =
     route.path === '/' ? 'dist/index.html' : `dist${route.path}.html`;
   const html = await fs.readFile(file, 'utf8');
+  // The business requested restoring its existing homepage badge images only.
+  // Continue checking all other page content for unconfirmed claims.
+  const claimHtml = html.replace(
+    /<ul class="home-trust-badges"[\s\S]*?<\/ul>/g,
+    '',
+  );
   const visibleClaimsToConfirm = [
     '10k+',
     'certified, family-owned care',
@@ -43,7 +49,7 @@ for (const route of [...report.routes, { ...report.notFound, path: '/404' }]) {
   ];
   for (const claim of visibleClaimsToConfirm)
     assert.ok(
-      !html.toLowerCase().includes(claim),
+      !claimHtml.toLowerCase().includes(claim),
       `Unconfirmed claim is not visible: ${claim} (${route.path})`,
     );
   assert.equal((html.match(/<h1\b/g) || []).length, 1, `One H1: ${route.path}`);
@@ -60,6 +66,11 @@ for (const route of [...report.routes, { ...report.notFound, path: '/404' }]) {
   );
   assert.ok(html.includes('data-prerendered="true"'));
   assert.ok(route.title && route.description);
+  assert.ok(route.title.length <= 62, `Title length ${route.title.length}: ${route.path}`);
+  assert.ok(
+    route.description.length <= 160,
+    `Description length ${route.description.length}: ${route.path}`,
+  );
   assert.ok(!titles.has(route.title), `Unique title: ${route.path}`);
   assert.ok(
     !descriptions.has(route.description),
@@ -93,6 +104,20 @@ for (const route of [...report.routes, { ...report.notFound, path: '/404' }]) {
     assert.equal(business.address.streetAddress, '2642 Tulane Ave');
     assert.equal(business.address.postalCode, '70119');
     assert.equal(business.geo.latitude, 29.961365651200683);
+    assert.ok(business.logo, `Business logo: ${route.path}`);
+    assert.equal(business.sameAs.length, 2, `Social profiles: ${route.path}`);
+    assert.equal(business.hasOfferCatalog.itemListElement.length, 5);
+    assert.equal(business.areaServed[0].geoRadius, 64374);
+    assert.ok(await exists(path.join('dist', new URL(business.logo).pathname)));
+    assert.ok(
+      business.areaServed.some((area) => area.name === 'Metairie, LA') &&
+        business.areaServed.some((area) => area.name === 'Slidell, LA'),
+    );
+    if (route.path !== '/' && !route.noindex)
+      assert.ok(
+        data['@graph'].some((item) => item['@type'] === 'BreadcrumbList'),
+        `Breadcrumbs: ${route.path}`,
+      );
     assert.ok(
       !schema[1].includes('aggregateRating') &&
         !schema[1].includes('priceRange'),
@@ -205,7 +230,7 @@ try {
     assert.equal(response.headers.get('location'), to);
   }
   assert.equal(
-    (await fetch(`${origin}/book-service?service=window-tinting&mode=shop`))
+    (await fetch(`${origin}/book-service?service=window-tinting`))
       .status,
     200,
   );

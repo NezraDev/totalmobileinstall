@@ -3,13 +3,13 @@ export const data = {
   sourceStatus:
     'Service specialties and details supplied by the client; exact availability is confirmed with the team.',
   seo: {
-    title: 'New Orleans Auto Glass, Tint & Detailing | Total Mobile Install',
+    title: 'New Orleans Auto Glass & Tint | Total Mobile Install',
     description:
-      'Explore windshield repair and replacement, side and rear glass, ADAS calibration, window tint, and detailing in New Orleans. Compare mobile and shop options.',
+      'Explore mobile windshield repair and replacement, side and rear glass, ADAS calibration, tint, and detailing at your home or workplace in New Orleans.',
     image: '/images/services/mobile-glass-work.webp',
   },
   eyebrow: 'Auto glass, tint & detailing in New Orleans',
-  title: 'The right service for your vehicle.',
+  title: 'Auto Glass, Tint & Detailing Services in New Orleans',
   description:
     'Six services across four specialties from a local, family-owned operation.',
   services,

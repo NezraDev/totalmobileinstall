@@ -10,7 +10,7 @@ export const navigation = [
 ];
 export const bookingAction = {
   label: 'Book Mobile Service',
-  to: '/book-service?mode=mobile',
+  to: '/book-service',
 };
 export const ui = {
   skip: 'Skip to content',
@@ -19,6 +19,7 @@ export const ui = {
   call: 'Call',
   book: 'Book Service',
   learnMore: 'Explore service',
+  notAvailable: 'Not available as of now',
   allServices: 'View all services',
   backHome: 'Back to home',
   requestNote:

@@ -8,7 +8,7 @@ export const data = {
     image: '/images/services/mobile-glass-work.webp',
   },
   eyebrow: 'Common questions',
-  title: 'Everything You Need to Know',
+  title: 'Auto Glass, Tint & ADAS Questions',
   description:
     'Clear answers about insurance, mobile timing, glass replacement, calibration, tint, and warranties.',
   items: [
@@ -52,7 +52,7 @@ export const data = {
       id: 'mobile',
       question: 'Can you service vehicles at my office?',
       answer:
-        'Absolutely. We serve homes, offices, fleet yards, and dealerships within 40 miles of our shop at 2642 Tulane Ave. We bring power and protective covers, so you do not have to lift a finger. Contact us to confirm availability for your ZIP code.',
+        'Absolutely. We serve homes, offices, fleet yards, and dealerships within 40 miles of New Orleans. We bring power and protective covers, so you do not have to lift a finger. Contact us to confirm availability for your ZIP code.',
     },
     {
       id: 'vehicles',

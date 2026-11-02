@@ -26,6 +26,8 @@ Six services, public routes, local photographs, genuine supplied before-and-afte
 
 Original icon plus code-rendered TOTAL MOBILE INSTALL wordmark on a white header, as requested in the latest revision. Deep blue #011A82, royal blue #011BCA, red #D30103. The user's latest revision combines the opening into an automatically advancing photographic hero with a translucent blue overlay, replacing the earlier separate gradient and slideshow. The hero fills the first screen, advances every 4.5 seconds without pause/arrow controls, and is followed by scroll-animated source metrics. The user-confirmed shop is at 2642 Tulane Ave, New Orleans, LA 70119, with latitude 29.961365651200683 and longitude -90.09014810481109. Headline: Windshield Repair, At Your Door. Readable modern sans-serif and subtle premium transitions. All images in public.
 
+The owner confirmed on 2026-11-02 that the business is mobile-only: all six services are delivered at the customer's location, with no shop option, walk-ins, or directions. 2642 Tulane Ave remains the published business address and the center of the 40-mile service radius.
+
 ## Evidence on Hand
 
 Source: ../total-mobile-install-website-planning-prompt.md. Original logo exports and supplied local service and matched before-and-after photography. Six supplied customer testimonials. Statistics are client-supplied and require confirmation before public launch.

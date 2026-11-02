@@ -5,6 +5,7 @@ import PageMeta from '../../components/ui/PageMeta';
 import Photo from '../../components/ui/Photo';
 import ServiceGrid from '../../components/ui/ServiceGrid';
 import { business } from '../../content/business';
+import { ui } from '../../content/navigation';
 import NotFound from '../NotFound/NotFound';
 import { data } from './data';
 
@@ -48,10 +49,16 @@ export default function ServiceDetail() {
   return (
     <>
       <PageMeta {...service.seo} />
-      <PageIntro title={service.name} description={service.short}></PageIntro>
+      <PageIntro
+        title={`${service.name} in New Orleans`}
+        description={service.unavailable ? ui.notAvailable : service.short}
+      ></PageIntro>
       <section className="section page-section">
         <div className="container split">
-          <Photo photo={service.photo} className="editorial-photo" />
+          <Photo
+            photo={service.photo}
+            className={`editorial-photo${service.unavailable ? ' editorial-photo--unavailable' : ''}`}
+          />
           <div className="split-copy">
             <h2>{service.detailHeading || service.name}</h2>
             <p className="body-large">{service.description}</p>
@@ -67,15 +74,44 @@ export default function ServiceDetail() {
             </ul>
             <p className="notice">{service.modeNote}</p>
             <div className="button-row">
-              <Link className="button button-primary" to={service.requestHref}>
-                {data.requestLabel}
-                <ArrowUpRight size={17} aria-hidden="true" />
-              </Link>
+              {service.unavailable ? (
+                <span
+                  className="button button-unavailable"
+                  aria-disabled="true"
+                >
+                  {ui.notAvailable}
+                </span>
+              ) : (
+                <Link
+                  className="button button-primary"
+                  to={service.requestHref}
+                >
+                  {data.requestLabel}
+                  <ArrowUpRight size={17} aria-hidden="true" />
+                </Link>
+              )}
               <a className="text-link" href={business.phoneHref}>
                 {data.callLabel}
               </a>
             </div>
             <p className="form-note">{data.inquiryNote}</p>
+          </div>
+        </div>
+      </section>
+      <section className="section page-section">
+        <div className="container service-guide">
+          <h2>{service.guide.heading}</h2>
+          {service.guide.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+          <p>{service.areaNote}</p>
+          <div className="button-row">
+            <Link className="text-link" to="/service-areas">
+              {data.areasLabel}
+            </Link>
+            <Link className="text-link" to="/faq">
+              {data.faqLabel}
+            </Link>
           </div>
         </div>
       </section>

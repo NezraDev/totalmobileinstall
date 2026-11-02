@@ -12,12 +12,12 @@ const serviceSeo = {
   'auto-glass-repair': {
     title: 'Windshield Repair in New Orleans | Total Mobile Install',
     description:
-      'Request windshield chip or crack assessment in New Orleans. Total Mobile Install offers mobile and shop repair requests and guidance when replacement is needed.',
+      'Request windshield chip or crack assessment in New Orleans. Total Mobile Install offers mobile repair requests and guidance when replacement is needed.',
   },
   'windshield-replacement': {
     title: 'Windshield Replacement in New Orleans | Total Mobile Install',
     description:
-      'Request OEM-equivalent windshield replacement in New Orleans. Ask about mobile or shop installation, insurance assistance, and ADAS calibration for your vehicle.',
+      'Request OEM-equivalent windshield replacement in New Orleans. Ask about mobile installation, insurance assistance, and ADAS calibration for your vehicle.',
   },
   'adas-calibration': {
     title: 'ADAS Calibration in New Orleans | Total Mobile Install',
@@ -27,12 +27,12 @@ const serviceSeo = {
   'window-tinting': {
     title: 'Ceramic Window Tint in New Orleans | Total Mobile Install',
     description:
-      'Explore ceramic and carbon window tint options at Total Mobile Install in New Orleans. Request in-shop installation and ask about film choices and warranty terms.',
+      'Window tinting from Total Mobile Install is not available as of now. Explore our mobile auto glass, calibration, and detailing services in New Orleans.',
   },
   'mobile-detailing': {
-    title: 'Mobile & Shop Detailing in New Orleans | Total Mobile Install',
+    title: 'Mobile Detailing in New Orleans | Total Mobile Install',
     description:
-      'Request mobile interior detailing or hand washing in New Orleans. Paint correction, polishing, and ceramic coating are available at the shop.',
+      'Request mobile interior detailing, hand washing, paint correction, polishing, or ceramic coating at your home or office in New Orleans.',
   },
   'side-rear-glass': {
     title: 'Side & Rear Glass in New Orleans | Total Mobile Install',
@@ -40,9 +40,22 @@ const serviceSeo = {
       'Request door, quarter, or rear window glass replacement in New Orleans. Share your vehicle details so Total Mobile Install can confirm the correct glass.',
   },
 };
+const mobileAreaNote = (work) =>
+  `Mobile ${work} requests are welcome across Greater New Orleans, including Metairie, Kenner, Gretna, Harvey, Chalmette, Slidell, Mandeville, and Covington. We confirm availability for your address before scheduling.`;
+const areaNotes = {
+  'auto-glass-repair': mobileAreaNote('windshield repair'),
+  'windshield-replacement': mobileAreaNote('windshield replacement'),
+  'adas-calibration': mobileAreaNote('calibration'),
+  'window-tinting':
+    'Window tinting is not available as of now. Our other services remain available across Greater New Orleans.',
+  'mobile-detailing': mobileAreaNote('detailing'),
+  'side-rear-glass': mobileAreaNote('side and rear glass'),
+};
 export const data = {
   sourceStatus:
     'Client-supplied service details. Exact vehicle eligibility and service availability are confirmed with the team.',
+  areasLabel: 'See our service areas',
+  faqLabel: 'Read common questions',
   eyebrow: 'Total Mobile Install services',
   overviewLabel: 'Care, explained.',
   requestLabel: 'Request this service',
@@ -57,11 +70,12 @@ export const data = {
       {
         ...service,
         photo: photoMap[service.imageKey],
+        areaNote: areaNotes[service.id],
         seo: {
           ...serviceSeo[service.id],
           image: photoMap[service.imageKey].src,
         },
-        requestHref: `/book-service?service=${service.id}&mode=${service.modes[0]}`,
+        requestHref: `/book-service?service=${service.id}`,
       },
     ]),
   ),

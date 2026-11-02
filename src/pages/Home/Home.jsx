@@ -7,9 +7,10 @@ import {
   Phone,
   Check,
   Quote,
+  Facebook,
+  Instagram,
 } from 'lucide-react';
 import { data as d } from './data';
-import { site } from '../../config/site';
 import { business } from '../../content/business';
 import { getResponsiveImageProps } from '../../content/image-sources';
 import PageMeta from '../../components/ui/PageMeta';
@@ -22,6 +23,7 @@ import MetricsStrip from '../../components/sections/MetricsStrip';
 import Transformations from '../../components/sections/Transformations';
 import BookingForm from '../../components/sections/BookingForm';
 import LocationMap from '../../components/sections/LocationMap';
+const socialIcons = { facebook: Facebook, instagram: Instagram };
 export default function Home() {
   const reviews = useRef(null);
   const scrollReviews = (direction) =>
@@ -43,7 +45,7 @@ export default function Home() {
               <div className="hero-actions">
                 <Link
                   className="button button-white"
-                  to="/book-service?mode=mobile"
+                  to="/book-service"
                 >
                   {d.hero.primary}
                   <ArrowUpRight size={19} />
@@ -52,6 +54,22 @@ export default function Home() {
                   <Phone size={17} />
                   {d.hero.secondary}
                 </a>
+              </div>
+              <div className="hero-social">
+                {business.socialProfiles.map((profile) => {
+                  const Icon = socialIcons[profile.id];
+                  return (
+                    <a
+                      key={profile.id}
+                      href={profile.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${business.name} on ${profile.name}`}
+                    >
+                      <Icon size={20} aria-hidden="true" />
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -194,12 +212,7 @@ export default function Home() {
             ))}
           </div>
           <ul className="home-trust-badges" aria-label={d.reviews.badgesLabel}>
-            {d.reviews.badges
-              .filter(
-                (badge) =>
-                  !badge.requiresConfirmation || site.showUnconfirmedClaims,
-              )
-              .map((badge) => (
+            {d.reviews.badges.map((badge) => (
               <li key={badge.id}>
                 <img
                   {...getResponsiveImageProps(badge.src, {
@@ -260,9 +273,9 @@ export default function Home() {
                 <small>{d.contact.hoursNote}</small>
               </div>
             </div>
-            <LocationMap />
+            <LocationMap showCoverage />
           </div>
-          <BookingForm compact initialMode="mobile" />
+          <BookingForm compact />
         </div>
       </section>
       <CTA />

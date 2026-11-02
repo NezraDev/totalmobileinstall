@@ -45,31 +45,21 @@ try {
     assert.equal(await page.locator('#tmi-structured-data').count(), 1);
     assert.equal(await page.locator('h1').count(), 1);
   }
-  await page.goto(`${base}/book-service?service=window-tinting&mode=mobile`, {
+  await page.goto(`${base}/book-service?service=window-tinting`, {
     waitUntil: 'networkidle',
   });
+  assert.equal(await page.getByLabel('Service needed').inputValue(), '');
   assert.equal(
-    await page.getByLabel('Service needed').inputValue(),
-    'window-tinting',
+    await page
+      .getByLabel('Service needed')
+      .locator('option[value="window-tinting"]')
+      .isDisabled(),
+    true,
   );
-  assert.equal(
-    await page.getByLabel('Preferred service mode').inputValue(),
-    'shop',
-  );
+  assert.equal(await page.getByLabel('Preferred service mode').count(), 0);
   assert.equal(
     await page.locator('link[rel="canonical"]').getAttribute('href'),
     `${report.origin}/book-service`,
-  );
-  await page.goto(`${base}/book-service?service=mobile-detailing&mode=shop`, {
-    waitUntil: 'networkidle',
-  });
-  assert.equal(
-    await page.getByLabel('Detailing service', { exact: true }).inputValue(),
-    'paint-correction',
-  );
-  assert.equal(
-    await page.getByLabel('Preferred service mode').inputValue(),
-    'shop',
   );
   const missing = await page.goto(`${base}/services/unknown-service`, {
     waitUntil: 'networkidle',

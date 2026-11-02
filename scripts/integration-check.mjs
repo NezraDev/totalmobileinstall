@@ -67,9 +67,8 @@ const valid = {
   phone: '5045550100',
   email: 'customer@example.test',
   serviceId: 'windshield-replacement',
-  detailType: '',
+  requestType: 'appointment',
   vehicle: '2020 Test Vehicle',
-  serviceMode: 'mobile',
   location: '70126',
   preferredDate: '',
   message: 'A test request that will never be sent.',
@@ -122,7 +121,8 @@ try {
         'email',
         'serviceId',
         'vehicle',
-        'serviceMode',
+        'location',
+        'requestType',
       ])
         assert.ok(empty[field], field);
       assert.ok(
@@ -135,14 +135,6 @@ try {
         client.validateContactRequest({ ...valid, message: 'x'.repeat(3001) })
           .message,
       );
-      assert.deepEqual(
-        client.validateContactRequest({
-          ...valid,
-          serviceMode: 'shop',
-          location: '',
-        }),
-        {},
-      );
       await assert.rejects(
         client.submitContactRequest({ ...valid, email: '' }),
         (error) =>
@@ -152,80 +144,32 @@ try {
   );
 
   await check(
-    'Mobile-only and shop-only service choices are enforced',
+    'Every service is mobile and always needs a location',
     async () => {
       const detailing = { ...valid, serviceId: 'mobile-detailing' };
-      for (const detailType of ['interior', 'hand-wash']) {
+      assert.match(
+        client.validateContactRequest({ ...valid, serviceId: 'window-tinting' })
+          .serviceId,
+        /not available as of now/,
+      );
+      for (const serviceId of ['mobile-detailing', 'adas-calibration']) {
         assert.deepEqual(
-          client.validateContactRequest({ ...detailing, detailType }),
+          client.validateContactRequest({ ...valid, serviceId }),
           {},
         );
         assert.ok(
-          client.validateContactRequest({
-            ...detailing,
-            detailType,
-            serviceMode: 'shop',
-            location: '',
-          }).serviceMode,
-        );
-      }
-      for (const detailType of [
-        'paint-correction',
-        'polishing',
-        'ceramic-coating',
-      ]) {
-        assert.ok(
-          client.validateContactRequest({ ...detailing, detailType })
-            .serviceMode,
-        );
-        assert.deepEqual(
-          client.validateContactRequest({
-            ...detailing,
-            detailType,
-            serviceMode: 'shop',
-            location: '',
-          }),
-          {},
-        );
-        await assert.rejects(
-          client.submitContactRequest({ ...detailing, detailType }),
-          (error) =>
-            error.code === 'validation' &&
-            Boolean(error.fieldErrors.serviceMode),
-        );
-      }
-      assert.ok(
-        client.validateContactRequest({
-          ...valid,
-          serviceId: 'window-tinting',
-          serviceMode: 'mobile',
-        }).serviceMode,
-      );
-      assert.deepEqual(
-        client.validateContactRequest({
-          ...valid,
-          serviceId: 'window-tinting',
-          serviceMode: 'shop',
-          location: '',
-        }),
-        {},
-      );
-      for (const detailType of ['', 'unknown']) {
-        assert.ok(
-          client.validateContactRequest({ ...detailing, detailType })
-            .detailType,
+          client.validateContactRequest({ ...valid, serviceId, location: '' })
+            .location,
         );
       }
       mockFetch(async (_url, options) => {
         const body = JSON.parse(options.body);
-        assert.equal(body.detailType, 'interior');
+        assert.equal(body.detailType, undefined);
+        assert.equal(body.serviceMode, undefined);
         assert.equal(body.message, valid.message);
         return json({ accepted: true }, 202);
       });
-      await client.submitContactRequest({
-        ...detailing,
-        detailType: 'interior',
-      });
+      await client.submitContactRequest(detailing);
     },
   );
 

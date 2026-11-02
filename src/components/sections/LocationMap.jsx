@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import { ArrowUpRight, LoaderCircle, MapPin } from 'lucide-react';
 import {
   mapConfig,
-  directionsUrl,
   transformCartoRequest,
   createServiceRadiusFeature,
   serviceRadiusBounds,
@@ -110,7 +109,7 @@ export default function LocationMap({ showCoverage = false }) {
           'aria-label',
           `Map marker for ${business.name}`,
         );
-        markerElement.title = `${business.name} shop location`;
+        markerElement.title = `${business.name} business location`;
         markerRoot = createRoot(markerElement);
         markerRoot.render(
           <MapPin size={30} fill="currentColor" aria-hidden="true" />,
@@ -230,7 +229,7 @@ export default function LocationMap({ showCoverage = false }) {
         aria-label={
           showCoverage
             ? `${serviceRadiusMiles}-mile mobile service radius around ${business.name}`
-            : `${business.name} shop location map`
+            : `${business.name} location map`
         }
         role="region"
       />
@@ -254,10 +253,6 @@ export default function LocationMap({ showCoverage = false }) {
           <MapPin size={34} strokeWidth={1.5} />
           <strong>{c.unavailable}</strong>
           <span>{business.address}</span>
-          <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-            {c.directions}
-            <ArrowUpRight size={16} />
-          </a>
           <a
             href={mapConfig.embedUrl}
             target="_blank"
@@ -273,10 +268,6 @@ export default function LocationMap({ showCoverage = false }) {
           <strong>{business.name}</strong>
           <span>{business.address}</span>
         </div>
-        <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
-          {c.directions}
-          <ArrowUpRight size={18} />
-        </a>
       </div>
     </div>
   );

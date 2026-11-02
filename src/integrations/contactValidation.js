@@ -1,13 +1,18 @@
-import { services, getAvailableServiceModes } from '../content/services.js';
+import { services } from '../content/services.js';
+
+export const requestTypes = {
+  urgent: 'Request a Service: Urgent / Rush',
+  appointment: 'Request a Service: Appointment',
+  quotation: 'Request a Quotation',
+};
 
 export const limits = {
+  requestType: 20,
   fullName: 100,
   phone: 30,
   email: 254,
   serviceId: 80,
-  detailType: 40,
   vehicle: 160,
-  serviceMode: 40,
   location: 200,
   preferredDate: 10,
   message: 3000,
@@ -35,31 +40,13 @@ export function validateContactRequest(payload) {
   if (!values.serviceId) errors.serviceId = 'Choose the service you need.';
   if (values.serviceId && !selectedService)
     errors.serviceId = 'Choose a valid service.';
-  if (selectedService?.id === 'mobile-detailing') {
-    if (
-      ![
-        'interior',
-        'hand-wash',
-        'paint-correction',
-        'polishing',
-        'ceramic-coating',
-      ].includes(values.detailType)
-    ) {
-      errors.detailType = 'Choose the detailing service you need.';
-    }
-  }
+  if (selectedService?.unavailable)
+    errors.serviceId = `${selectedService.name} is not available as of now. Choose another service.`;
+  if (!Object.hasOwn(requestTypes, values.requestType))
+    errors.requestType = 'Choose the type of request.';
   if (!values.vehicle)
     errors.vehicle = 'Enter your vehicle year, make, and model.';
-  if (!values.serviceMode) errors.serviceMode = 'Choose a service preference.';
-  else if (
-    selectedService &&
-    !getAvailableServiceModes(selectedService, values.detailType).includes(
-      values.serviceMode,
-    )
-  ) {
-    errors.serviceMode = 'Choose a service mode available for your selection.';
-  }
-  if (values.serviceMode === 'mobile' && !values.location)
+  if (!values.location)
     errors.location = 'Enter the service address or ZIP code.';
   if (values.preferredDate && !/^\d{4}-\d{2}-\d{2}$/.test(values.preferredDate))
     errors.preferredDate = 'Choose a valid preferred date.';

@@ -93,7 +93,7 @@
 .tmi-chat-heading p {
   margin-top: 4px;
   color: #e4eaff;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.35;
 }
 
@@ -193,7 +193,7 @@
   border-radius: 7px;
   background: #fff;
   color: var(--blue);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   line-height: 1.25;
   text-decoration: none;
@@ -224,7 +224,7 @@
   border-radius: 999px;
   background: #fff;
   color: var(--blue);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.35;
   text-align: left;
@@ -301,7 +301,7 @@
   padding: 0 15px 12px;
   background: #fff;
   color: #536079;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.4;
 }
 

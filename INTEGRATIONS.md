@@ -26,9 +26,8 @@ All photo and brand files live in `public/images`. Reference them as `/images/..
   "phone": "Customer phone",
   "email": "Customer email",
   "serviceId": "Service slug from the website",
-  "detailType": "",
+  "requestType": "urgent, appointment, or quotation",
   "vehicle": "Year, make, model",
-  "serviceMode": "mobile",
   "location": "Service address or ZIP code",
   "preferredDate": "2026-11-02",
   "message": "Optional description",
@@ -36,9 +35,9 @@ All photo and brand files live in `public/images`. Reference them as `/images/..
 }
 ```
 
-- Required: full name, phone, email, service ID, vehicle, and service preference. Location is required for `mobile`. `detailType` is required only for `mobile-detailing` and otherwise empty. Date and message are optional. `website` is an invisible anti-spam field and must remain empty for normal visitors.
-- Endpoint must validate field types, lengths, allowed service slugs, eligible service modes, date validity, and mobile location. Browser validation only assists the visitor.
-- Detailing `detailType` values: `interior`, `hand-wash`, `paint-correction`, `polishing`, or `ceramic-coating`. The endpoint must reject a missing or unknown detailing value and reject mobile requests for `paint-correction`, `polishing`, or `ceramic-coating`. Mobile detailing is limited to interior and hand wash. Availability for other variants must be confirmed rather than inferred.
+- Required: full name, phone, email, service ID, request type, vehicle, and location. Date and message are optional. `website` is an invisible anti-spam field and must remain empty for normal visitors.
+- Endpoint must validate field types, lengths, allowed service slugs, date validity, and location. Browser validation only assists the visitor.
+- All available services are mobile. Window tinting is not available as of now and is rejected. The team confirms availability for the address and vehicle.
 - Success: HTTP `200` or `202`, `{"accepted":true,"requestId":"opaque-reference"}`. This acknowledges endpoint acceptance, not an appointment or inbox delivery.
 - Validation: HTTP `400` or `422`, `{"accepted":false,"fieldErrors":{"email":"Enter a valid email address."}}`.
 - Rate limit: HTTP `429`, `{"accepted":false}`. Other failures: non-2xx JSON with `accepted:false`. A malformed body or 2xx response without `accepted:true` is treated as failure.

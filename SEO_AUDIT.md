@@ -14,6 +14,22 @@ Scope: source, production build output, browser behavior, and the anonymous publ
 - Each of the six New Orleans service pages now includes service-specific questions and useful internal links. Project cards include grounded descriptions of the supplied photo pairs and link to the matching service page. Project locations and customer details remain private.
 - Chatbot code is a separate 41.6 KB chunk (12.4 KB gzip), reducing the main entry chunk from about 402 KB to 362 KB. The hero slideshow pauses offscreen so it does not progressively load every photograph while visitors are elsewhere on the page.
 
+## On-site changes, 2026-10-31
+
+- Service pages gained guidance sections, area notes, and FAQ and service-area links. The Service Areas page lists communities inside the supplied 40-mile radius; the owner should confirm this list. No separate town pages were added.
+- Schema now includes the logo, those communities in `areaServed`, and breadcrumbs. The business name now matches the Google listing's wording, "Auto Glass and Tint". `sameAs` lists the owner-supplied Facebook and Instagram profiles.
+- Clearer H1s and shorter titles were added, and homepage stat labels are no longer headings.
+- Trailing-slash URLs still return 200 with the correct canonical on Netlify. Forced rules were not used because Netlify treats `/path/` and `/path` alike, which risks a redirect loop.
+- Still outside this repository: redirecting `totalmobileglass.com`, which shows 5800 Morrison Rd, and correcting directory listings such as MapQuest, which shows 3035 Jackson Ave and 504-402-6525.
+
+## On-site changes, 2026-11-02
+
+- The site now presents a mobile-only business, with no shop option, walk-ins, or directions.
+- Titles stay within 62 characters and descriptions within 160, and the SEO check enforces both.
+- Business schema adds a 40-mile service radius, contact point, and catalog of the six services.
+- Phones load a smaller hero photo. Simulated tests are not field data, so check PageSpeed Insights after deployment.
+- The Premium Quality badge is removed because its image says "EST. 1923", which conflicts with 9+ years in business.
+
 ## Validation
 
 - `npm run check`: passed content checks, 13 integration cases with mocked requests, email server checks without sending real mail, and 85 chatbot examples.

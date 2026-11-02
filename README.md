@@ -19,7 +19,7 @@ Open the Local URL printed by Vite. `npm run build` creates the static `dist` fo
 - All public page templates plus six service detail routes, page-specific SEO, and genuine recovery pages for invalid routes and slugs. `/our-work` is the completed-project map and `/home-service` redirects there for continuity.
 - Nine genuine matched before-and-after projects. Desktop comparison panels preserve differing camera angles; mobile tabs switch clearly between stages.
 - Six supplied testimonials with exact wording, scrollable using keyboard or controls. No invented aggregate score or review count.
-- Accessible service inquiry form, eligible modes, shop-only detailing restrictions, conditional mobile address, field validation, pending/accepted/failed/unavailable states, and preserved input on failure.
+- Accessible service inquiry form, mobile-only requests with a required service address, field validation, pending/accepted/failed/unavailable states, and preserved input on failure.
 - Deferred MapLibre maps using CARTO Voyager when configured, linked CARTO and OpenStreetMap attribution, readable map fallbacks, and an exact shop pin.
 - An Our Work page with one generalized New Orleans portfolio marker. Selecting any of nine supplied projects opens its real before-and-after proof in the pin popup; no client names or exact job addresses are published.
 - Static business structured data, self-hosted Manrope, local responsive WebP photos, reduced-motion preferences, visible focus, and a mobile call/booking bar that hides around forms, maps, and footer content.

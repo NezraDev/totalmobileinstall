@@ -18,7 +18,7 @@ export default function ServiceGrid({ items = services, className = '' }) {
       {items.map((s) => (
         <Link
           to={`/services/${s.routeId || s.id}`}
-          className="service-card"
+          className={`service-card${s.unavailable ? ' service-card--unavailable' : ''}`}
           key={s.id}
         >
           <div className="service-image">
@@ -26,16 +26,17 @@ export default function ServiceGrid({ items = services, className = '' }) {
               photo={photos[images[s.imageKey]] || photos.redCorvette}
               sizes="(max-width: 650px) 100vw, (max-width: 1000px) 50vw, 33vw"
             />
-            <span className="service-arrow">
-              <ArrowUpRight size={22} />
-            </span>
           </div>
           <h3>{s.name}</h3>
           <p>{s.description}</p>
-          <span className="text-link">
-            {ui.learnMore}
-            <ArrowUpRight size={16} />
-          </span>
+          {s.unavailable ? (
+            <span className="service-unavailable">{ui.notAvailable}</span>
+          ) : (
+            <span className="text-link">
+              {ui.learnMore}
+              <ArrowUpRight size={16} />
+            </span>
+          )}
         </Link>
       ))}
     </div>

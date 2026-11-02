@@ -70,7 +70,7 @@ export default function MetricsStrip({ label, items }) {
               {displayValue(item, progress)}
             </strong>
             <span className="sr-only">{displayValue(item, 1)} </span>
-            <h2>{item.label}</h2>
+            <p className="metric-label">{item.label}</p>
             {item.to ? (
               <Link className="metric-detail" to={item.to}>
                 {item.detail}

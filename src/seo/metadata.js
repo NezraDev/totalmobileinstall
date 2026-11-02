@@ -56,10 +56,54 @@ export function createPageMetadata(pathname, options = {}) {
   return metadata;
 }
 
+const breadcrumbLabels = {
+  services: 'Services',
+  'service-areas': 'Service Areas',
+  'our-work': 'Our Work',
+  gallery: 'Gallery',
+  faq: 'FAQ',
+  contact: 'Contact',
+  about: 'About',
+  'book-service': 'Book Service',
+};
+
+function breadcrumbs(metadata) {
+  const segments = metadata.path.split('/').filter(Boolean);
+  const pages = segments.map((segment, index) => ({
+    path: `/${segments.slice(0, index + 1).join('/')}`,
+    name:
+      breadcrumbLabels[segment] ||
+      services.find((item) => item.id === segment)?.name,
+  }));
+  if (!pages.length || pages.some((page) => !page.name)) return null;
+  return {
+    '@type': 'BreadcrumbList',
+    '@id': `${metadata.canonical}#breadcrumb`,
+    itemListElement: [{ path: '/', name: 'Home' }, ...pages].map(
+      (page, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: page.name,
+        item: absoluteUrl(page.path),
+      }),
+    ),
+  };
+}
+
 function structuredData(metadata, notFound) {
   if (notFound) return null;
   const organizationId = absoluteUrl('/#business');
   const websiteId = absoluteUrl('/#website');
+  const areaServed = [
+    {
+      '@type': 'GeoCircle',
+      geoMidpoint: { '@type': 'GeoCoordinates', ...business.geo },
+      geoRadius: 64374,
+    },
+    ...business.serviceAreas.flatMap((area) =>
+      area.places.map((place) => ({ '@type': 'City', name: `${place}, LA` })),
+    ),
+  ];
   const graph = [
     {
       '@type': 'AutomotiveBusiness',
@@ -72,6 +116,30 @@ function structuredData(metadata, notFound) {
       geo: { '@type': 'GeoCoordinates', ...business.geo },
       hasMap: 'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
       image: absoluteUrl('/images/services/corvette-blue-windshield.webp'),
+      logo: absoluteUrl(business.logo),
+      sameAs: business.socialProfiles.map((profile) => profile.url),
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: '+15042077742',
+        contactType: 'customer service',
+        email: business.email,
+        areaServed: 'US',
+        availableLanguage: 'English',
+      },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Mobile auto glass, tint, calibration, and detailing services',
+        itemListElement: services
+          .filter((item) => !item.unavailable)
+          .map((item) => ({
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: item.name,
+              url: absoluteUrl(`/services/${item.id}`),
+            },
+          })),
+      },
       openingHoursSpecification: [
         {
           '@type': 'OpeningHoursSpecification',
@@ -86,7 +154,7 @@ function structuredData(metadata, notFound) {
           closes: '12:00',
         },
       ],
-      areaServed: { '@type': 'City', name: 'New Orleans' },
+      areaServed,
     },
     {
       '@type': 'WebSite',
@@ -119,9 +187,14 @@ function structuredData(metadata, notFound) {
       description: service.description,
       url: metadata.canonical,
       provider: { '@id': organizationId },
-      areaServed: { '@type': 'City', name: 'New Orleans' },
+      areaServed,
     });
     graph[2].mainEntity = { '@id': `${metadata.canonical}#service` };
+  }
+  const breadcrumb = breadcrumbs(metadata);
+  if (breadcrumb) {
+    graph.push(breadcrumb);
+    graph[2].breadcrumb = { '@id': breadcrumb['@id'] };
   }
   return { '@context': 'https://schema.org', '@graph': graph };
 }

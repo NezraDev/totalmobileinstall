@@ -269,7 +269,7 @@ main:focus {
 }
 .navigation > a:not(.button) {
   position: relative;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   padding-block: 16px;
   white-space: nowrap;
@@ -295,7 +295,7 @@ main:focus {
   color: var(--blue);
 }
 .nav-book {
-  font-size: 12px;
+  font-size: 13px;
   min-height: 46px;
   padding-inline: 18px;
   gap: 15px;
@@ -316,7 +316,7 @@ main:focus {
   padding-bottom: 27px;
 }
 .hero-location {
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.095em;
   font-weight: 600;
   color: #d2daff;
@@ -373,7 +373,7 @@ main:focus {
   margin-top: 44px;
   padding-top: 20px;
   border-top: 1px solid rgb(255 255 255 / 0.2);
-  font-size: 11px;
+  font-size: 13px;
   color: #d2dcff;
 }
 .hero-scroll {
@@ -436,7 +436,7 @@ main:focus {
   color: var(--blue);
 }
 .slide-caption span:not(.caption-line) {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
 }
 .slideshow-controls {
@@ -498,7 +498,7 @@ main:focus {
 }
 .editorial-photo figcaption {
   margin-top: 16px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
 }
 .about-stats {
@@ -519,7 +519,7 @@ main:focus {
 }
 .stat span {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   margin-top: 5px;
 }
@@ -566,28 +566,7 @@ main:focus {
 }
 .service-card:hover .service-image > img {
   transform: scale(1.045);
-}
-.service-arrow {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  width: 43px;
-  height: 43px;
-  border-radius: 50%;
-  background: white;
-  color: var(--blue);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition:
-    background 0.3s,
-    color 0.3s;
-}
-.service-card:hover .service-arrow {
-  background: var(--blue);
-  color: white;
-}
-.service-card h3 {
+}.service-card h3 {
   font-size: 21px;
   margin-top: 21px;
   margin-bottom: 11px;
@@ -599,7 +578,7 @@ main:focus {
   max-width: 54ch;
 }
 .service-card .text-link {
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 17px;
 }
 .why-section {
@@ -690,7 +669,7 @@ main:focus {
   padding: 7px 18px;
   background: white;
   color: var(--blue);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   border-radius: 3px;
 }
@@ -707,7 +686,7 @@ main:focus {
   gap: 20px;
   margin-top: 17px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
 }
 .comparison-footer > span {
   white-space: nowrap;
@@ -782,7 +761,7 @@ main:focus {
 }
 .review figcaption span {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   margin-top: 4px;
 }
@@ -807,7 +786,7 @@ main:focus {
 }
 .contact-row > span {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--muted);
   margin-bottom: 8px;
@@ -838,7 +817,7 @@ main:focus {
   font-weight: 500;
 }
 .contact-row small {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   display: block;
   margin-top: 10px;
@@ -886,7 +865,7 @@ main:focus {
 }
 .map-coverage-legend small {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.4;
 }
 .map-canvas {
@@ -914,7 +893,7 @@ main:focus {
   color: var(--blue);
 }
 .map-fallback > span {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   margin-top: 10px;
   max-width: 40ch;
@@ -932,12 +911,12 @@ main:focus {
 }
 .map-address > div strong {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--blue);
 }
 .map-address > div span {
   display: block;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
   margin-top: 5px;
 }
@@ -945,7 +924,7 @@ main:focus {
   display: flex;
   gap: 8px;
   align-items: center;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--blue);
   font-weight: 700;
   white-space: nowrap;
@@ -1011,7 +990,7 @@ main:focus {
   overflow-wrap: anywhere;
 }
 .required-note {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   margin-bottom: 18px;
 }
@@ -1085,7 +1064,7 @@ main:focus {
   resize: vertical;
 }
 .form-field small {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   line-height: 1.6;
   display: block;
@@ -1097,7 +1076,7 @@ main:focus {
 .form-field .field-error,
 .field-error {
   color: #b00002;
-  font-size: 12px;
+  font-size: 13px;
 }
 .form-status {
   margin-top: 18px;
@@ -1121,10 +1100,10 @@ main:focus {
   width: 100%;
   margin-top: 22px;
   min-height: 52px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .form-privacy {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.8;
   color: var(--muted);
   margin-top: 18px;
@@ -1186,7 +1165,7 @@ main:focus {
   display: flex;
   gap: 12px;
   align-items: center;
-  font-size: 12px;
+  font-size: 13px;
 }
 .site-footer {
   padding-top: 76px;
@@ -1204,7 +1183,7 @@ main:focus {
   object-fit: contain;
 }
 .footer-brand p {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   line-height: 1.9;
   margin-top: 23px;
@@ -1218,7 +1197,7 @@ main:focus {
 }
 .footer-grid > div > a:not(:has(img)) {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   margin-bottom: 10px;
   color: var(--muted);
 }
@@ -1232,7 +1211,7 @@ main:focus {
   letter-spacing: -0.025em;
 }
 .footer-contact p {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--muted);
   line-height: 1.8;
   margin-top: 16px;
@@ -1243,7 +1222,7 @@ main:focus {
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  font-size: 9px;
+  font-size: 12px;
   color: var(--muted);
 }
 .footer-bottom > div {
@@ -1442,11 +1421,11 @@ main:focus {
     gap: 17px;
   }
   .navigation > a:not(.button) {
-    font-size: 11px;
+    font-size: 13px;
   }
   .nav-book {
     padding-inline: 15px;
-    font-size: 11px;
+    font-size: 13px;
   }
   .hero-layout {
     gap: 35px;
@@ -1480,7 +1459,7 @@ main:focus {
     min-height: 450px;
   }
   .section-heading > .text-link {
-    font-size: 12px;
+    font-size: 13px;
   }
   .about-stats {
     gap: 18px;
@@ -1544,7 +1523,7 @@ main:focus {
     font-size: 14px;
   }
   .hero-location {
-    font-size: 10px;
+    font-size: 12px;
   }
   .hero .container {
     padding-top: 38px;
@@ -1553,12 +1532,12 @@ main:focus {
     margin-top: 34px;
   }
   .hero-actions .button {
-    font-size: 12px;
+    font-size: 13px;
     gap: 15px;
     padding-inline: 18px;
   }
   .hero-call {
-    font-size: 11px;
+    font-size: 13px;
   }
   .slideshow-images {
     height: 450px;
@@ -1576,7 +1555,7 @@ main:focus {
     font-size: 20px;
   }
   .stat span {
-    font-size: 9px;
+    font-size: 12px;
   }
   .about-stats {
     gap: 15px;
@@ -1597,7 +1576,7 @@ main:focus {
     font-size: 15px;
   }
   .why-list p {
-    font-size: 12px;
+    font-size: 13px;
   }
   .why-photo {
     min-height: 420px;
@@ -1690,7 +1669,7 @@ main:focus {
     padding-bottom: 23px;
   }
   .hero-location {
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.055em;
     margin-bottom: 23px;
   }
@@ -1717,22 +1696,22 @@ main:focus {
     flex-wrap: wrap;
   }
   .hero-actions .button {
-    font-size: 12px;
+    font-size: 13px;
     min-height: 50px;
     gap: 21px;
     padding-inline: 20px;
   }
   .hero-call {
-    font-size: 11px;
+    font-size: 13px;
   }
   .hero-note {
     margin-top: 27px;
     padding-top: 17px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .hero-scroll {
     gap: 10px;
-    font-size: 9px;
+    font-size: 12px;
   }
   .slideshow-images {
     height: auto;
@@ -1753,10 +1732,10 @@ main:focus {
     min-width: 160px;
   }
   .slide-caption p {
-    font-size: 12px;
+    font-size: 13px;
   }
   .slide-caption span:not(.caption-line) {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.5;
     display: block;
     margin-top: 3px;
@@ -1803,7 +1782,7 @@ main:focus {
     aspect-ratio: 1.3;
   }
   .editorial-photo figcaption {
-    font-size: 10px;
+    font-size: 12px;
     margin-top: 12px;
   }
   .about-stats {
@@ -1815,7 +1794,7 @@ main:focus {
     font-size: 24px;
   }
   .stat span {
-    font-size: 10px;
+    font-size: 12px;
   }
   .section-heading {
     margin-bottom: 32px;
@@ -1831,7 +1810,7 @@ main:focus {
     line-height: 1.85;
   }
   .section-heading > .text-link {
-    font-size: 12px;
+    font-size: 13px;
   }
   .service-grid {
     grid-template-columns: 1fr 1fr;
@@ -1839,17 +1818,7 @@ main:focus {
   }
   .service-image > img {
     aspect-ratio: 1.15;
-  }
-  .service-arrow {
-    width: 32px;
-    height: 32px;
-    right: 9px;
-    bottom: 9px;
-  }
-  .service-arrow > svg {
-    width: 17px;
-  }
-  .service-card h3 {
+  }  .service-card h3 {
     font-size: 17px;
     line-height: 1.3;
     margin-top: 16px;
@@ -1860,7 +1829,7 @@ main:focus {
     line-height: 1.75;
   }
   .service-card .text-link {
-    font-size: 10px;
+    font-size: 12px;
     gap: 6px;
     margin-top: 12px;
   }
@@ -1905,7 +1874,7 @@ main:focus {
   .comparison-tabs button {
     background: var(--soft);
     border: 1px solid var(--line);
-    font-size: 12px;
+    font-size: 13px;
     min-height: 42px;
     padding: 9px 23px;
     border-radius: 3px;
@@ -1926,12 +1895,12 @@ main:focus {
     display: none;
   }
   .comparison-pair figcaption {
-    font-size: 11px;
+    font-size: 13px;
     bottom: 15px;
     left: 15px;
   }
   .comparison-footer {
-    font-size: 10px;
+    font-size: 12px;
     gap: 15px;
   }
   .comparison-footer p {
@@ -1941,7 +1910,7 @@ main:focus {
     gap: 7px;
   }
   .comparison-projects button {
-    font-size: 10px;
+    font-size: 12px;
     padding-inline: 12px;
   }
   .reviews-section .section-heading {
@@ -1951,7 +1920,7 @@ main:focus {
     font-size: 32px;
   }
   .reviews-section .section-heading p {
-    font-size: 12px;
+    font-size: 13px;
   }
   .reviews-controls {
     gap: 6px;
@@ -1992,7 +1961,7 @@ main:focus {
     font-size: 26px;
   }
   .contact-row > p {
-    font-size: 12px;
+    font-size: 13px;
   }
   .contact-details {
     margin-bottom: 30px;
@@ -2020,10 +1989,10 @@ main:focus {
     padding: 15px;
   }
   .map-address > div span {
-    font-size: 9px;
+    font-size: 12px;
   }
   .map-address > a {
-    font-size: 10px;
+    font-size: 12px;
     gap: 5px;
   }
   .home-contact .booking-form-wrap,
@@ -2059,10 +2028,10 @@ main:focus {
     font-size: 13px;
   }
   .form-field small {
-    font-size: 12px;
+    font-size: 13px;
   }
   .form-submit {
-    font-size: 12px;
+    font-size: 13px;
   }
   .closing-cta {
     padding-block: 48px;
@@ -2084,11 +2053,11 @@ main:focus {
     gap: 20px;
   }
   .closing-cta .button {
-    font-size: 12px;
+    font-size: 13px;
     padding-inline: 18px;
   }
   .cta-call {
-    font-size: 11px;
+    font-size: 13px;
   }
   .site-footer {
     padding-top: 48px;
@@ -2107,7 +2076,7 @@ main:focus {
     width: 240px;
   }
   .footer-brand p {
-    font-size: 12px;
+    font-size: 13px;
     max-width: 47ch;
     margin-top: 20px;
   }
@@ -2116,7 +2085,7 @@ main:focus {
     margin-bottom: 20px;
   }
   .footer-grid > div > a:not(:has(img)) {
-    font-size: 11px;
+    font-size: 13px;
   }
   .footer-contact {
     grid-column: 1/-1;
@@ -2125,12 +2094,12 @@ main:focus {
     font-size: 23px;
   }
   .footer-contact p {
-    font-size: 12px;
+    font-size: 13px;
   }
   .footer-bottom {
     flex-direction: column;
     gap: 15px;
-    font-size: 9px;
+    font-size: 12px;
     padding-block: 22px;
   }
   .mobile-actions {
@@ -2157,7 +2126,7 @@ main:focus {
     color: var(--blue);
     border: 1px solid #c5cee5;
     border-radius: 3px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
   }
   .mobile-actions a:last-child {
@@ -2190,7 +2159,7 @@ main:focus {
     gap: 14px;
   }
   .page-intro .button {
-    font-size: 12px;
+    font-size: 13px;
   }
   .detail-list li {
     font-size: 14px;
@@ -2200,7 +2169,7 @@ main:focus {
     gap: 25px 16px;
   }
   .photo-tile figcaption {
-    font-size: 11px;
+    font-size: 13px;
   }
   .faq-list details {
     padding-block: 23px;
@@ -2227,7 +2196,7 @@ main:focus {
     gap: 15px;
   }
   .hero-call {
-    font-size: 10px;
+    font-size: 12px;
   }
   .service-grid {
     grid-template-columns: 1fr;
@@ -2242,7 +2211,7 @@ main:focus {
     font-size: 15px;
   }
   .service-card .text-link {
-    font-size: 12px;
+    font-size: 13px;
   }
   .form-grid {
     grid-template-columns: 1fr;
@@ -2274,7 +2243,7 @@ main:focus {
   margin-top: 25px;
 }
 .form-note {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   line-height: 1.8;
   margin-top: 18px;
@@ -2455,7 +2424,7 @@ img.editorial-photo {
     gap: 40px;
   }
   .booking-aside .contact-details > a {
-    font-size: 12px;
+    font-size: 13px;
   }
 }
 @media (max-width: 700px) {
@@ -2482,13 +2451,13 @@ img.editorial-photo {
     display: inline-flex;
   }
   .form-field label {
-    font-size: 12px;
+    font-size: 13px;
   }
   .form-field small {
-    font-size: 11px;
+    font-size: 13px;
   }
   .form-privacy {
-    font-size: 11px;
+    font-size: 13px;
   }
   .slideshow-bar {
     flex-wrap: nowrap;
@@ -2522,20 +2491,20 @@ img.editorial-photo {
   font-size: 13px;
 }
 .form-field small {
-  font-size: 12px;
+  font-size: 13px;
 }
 .form-privacy {
-  font-size: 11px;
+  font-size: 13px;
 }
 .footer-grid > div > a:not(:has(img)) {
-  font-size: 12px;
+  font-size: 13px;
 }
 .footer-brand p,
 .footer-contact p {
-  font-size: 12px;
+  font-size: 13px;
 }
 .contact-row > span {
-  font-size: 12px;
+  font-size: 13px;
 }
 .slide-caption span:not(.caption-line) {
   font-size: 13px;
@@ -2561,7 +2530,7 @@ img.editorial-photo {
     aspect-ratio: 1.2;
   }
   .slide-caption span:not(.caption-line) {
-    font-size: 10px;
+    font-size: 12px;
   }
   .site-footer {
     padding-bottom: 20px;
@@ -2593,7 +2562,7 @@ img.editorial-photo {
   min-height: 44px;
 }
 .hero-note {
-  font-size: 12px;
+  font-size: 13px;
 }
 .hero-location {
   display: none;
@@ -2606,7 +2575,7 @@ img.editorial-photo {
     grid-column: 1/-1;
   }
   .hero-note {
-    font-size: 10px;
+    font-size: 12px;
   }
   .hero-scroll {
     flex-shrink: 0;

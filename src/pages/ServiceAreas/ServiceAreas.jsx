@@ -34,6 +34,24 @@ export default function ServiceAreas() {
           <Photo photo={data.image} className="editorial-photo" />
         </div>
       </section>
+      <section className="section page-section">
+        <div className="container">
+          <h2>{data.communitiesHeading}</h2>
+          <div className="area-groups">
+            {data.communities.map((area) => (
+              <div key={area.name}>
+                <h3>{area.name}</h3>
+                <ul className="detail-list">
+                  {area.places.map((place) => (
+                    <li key={place}>{place}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <p className="notice">{data.communitiesNote}</p>
+        </div>
+      </section>
       <section className="section section-soft">
         <div className="container">
           <h2>{data.mapHeading}</h2>

@@ -6,7 +6,10 @@ const arrivalGroups = [
     'copy',
   ],
   ['.editorial-photo, .why-photo', 'media'],
-  ['.service-grid > .service-card, .photo-grid > .photo-tile', 'collection'],
+  [
+    '.service-grid > .service-card, .photo-grid > .photo-tile, .why-list > div, .reviews-track > .review',
+    'collection',
+  ],
 ];
 
 /** Progressive enhancement: content stays visible without observers or motion. */

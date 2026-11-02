@@ -1,12 +1,7 @@
 import { useId, useRef, useState } from 'react';
 import { ArrowUpRight, Phone, CheckCircle2, LoaderCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import {
-  services,
-  serviceModes,
-  serviceSpecialties,
-  getAvailableServiceModes,
-} from '../../content/services';
+import { services, serviceSpecialties } from '../../content/services';
 import { business } from '../../content/business';
 import { formCopy as c } from '../../content/ui';
 import {
@@ -14,33 +9,30 @@ import {
   validateContactRequest,
   submitContactRequest,
 } from '../../integrations/emailClient';
+import { requestTypes } from '../../integrations/contactValidation';
+
+const fieldSteps = {
+  serviceId: 1,
+  requestType: 1,
+  location: 1,
+  vehicle: 2,
+  preferredDate: 2,
+  fullName: 3,
+  phone: 3,
+  email: 3,
+  message: 4,
+};
+const lastStep = c.stepLabels.length;
 
 export default function BookingForm({
+  stepped = false,
   compact = false,
   initialService = '',
-  initialMode = '',
   initialLocation = '',
 }) {
   const selectedInitialService = services.find(
-    (service) => service.id === initialService,
+    (service) => service.id === initialService && !service.unavailable,
   );
-  const requestedInitialMode = ['mobile', 'shop'].includes(initialMode)
-    ? initialMode
-    : '';
-  const initialDetailType =
-    selectedInitialService?.id === 'mobile-detailing' &&
-    requestedInitialMode === 'shop'
-      ? 'paint-correction'
-      : 'interior';
-  const initialAvailableModes = getAvailableServiceModes(
-    selectedInitialService,
-    initialDetailType,
-  );
-  const selectedInitialMode = selectedInitialService
-    ? initialAvailableModes.includes(requestedInitialMode)
-      ? requestedInitialMode
-      : (initialAvailableModes[0] ?? '')
-    : requestedInitialMode;
   const formId = useId(),
     formRef = useRef(null),
     pendingRef = useRef(false);
@@ -49,84 +41,34 @@ export default function BookingForm({
     phone: '',
     email: '',
     serviceId: selectedInitialService?.id || '',
+    requestType: '',
     vehicle: '',
-    serviceMode: selectedInitialMode,
-    location: selectedInitialMode === 'mobile' ? initialLocation : '',
+    location: initialLocation,
     preferredDate: '',
     message: '',
     website: '',
-    detailType: initialDetailType,
   }));
   const [errors, setErrors] = useState({}),
     [status, setStatus] = useState('idle');
   const [requestError, setRequestError] = useState('');
+  const [copySent, setCopySent] = useState(false);
+  const [step, setStep] = useState(1);
+  const hiddenStep = (name) => stepped && fieldSteps[name] !== step;
+  const focusField = (selector) =>
+    setTimeout(() => formRef.current?.querySelector(selector)?.focus(), 0);
   const configured = isContactConfigured();
-  const service = services.find((s) => s.id === values.serviceId);
-  const modes = service
-    ? getAvailableServiceModes(service, values.detailType)
-    : ['mobile', 'shop'];
   function update(e) {
     const { name, value } = e.target;
-    setValues((v) => {
-      const next = { ...v, [name]: value };
-      if (name === 'serviceId') {
-        const selectedService = services.find((item) => item.id === value);
-        next.detailType =
-          selectedService?.id === 'mobile-detailing' &&
-          next.serviceMode === 'shop'
-            ? 'paint-correction'
-            : 'interior';
-        const availableModes = getAvailableServiceModes(
-          selectedService,
-          next.detailType,
-        );
-        next.serviceMode = availableModes.includes(next.serviceMode)
-          ? next.serviceMode
-          : (availableModes[0] ?? '');
-        if (next.serviceMode !== 'mobile') next.location = '';
-      }
-      if (name === 'serviceMode' && value !== 'mobile') {
-        next.location = '';
-      }
-      if (name === 'detailType') {
-        const selectedService = services.find(
-          (item) => item.id === next.serviceId,
-        );
-        const availableModes = getAvailableServiceModes(selectedService, value);
-        next.serviceMode = availableModes.includes(next.serviceMode)
-          ? next.serviceMode
-          : (availableModes[0] ?? '');
-        if (next.serviceMode !== 'mobile') next.location = '';
-      }
-      return next;
-    });
+    setValues((v) => ({ ...v, [name]: value }));
     setErrors((current) => {
       const next = { ...current };
       delete next[name];
-      if (name === 'serviceId') {
-        delete next.serviceMode;
-        delete next.location;
-        delete next.detailType;
-      }
-      if (name === 'detailType') {
-        delete next.serviceMode;
-        delete next.location;
-      }
-      if (name === 'serviceMode') delete next.location;
       return next;
     });
     if (status === 'failed') setStatus('idle');
   }
-  async function submit(e) {
-    e.preventDefault();
-    if (pendingRef.current) return;
-    let payload = {
-      ...values,
-      message:
-        values.serviceId === 'mobile-detailing'
-          ? `${c.detailingChoices.find((d) => d.id === values.detailType)?.label}. ${values.message}`
-          : values.message,
-    };
+  const buildPayload = () => values;
+  function validate(payload) {
     const nextErrors = validateContactRequest(payload);
     if (
       payload.preferredDate &&
@@ -139,23 +81,62 @@ export default function BookingForm({
         }).format(new Date())
     )
       nextErrors.preferredDate = 'Choose today or a future date.';
+    return nextErrors;
+  }
+  function firstStepWithError(fieldErrors) {
+    return Math.min(
+      step,
+      ...Object.keys(fieldErrors).map((name) => fieldSteps[name] ?? step),
+    );
+  }
+  function goToNextStep() {
+    const stepErrors = Object.fromEntries(
+      Object.entries(validate(buildPayload())).filter(
+        ([name]) => fieldSteps[name] === step,
+      ),
+    );
+    if (Object.keys(stepErrors).length) {
+      setErrors(stepErrors);
+      setStatus('validation');
+      focusField('[aria-invalid="true"]');
+      return;
+    }
+    setErrors({});
+    setStatus('idle');
+    setStep(step + 1);
+    focusField('.form-field:not([hidden]) :is(input, select, textarea)');
+  }
+  function goToPreviousStep() {
+    setStatus('idle');
+    setStep(step - 1);
+    focusField('.form-field:not([hidden]) :is(input, select, textarea)');
+  }
+  async function submit(e) {
+    e.preventDefault();
+    if (pendingRef.current) return;
+    if (stepped && step < lastStep) {
+      goToNextStep();
+      return;
+    }
+    const payload = buildPayload();
+    const nextErrors = validate(payload);
     if (Object.keys(nextErrors).length) {
       setErrors(nextErrors);
       setStatus('validation');
-      setTimeout(
-        () => formRef.current?.querySelector('[aria-invalid="true"]')?.focus(),
-        0,
-      );
+      if (stepped) setStep(firstStepWithError(nextErrors));
+      focusField('[aria-invalid="true"]');
       return;
     }
     pendingRef.current = true;
     setRequestError('');
     setStatus('submitting');
     try {
-      await submitContactRequest(payload);
+      const result = await submitContactRequest(payload);
+      setCopySent(result.copySent);
       setStatus('submitted');
     } catch (error) {
       setErrors(error.fieldErrors || {});
+      if (stepped) setStep(firstStepWithError(error.fieldErrors || {}));
       setRequestError(error.message || c.error);
       setStatus('failed');
     } finally {
@@ -163,7 +144,10 @@ export default function BookingForm({
     }
   }
   const field = (name, type = 'text', required = false, hint) => (
-    <div className={`form-field ${name === 'vehicle' ? 'field-wide' : ''}`}>
+    <div
+      className={`form-field ${name === 'vehicle' ? 'field-wide' : ''}`}
+      hidden={hiddenStep(name)}
+    >
       <label htmlFor={`${formId}-${name}`}>
         {c.labels[name]}
         {required && <span aria-hidden="true"> *</span>}
@@ -222,9 +206,13 @@ export default function BookingForm({
         <CheckCircle2 size={40} />
         <h3>{c.successTitle}</h3>
         <p>{c.success}</p>
+        {copySent && <p>{c.copySent(values.email)}</p>}
         <button
           className="button button-secondary"
-          onClick={() => setStatus('idle')}
+          onClick={() => {
+            setStep(1);
+            setStatus('idle');
+          }}
         >
           {c.retry}
         </button>
@@ -251,9 +239,31 @@ export default function BookingForm({
         </div>
       )}
       <form ref={formRef} onSubmit={submit} noValidate>
+        {stepped && (
+          <>
+            <ol className="form-steps">
+              {c.stepLabels.map((label, index) => (
+                <li
+                  key={label}
+                  className={index + 1 < step ? 'done' : undefined}
+                  aria-current={index + 1 === step ? 'step' : undefined}
+                >
+                  <b>{index + 1}</b>
+                  {label}
+                </li>
+              ))}
+            </ol>
+            <p className="form-step-status" aria-live="polite">
+              {c.stepStatus(step, lastStep)}
+            </p>
+          </>
+        )}
         <p className="required-note">{c.required}</p>
         <div className="form-grid">
-          <div className="form-field field-wide">
+          <div
+            className="form-field field-wide"
+            hidden={hiddenStep('serviceId')}
+          >
             <label htmlFor={`${formId}-serviceId`}>
               {c.labels.serviceId} <span aria-hidden="true">*</span>
             </label>
@@ -277,8 +287,15 @@ export default function BookingForm({
                         specialty.id === serviceOption.specialtyId,
                     )
                     .map((serviceOption) => (
-                      <option key={serviceOption.id} value={serviceOption.id}>
+                      <option
+                        key={serviceOption.id}
+                        value={serviceOption.id}
+                        disabled={serviceOption.unavailable}
+                      >
                         {serviceOption.name}
+                        {serviceOption.unavailable
+                          ? ` (${c.notAvailable})`
+                          : ''}
                       </option>
                     ))}
                 </optgroup>
@@ -290,91 +307,50 @@ export default function BookingForm({
               </small>
             )}
           </div>
-          {values.serviceId === 'mobile-detailing' && (
-            <div className="form-field field-wide">
-              <label htmlFor={`${formId}-detailType`}>
-                {c.labels.detailType}
+          <fieldset
+            className="form-field field-wide request-type"
+            hidden={hiddenStep('requestType')}
+            aria-describedby={
+              errors.requestType ? `${formId}-requestType-error` : undefined
+            }
+          >
+            <legend>
+              {c.labels.requestType} <span aria-hidden="true">*</span>
+            </legend>
+            {Object.entries(requestTypes).map(([id, label]) => (
+              <label key={id}>
+                <input
+                  type="radio"
+                  name="requestType"
+                  value={id}
+                  checked={values.requestType === id}
+                  onChange={update}
+                  required
+                  aria-invalid={Boolean(errors.requestType)}
+                />
+                <span>{label}</span>
               </label>
-              <select
-                id={`${formId}-detailType`}
-                name="detailType"
-                value={values.detailType}
-                onChange={update}
-                aria-invalid={Boolean(errors.detailType)}
-                aria-describedby={
-                  errors.detailType ? `${formId}-detailType-error` : undefined
-                }
-              >
-                {c.detailingChoices.map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.label}
-                  </option>
-                ))}
-              </select>
-              {errors.detailType && (
-                <small
-                  className="field-error"
-                  id={`${formId}-detailType-error`}
-                >
-                  {errors.detailType}
-                </small>
-              )}
-            </div>
-          )}
-          {field('vehicle', 'text', true, c.vehicleHint)}
-          <div className="form-field">
-            <label htmlFor={`${formId}-serviceMode`}>
-              {c.labels.serviceMode} <span aria-hidden="true">*</span>
-            </label>
-            <select
-              id={`${formId}-serviceMode`}
-              name="serviceMode"
-              value={values.serviceMode}
-              onChange={update}
-              required
-              aria-invalid={Boolean(errors.serviceMode)}
-              aria-describedby={
-                errors.serviceMode
-                  ? `${formId}-mode-note ${formId}-serviceMode-error`
-                  : `${formId}-mode-note`
-              }
-            >
-              <option value="">{c.selectMode}</option>
-              {['mobile', 'shop'].map((m) => (
-                <option
-                  key={m}
-                  value={m}
-                  disabled={Boolean(service) && !modes.includes(m)}
-                >
-                  {serviceModes[m]}
-                  {service && !modes.includes(m) ? ' (unavailable)' : ''}
-                </option>
-              ))}
-            </select>
-            <small id={`${formId}-mode-note`}>
-              {service?.modeNote || c.modeNote}
-            </small>
-            {errors.serviceMode && (
-              <small className="field-error" id={`${formId}-serviceMode-error`}>
-                {errors.serviceMode}
+            ))}
+            {errors.requestType && (
+              <small className="field-error" id={`${formId}-requestType-error`}>
+                {errors.requestType}
               </small>
             )}
-          </div>
-          {service &&
-            values.serviceMode === 'mobile' &&
-            field(
-              'location',
-              'text',
-              true,
-              initialLocation
-                ? 'Map pin coordinates are included. Add the street address or ZIP code to help us confirm your visit.'
-                : c.locationHint,
-            )}
+          </fieldset>
+          {field('vehicle', 'text', true, c.vehicleHint)}
+          {field(
+            'location',
+            'text',
+            true,
+            initialLocation
+              ? 'Map pin coordinates are included. Add the street address or ZIP code to help us confirm your visit.'
+              : c.locationHint,
+          )}
           {field('fullName', 'text', true)}
           {field('phone', 'tel', true)}
           {field('email', 'email', true)}
           {field('preferredDate', 'date', false, c.dateHint)}
-          <div className="form-field field-wide">
+          <div className="form-field field-wide" hidden={hiddenStep('message')}>
             <label htmlFor={`${formId}-message`}>{c.labels.message}</label>
             <textarea
               id={`${formId}-message`}
@@ -395,7 +371,9 @@ export default function BookingForm({
             )}
           </div>
           <div className="honeypot" aria-hidden="true">
-            <label htmlFor={`${formId}-extra-check`}>Leave this field blank</label>
+            <label htmlFor={`${formId}-extra-check`}>
+              Leave this field blank
+            </label>
             <input
               id={`${formId}-extra-check`}
               name="company_profile_url_check"
@@ -421,22 +399,53 @@ export default function BookingForm({
             <p className="field-error">{c.validationSummary}</p>
           )}
         </div>
-        <button
-          className="button button-primary form-submit"
-          disabled={!configured || status === 'submitting'}
-        >
-          {status === 'submitting' ? (
-            <>
-              <LoaderCircle className="spin" size={18} />
-              {c.submitting}
-            </>
-          ) : (
-            <>
-              {c.submit}
+        {stepped && step < lastStep ? (
+          <div className="form-step-nav">
+            {step > 1 && (
+              <button
+                type="button"
+                className="button button-secondary"
+                onClick={goToPreviousStep}
+              >
+                {c.back}
+              </button>
+            )}
+            <button className="button button-primary">
+              {c.next}
               <ArrowUpRight size={18} />
-            </>
-          )}
-        </button>
+            </button>
+          </div>
+        ) : (
+          <>
+            {stepped && (
+              <div className="form-step-nav">
+                <button
+                  type="button"
+                  className="button button-secondary"
+                  onClick={goToPreviousStep}
+                >
+                  {c.back}
+                </button>
+              </div>
+            )}
+            <button
+              className="button button-primary form-submit"
+              disabled={!configured || status === 'submitting'}
+            >
+              {status === 'submitting' ? (
+                <>
+                  <LoaderCircle className="spin" size={18} />
+                  {c.submitting}
+                </>
+              ) : (
+                <>
+                  {c.submit}
+                  <ArrowUpRight size={18} />
+                </>
+              )}
+            </button>
+          </>
+        )}
         <p className="form-privacy">
           {c.privacy} <Link to="/privacy-policy">{c.privacyLabel}</Link>
         </p>

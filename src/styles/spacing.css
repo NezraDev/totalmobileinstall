@@ -117,6 +117,18 @@
   margin-block: 18px;
 }
 
+.service-guide > p {
+  max-width: 72ch;
+  margin-top: 16px;
+}
+
+.area-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
 .photo-grid {
   gap: 20px;
 }

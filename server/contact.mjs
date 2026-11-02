@@ -7,6 +7,16 @@ import {
   validateContactRequest,
 } from '../src/integrations/contactValidation.js';
 import { services } from '../src/content/services.js';
+import { buildCustomerCopyEmail, buildRequestEmail } from './requestEmail.mjs';
+import { createGmailCopySender, withCopyTimeout } from './customerCopy.mjs';
+import {
+  ACTION_COOLDOWN_MS,
+  actionResponse,
+  createActionToken,
+  readActionToken,
+  REQUEST_ACTION_PATH,
+  requestActions,
+} from './requestActions.mjs';
 
 export const RESEND_FROM =
   'Total Mobile Install <amartin@totalmobileinstall.com>';
@@ -16,6 +26,7 @@ export function createContactHandler({
   env = process.env,
   send = fetch,
   now = Date.now,
+  sendCopy = createGmailCopySender(env),
 } = {}) {
   const origins = new Set(
     [env.URL || '', ...(env.ALLOWED_ORIGINS || '').split(',')]
@@ -33,6 +44,107 @@ export function createContactHandler({
     }
     return ++attempts.get(key).count > maximum;
   }
+  const actionCooldowns = new Map();
+  async function handleAction(request, ip) {
+    const unavailable = () =>
+      actionResponse(400, {
+        title: 'This link is no longer available',
+        message: 'Please call our team and we will help with your request.',
+      });
+    if (!['GET', 'POST'].includes(request.method) || !env.RESEND_API_KEY)
+      return unavailable();
+    if (limited(`action:${ip}`, 40)) return unavailable();
+    const token =
+      request.method === 'GET'
+        ? new URL(request.url).searchParams.get('t')
+        : new URLSearchParams(await request.text()).get('t');
+    const payload = readActionToken({
+      secret: env.RESEND_API_KEY,
+      token,
+      now: now(),
+    });
+    const service = services.find(
+      (item) => item.id === payload?.values.serviceId,
+    );
+    if (!payload || !service) return unavailable();
+    const action = requestActions[payload.action];
+    const cooldownId = createHash('sha256')
+      .update(`${payload.action}:${JSON.stringify(payload.values)}`)
+      .digest('hex');
+    const cookieName = `tmi_action_${cooldownId.slice(0, 20)}`;
+    const cookieUntil = Number(
+      request.headers
+        .get('cookie')
+        ?.match(new RegExp(`(?:^|; )${cookieName}=(\\d+)`))?.[1],
+    );
+    // Memory covers this server instance; the browser cookie covers other instances.
+    const cooldownUntil = Math.min(
+      Math.max(actionCooldowns.get(cooldownId) || 0, cookieUntil || 0),
+      now() + ACTION_COOLDOWN_MS,
+    );
+    if (cooldownUntil > now())
+      return actionResponse(200, {
+        title: action.sent,
+        message: action.next,
+        cooldown: Math.ceil((cooldownUntil - now()) / 1000),
+        token,
+        again: action.again,
+      });
+    if (request.method === 'GET')
+      return actionResponse(200, { sending: action.sending, token });
+    try {
+      const email = buildRequestEmail({
+        values: {
+          ...payload.values,
+          requestType: payload.action,
+          message: action.teamMessage,
+        },
+        service,
+        receivedAt: now(),
+      });
+      const response = await send('https://api.resend.com/emails', {
+        method: 'POST',
+        signal: AbortSignal.timeout(10000),
+        headers: {
+          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+          // Other server instances cannot send a duplicate inside the same 5-minute window.
+          'Idempotency-Key': `tmi-action-${cooldownId}-${Math.floor(now() / ACTION_COOLDOWN_MS)}`,
+        },
+        body: JSON.stringify({
+          from: RESEND_FROM,
+          to: ['quotes@totalmobileglass.com', 'amartin@totalmobileglass.com'],
+          reply_to: payload.values.email,
+          ...email,
+        }),
+      });
+      if (!response.ok) throw new Error(`Resend status ${response.status}`);
+      const until = now() + ACTION_COOLDOWN_MS;
+      for (const [id, expires] of actionCooldowns)
+        if (expires <= now()) actionCooldowns.delete(id);
+      if (actionCooldowns.size < 10000) actionCooldowns.set(cooldownId, until);
+      const secure =
+        new URL(request.url).protocol === 'https:' ? '; Secure' : '';
+      return new Response(null, {
+        status: 303,
+        headers: {
+          Location: `${REQUEST_ACTION_PATH}?t=${encodeURIComponent(token)}`,
+          'Cache-Control': 'no-store',
+          'Referrer-Policy': 'no-referrer',
+          'Set-Cookie': `${cookieName}=${until}; Path=${REQUEST_ACTION_PATH}; Max-Age=${ACTION_COOLDOWN_MS / 1000}; HttpOnly; SameSite=Lax${secure}`,
+        },
+      });
+    } catch (error) {
+      console.error('[contact] Request action could not be sent', {
+        errorType:
+          error && typeof error.name === 'string' ? error.name : 'unknown',
+      });
+      return actionResponse(502, {
+        title: 'We could not send that',
+        message: 'Please call our team so we can help right away.',
+      });
+    }
+  }
   return async (request, ip = 'unknown') => {
     const origin = request.headers.get('origin');
     const headers = {
@@ -46,6 +158,7 @@ export function createContactHandler({
     const path = new URL(request.url).pathname;
     if (path === '/health' && request.method === 'GET')
       return reply(200, { ok: true });
+    if (path === REQUEST_ACTION_PATH) return handleAction(request, ip);
     if (path !== '/api/contact') return reply(404, { accepted: false });
     const requestOrigin = new URL(request.url).origin;
     if (!origin || (origin !== requestOrigin && !origins.has(origin)))
@@ -113,22 +226,7 @@ export function createContactHandler({
     )
       return reply(429, { accepted: false });
     const service = services.find((item) => item.id === values.serviceId);
-    const text = [
-      'New service request — Total Mobile Install',
-      `Name: ${values.fullName}`,
-      `Phone: ${values.phone}`,
-      `Email: ${values.email}`,
-      `Service: ${service.name}`,
-      `Vehicle: ${values.vehicle}`,
-      `Service mode: ${values.serviceMode === 'mobile' ? 'Mobile Service' : 'Shop'}`,
-      values.detailType ? `Detailing: ${values.detailType}` : '',
-      values.serviceMode === 'mobile' ? `Location: ${values.location}` : '',
-      `Preferred date: ${values.preferredDate || 'Not specified'}`,
-      `Message: ${values.message || 'None provided'}`,
-      'This is a request; the appointment requires confirmation.',
-    ]
-      .filter(Boolean)
-      .join('\n');
+    const email = buildRequestEmail({ values, service, receivedAt: now() });
     // Stable for identical submissions within a 15-minute window; provider deduplicates retries.
     const idempotencyKey = createHash('sha256')
       .update(JSON.stringify(values) + Math.floor(now() / 900000))
@@ -146,8 +244,7 @@ export function createContactHandler({
           from: RESEND_FROM,
           to: ['quotes@totalmobileglass.com', 'amartin@totalmobileglass.com'],
           reply_to: values.email,
-          subject: `Service request: ${service.name}`,
-          text,
+          ...email,
         }),
       });
       const result = await response.json().catch(() => null);
@@ -169,7 +266,43 @@ export function createContactHandler({
         });
         return reply(502, { accepted: false });
       }
-      return reply(202, { accepted: true, requestId: result.id });
+      // The team already has the request, so a failed customer copy never fails the booking.
+      let copySent = false;
+      if (sendCopy && !limited(`copy:${idempotencyKey}`, 1)) {
+        try {
+          await withCopyTimeout(
+            Promise.resolve(
+              sendCopy({
+                to: values.email,
+                ...buildCustomerCopyEmail({
+                  values,
+                  service,
+                  actionLinks: Object.fromEntries(
+                    Object.keys(requestActions).map((action) => [
+                      action,
+                      `${env.ACTION_BASE_URL || requestOrigin}${REQUEST_ACTION_PATH}?t=${createActionToken(
+                        {
+                          secret: env.RESEND_API_KEY,
+                          action,
+                          values,
+                          now: now(),
+                        },
+                      )}`,
+                    ]),
+                  ),
+                }),
+              }),
+            ),
+          );
+          copySent = true;
+        } catch (error) {
+          console.error('[contact] Customer copy could not be sent', {
+            errorType:
+              error && typeof error.code === 'string' ? error.code : 'unknown',
+          });
+        }
+      }
+      return reply(202, { accepted: true, requestId: result.id, copySent });
     } catch (error) {
       console.error('[contact] Resend request could not be completed', {
         errorType:
@@ -181,7 +314,12 @@ export function createContactHandler({
 }
 
 export function startContactServer(env = process.env) {
-  const handle = createContactHandler({ env });
+  const handle = createContactHandler({
+    env: {
+      ACTION_BASE_URL: `http://localhost:${env.PORT || 3001}`,
+      ...env,
+    },
+  });
   const server = createServer(async (req, res) => {
     const url = new URL(req.url, 'http://contact.internal');
     try {

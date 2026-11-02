@@ -1,0 +1,284 @@
+/* Motion idea: "a clearer view". Photographs clear like freshly set glass; everything else stays quiet. */
+.form-steps li:not(:last-child)::after {
+  background:
+    linear-gradient(var(--blue), var(--blue)) left / 0 100% no-repeat,
+    var(--line);
+  transition: background-size 420ms var(--motion-ease);
+}
+
+.form-steps li.done:not(:last-child)::after {
+  background:
+    linear-gradient(var(--blue), var(--blue)) left / 100% 100% no-repeat,
+    var(--line);
+}
+
+.form-steps b {
+  transition:
+    color var(--motion-control) ease,
+    background var(--motion-control) ease,
+    border-color var(--motion-control) ease;
+}
+
+.service-image::after {
+  transition: opacity var(--motion-control) ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero: a slow settle on each photograph, and a progress bar that matches the timer. */
+  .photo-hero .slide.active img {
+    animation: hero-settle 6500ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  }
+
+  .hero-slide-progress[data-running='true'] span.active {
+    position: relative;
+    overflow: hidden;
+    background: rgb(255 255 255 / 0.35);
+  }
+
+  .hero-slide-progress[data-running='true'] span.active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: white;
+    transform-origin: left;
+    animation: hero-progress 4500ms linear both;
+  }
+
+  /* Only script-registered content waits, so pages stay complete without JavaScript. */
+  [data-arrival]:not(.motion-arrived, [data-motion-seen]) {
+    opacity: 0;
+  }
+
+  .motion-arrived[data-arrival='copy'] {
+    animation: premium-arrive-rise 760ms var(--motion-ease) both;
+  }
+
+  .motion-arrived[data-arrival='media'] {
+    animation: premium-arrive-clear 1000ms var(--motion-ease) both;
+  }
+
+  .motion-arrived[data-arrival='collection'] {
+    animation: premium-arrive-rise 680ms var(--motion-ease)
+      var(--arrival-delay, 0ms) both;
+  }
+
+  /* Service tiles clear from the bottom edge, with one pass of light across the glass. */
+  .service-card.motion-arrived[data-arrival='collection'] {
+    animation-name: premium-arrive-tile;
+    animation-duration: 900ms;
+  }
+
+  .service-card.motion-arrived .service-image > img {
+    animation: tile-settle 1200ms var(--motion-ease) var(--arrival-delay, 0ms)
+      both;
+  }
+
+  .service-card.motion-arrived .service-image::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(
+      112deg,
+      transparent 38%,
+      rgb(255 255 255 / 0.28) 50%,
+      transparent 62%
+    );
+    pointer-events: none;
+    animation: glass-glint 1100ms ease-out
+      calc(var(--arrival-delay, 0ms) + 260ms) both;
+  }
+
+  .comparison-pair .before-photo {
+    animation: comparison-clear-left 620ms var(--motion-ease) both;
+  }
+
+  .comparison-pair .after-photo {
+    animation: comparison-clear-right 620ms var(--motion-ease) 70ms both;
+  }
+
+  /* Inner pages share one short opening. */
+  .page-intro h1 {
+    animation: premium-arrive-rise 760ms var(--motion-ease) both;
+  }
+
+  .page-intro p {
+    animation: premium-arrive-rise 760ms var(--motion-ease) 90ms both;
+  }
+
+  /* Booking steps and results explain what just changed. */
+  .form-steps ~ .form-grid .form-field:not([hidden]) {
+    animation: step-field 360ms var(--motion-ease) both;
+  }
+
+  .form-steps li[aria-current] b {
+    animation: step-current 420ms var(--motion-ease) both;
+  }
+
+  .field-error {
+    animation: step-field 220ms var(--motion-ease) both;
+  }
+
+  .form-success > svg {
+    animation: step-current 560ms var(--motion-ease) both;
+  }
+
+  .service-card > :not(.service-image) {
+    transition: transform 420ms var(--motion-ease);
+  }
+
+  .service-card:focus-visible > :not(.service-image) {
+    transform: translateY(-5px);
+  }
+
+  .metric-detail svg,
+  .service-card .text-link svg {
+    transition: transform var(--motion-control) var(--motion-ease);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .service-card:hover > :not(.service-image) {
+      transform: translateY(-5px);
+    }
+
+    .service-card:hover .text-link svg,
+    a.metric-detail:hover svg {
+      transform: translate(3px, -3px);
+    }
+
+    .hero-social a,
+    .review {
+      transition:
+        color var(--motion-control) ease,
+        background var(--motion-control) ease,
+        border-color var(--motion-control) ease,
+        transform var(--motion-control) var(--motion-ease);
+    }
+
+    .hero-social a:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@media print {
+  [data-arrival] {
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+}
+
+@keyframes hero-settle {
+  from {
+    transform: scale(1.07);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes premium-arrive-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes premium-arrive-clear {
+  from {
+    clip-path: inset(0 100% 0 0);
+    filter: saturate(0.7) brightness(0.82);
+  }
+  to {
+    clip-path: inset(0);
+    filter: none;
+  }
+}
+
+@keyframes premium-arrive-tile {
+  from {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+  }
+  18% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes tile-settle {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes glass-glint {
+  from {
+    opacity: 0;
+    transform: translateX(-70%);
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(70%);
+  }
+}
+
+@keyframes comparison-clear-left {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes comparison-clear-right {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes step-field {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes step-current {
+  from {
+    transform: scale(0.82);
+  }
+  to {
+    transform: none;
+  }
+}

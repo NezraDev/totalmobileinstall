@@ -66,6 +66,30 @@
   color: #e1e8ff;
 }
 
+.hero-social {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.hero-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: white;
+  border: 1px solid rgb(255 255 255 / 0.45);
+  border-radius: 50%;
+}
+
+.hero-social a:hover {
+  color: var(--blue);
+  background: white;
+  border-color: white;
+}
+
+.photo-hero .hero-social a:focus-visible,
 .photo-hero .hero-scroll:focus-visible,
 .photo-hero .hero-call:focus-visible,
 .photo-hero .icon-button:focus-visible,

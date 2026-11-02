@@ -1,0 +1,894 @@
+/* Premium photo-led theme: a dark navy home page, photo tiles, and white reading pages. */
+:root {
+  --night: #010b3d;
+  --ice: #c9d5ff;
+  --night-rule: rgb(201 213 255 / 0.2);
+}
+
+::selection {
+  background: var(--blue);
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--royal);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  font-size: clamp(36px, 4.4vw, 64px);
+  line-height: 1.06;
+}
+
+.section {
+  padding-block: 120px;
+}
+
+.section.page-section {
+  padding-block: 96px;
+}
+
+/* Hero: same slideshow and copy, with the headline leading across the photograph. */
+.hero-blue-overlay {
+  background:
+    linear-gradient(0deg, var(--night), transparent 34%),
+    linear-gradient(
+      90deg,
+      rgb(1 11 61 / 0.94),
+      rgb(1 15 80 / 0.68) 48%,
+      rgb(1 26 130 / 0.14)
+    );
+}
+
+.hero.photo-hero > .container {
+  justify-content: flex-end;
+  padding-bottom: 32px;
+}
+
+.photo-hero .hero-note {
+  margin-top: 28px;
+  font-size: 14px;
+}
+
+.hero-call {
+  font-size: 15px;
+}
+
+/* Inner pages open on the same night ground. */
+.page-intro {
+  padding-block: 88px;
+  background: var(--night);
+}
+
+.page-intro h1 {
+  color: white;
+  font-size: clamp(38px, 5vw, 72px);
+  line-height: 1.04;
+}
+
+.page-intro p {
+  color: var(--ice);
+}
+
+/* Service tiles: the photograph carries the card. */
+.service-grid {
+  gap: 10px;
+}
+
+.service-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  min-height: 500px;
+  padding: 26px;
+  overflow: hidden;
+  border-radius: 2px;
+  color: white;
+  isolation: isolate;
+}
+
+.service-image {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 0;
+}
+
+.service-image > img {
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+}
+
+.service-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 38%,
+    rgb(1 11 61 / 0.82) 68%,
+    rgb(1 11 61 / 0.97)
+  );
+}
+
+.service-card h3 {
+  margin: 0 0 10px;
+  color: white;
+  font-size: 26px;
+  line-height: 1.12;
+}
+
+.service-card p {
+  color: #e4eaff;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.service-card .text-link {
+  margin-top: 14px;
+  color: white;
+  border-bottom-color: white;
+  font-size: 14px;
+}
+
+.service-grid:has(> :nth-child(6)) {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.service-grid:has(> :nth-child(6)) > .service-card {
+  grid-column: span 3;
+}
+
+.service-grid:has(> :nth-child(6)) > .service-card:nth-child(-n + 2) {
+  grid-column: span 6;
+  min-height: 580px;
+}
+
+.service-grid:has(> :nth-child(6)) > .service-card:nth-child(-n + 2) h3 {
+  font-size: clamp(32px, 3vw, 44px);
+}
+
+.services-overview .service-grid + .notice {
+  margin-top: 40px;
+}
+
+/* Reading sizes used across pages */
+.why-list p,
+.contact-row > p,
+.closing-cta p {
+  font-size: 16px;
+}
+
+.why-list h3 {
+  font-size: 22px;
+}
+
+.footer-grid > div > a:not(:has(img)),
+.footer-contact p,
+.footer-brand p {
+  font-size: 14px;
+}
+
+.footer-bottom {
+  font-size: 13px;
+}
+
+.service-guide > p:first-of-type,
+.section > .container > h2 + .faq-list,
+.section > .container > h2 + .area-groups,
+.section > .container > h2 + .service-grid {
+  margin-top: 36px;
+}
+
+.photo-hero .hero-slide-progress {
+  margin-right: 140px;
+}
+
+.faq-list {
+  margin-inline: 0;
+}
+
+.closing-cta {
+  padding-block: 112px;
+  background: var(--red);
+}
+
+.closing-cta h2 {
+  font-size: clamp(36px, 4.4vw, 64px);
+}
+
+.closing-cta p {
+  color: white;
+}
+
+.closing-cta .button-white {
+  color: var(--red);
+}
+
+/* Request forms: one clear column rhythm, with comfortable touch targets. */
+.form-field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  min-height: 54px;
+  font-size: 16px;
+  border-radius: 2px;
+}
+
+
+.form-field:has(input[name='location']),
+.form-field:has(input[name='fullName']),
+.form-field:has(input[name='preferredDate']) {
+  grid-column: 1 / -1;
+}
+
+.form-submit {
+  min-height: 58px;
+  font-size: 15px;
+}
+
+.form-privacy {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.request-type {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.request-type legend {
+  margin-bottom: 8px;
+  padding: 0;
+  color: #313d58;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.request-type legend span {
+  color: var(--red);
+}
+
+.form-field.request-type label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid #c3cbdc;
+  border-radius: 2px;
+  background: white;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.form-field.request-type label span {
+  color: inherit;
+}
+
+.form-field.request-type input {
+  flex-shrink: 0;
+  width: 18px;
+  min-height: 0;
+  height: 18px;
+  margin: 0;
+}
+
+.form-field.request-type label:has(input:checked) {
+  border-color: var(--royal);
+  box-shadow: inset 0 0 0 1px var(--royal);
+  color: var(--blue);
+}
+
+/* Contact and Book Service: centered forms on white, with details close at hand. */
+.request-section .contact-details {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 32px 0 0;
+  background: var(--soft);
+  border-radius: 3px;
+}
+
+.request-section .contact-row {
+  display: flex;
+  gap: 14px;
+  padding: 28px 24px;
+  border-bottom: 0;
+  border-left: 1px solid var(--line);
+}
+
+.request-section .contact-row:first-child {
+  border-left: 0;
+}
+
+.request-section .contact-row > svg {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--royal);
+}
+
+.request-section .contact-row h3 {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.request-section .contact-row a:not(.text-link) {
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.request-section .contact-row:first-child a {
+  font-size: 19px;
+  white-space: nowrap;
+}
+
+.request-section .contact-row p {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.request-section .contact-row p.form-note {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.request-section .contact-row .text-link {
+  margin-top: 6px;
+}
+
+.request-center {
+  width: min(760px, 100%);
+  margin-inline: auto;
+}
+
+.request-section .container > .request-center:not(:first-child) {
+  margin-top: 88px;
+}
+
+.request-center > h2 {
+  font-size: clamp(30px, 3vw, 44px);
+}
+
+.request-center > p {
+  margin-top: 14px;
+  color: var(--muted);
+}
+
+.request-section .booking-form-wrap {
+  margin-top: 32px;
+  padding: clamp(24px, 3.4vw, 44px);
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: 0 18px 50px rgb(1 26 130 / 0.08);
+}
+
+.request-section .booking-form-wrap > h3 {
+  font-size: clamp(25px, 2.2vw, 32px);
+}
+
+.request-section .booking-aside {
+  margin-top: 40px;
+  padding: clamp(24px, 3.4vw, 44px);
+  background: var(--soft);
+  border-radius: 3px;
+}
+
+.request-section .booking-aside .contact-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-block: 20px 28px;
+  background: none;
+}
+
+.request-section .booking-aside .contact-details > a {
+  color: var(--blue);
+  font-size: 17px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.request-section .booking-aside .contact-details > .text-link {
+  font-size: 22px;
+}
+
+.request-section .booking-aside > h3 {
+  margin-bottom: 10px;
+}
+
+/* Step progress */
+.form-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 28px 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.form-steps li {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.form-steps li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 17px;
+  left: calc(50% + 22px);
+  width: calc(100% - 44px);
+  height: 2px;
+  background: var(--line);
+}
+
+.form-steps li.done:not(:last-child)::after {
+  background: var(--blue);
+}
+
+.form-steps b {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.form-steps li.done b,
+.form-steps li[aria-current] b {
+  color: white;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+.form-steps li[aria-current] {
+  color: var(--blue);
+}
+
+.form-step-status {
+  margin-bottom: 20px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.form-step-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.form-step-nav .button {
+  min-width: 132px;
+}
+
+.form-step-nav .button-secondary {
+  margin-right: auto;
+}
+
+.form-field[hidden] {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .request-section .contact-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .request-section .contact-row:nth-child(3) {
+    border-left: 0;
+  }
+
+  .request-section .contact-row:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 700px) {
+  .request-section .contact-details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .request-section .contact-row {
+    padding: 20px;
+    border-left: 0;
+  }
+
+  .request-section .contact-row:not(:first-child) {
+    border-top: 1px solid var(--line);
+  }
+
+  .request-section .container > .request-center:not(:first-child) {
+    margin-top: 56px;
+  }
+
+  .form-step-nav .button {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* Unavailable services stay findable but read as switched off. */
+.editorial-photo--unavailable,
+.service-card--unavailable .service-image > img {
+  filter: grayscale(1) brightness(0.72);
+}
+
+.service-card--unavailable h3,
+.service-card--unavailable p {
+  color: #d5d8e0;
+}
+
+.service-unavailable {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 7px 12px;
+  background: #e3e5ea;
+  border-radius: 2px;
+  color: #3d4350;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.button.button-unavailable {
+  background: #e3e5ea;
+  color: #4b5160;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Home: the dark sections */
+main[data-home] .metrics-strip,
+main[data-home] .about-preview,
+main[data-home] .section-soft,
+main[data-home] .reviews-section {
+  background: var(--night);
+  color: white;
+}
+
+main[data-home] .metrics-strip {
+  border-bottom: 0;
+  padding-block: 0;
+}
+
+main[data-home] .metrics-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--night-rule);
+}
+
+main[data-home] .metric {
+  padding-block: 36px;
+  border-left-color: var(--night-rule);
+}
+
+main[data-home] .metric-value,
+main[data-home] .metric-label {
+  color: white;
+}
+
+main[data-home] .metric-value {
+  font-weight: 500;
+}
+
+main[data-home] .metric-label {
+  font-size: 15px;
+}
+
+main[data-home] .metric-detail {
+  color: var(--ice);
+  font-size: 14px;
+}
+
+main[data-home] .about-preview h2,
+main[data-home] .section-soft h2,
+main[data-home] .reviews-section h2 {
+  color: white;
+}
+
+main[data-home] .about-preview .body-large,
+main[data-home] .about-preview .split-copy > p,
+main[data-home] .section-soft .section-heading p,
+main[data-home] .reviews-section .section-heading p,
+main[data-home] .reviews-section .comparison-hint,
+main[data-home] .reviews-more p,
+main[data-home] .editorial-photo figcaption,
+main[data-home] .stat span {
+  color: var(--ice);
+}
+
+main[data-home] .about-preview .text-link,
+main[data-home] .section-soft .section-heading .text-link,
+main[data-home] .reviews-more .text-link {
+  color: white;
+  border-bottom-color: white;
+}
+
+main[data-home] .about-preview .container.split {
+  grid-template-columns: 7fr 5fr;
+}
+
+main[data-home] .stat strong {
+  color: white;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+main[data-home] .stat span {
+  font-size: 13px;
+}
+
+main[data-home] .about-stats {
+  border-top-color: var(--night-rule);
+}
+
+main[data-home] .section-soft {
+  padding-top: 0;
+}
+
+/* Reviews read as large quotes on the dark ground, not as boxes. */
+main[data-home] .review {
+  padding: 28px 0 0;
+  background: transparent;
+  border-top: 1px solid var(--night-rule);
+  border-radius: 0;
+}
+
+main[data-home] .review > svg {
+  color: var(--ice);
+}
+
+main[data-home] .review blockquote {
+  color: white;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+main[data-home] .review figcaption {
+  border-top: 0;
+  padding-top: 0;
+}
+
+main[data-home] .review figcaption strong {
+  color: white;
+  font-size: 15px;
+}
+
+main[data-home] .review figcaption span {
+  color: var(--ice);
+  font-size: 14px;
+}
+
+main[data-home] .reviews-track {
+  gap: 40px;
+  grid-auto-columns: calc((100% - 80px) / 3);
+  scrollbar-color: var(--ice) transparent;
+}
+
+main[data-home] .reviews-section .comparison-button {
+  color: white;
+  background: transparent;
+  border-color: var(--night-rule);
+}
+
+main[data-home] .reviews-section .comparison-button:hover {
+  color: var(--blue);
+  background: white;
+}
+
+main[data-home] .home-trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 56px);
+  margin-top: 48px;
+}
+
+main[data-home] .home-trust-badges li {
+  width: 190px;
+}
+
+main[data-home] .home-trust-badges img {
+  width: 100%;
+  padding: 6px;
+  background: white;
+  border-radius: 50%;
+}
+
+main[data-home] .reviews-more {
+  border-top-color: var(--night-rule);
+}
+
+@media (min-width: 1001px) {
+  .photo-hero .hero-layout {
+    display: block;
+  }
+
+  .photo-hero h1 {
+    font-size: clamp(64px, 8.2vw, 124px);
+    line-height: 0.98;
+  }
+
+  .photo-hero .hero-side {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px 48px;
+    margin-top: 32px;
+    padding-bottom: 0;
+  }
+
+  .photo-hero .hero-side > p {
+    flex: 1 1 420px;
+    max-width: 560px;
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .photo-hero .hero-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 26px;
+  }
+
+  .photo-hero .hero-social {
+    margin: 0;
+  }
+
+  /* The About photograph runs to the left edge of the screen. */
+  main[data-home] .about-preview .container.split {
+    width: 100%;
+    max-width: none;
+    padding-right: var(--gutter);
+    gap: clamp(40px, 6vw, 96px);
+  }
+
+  main[data-home] .about-preview .editorial-photo > img {
+    aspect-ratio: 1.1;
+    border-radius: 0;
+  }
+
+  main[data-home] .about-preview figcaption {
+    padding-left: var(--gutter);
+  }
+}
+
+@media (max-width: 1190px) {
+  .service-grid:has(> :nth-child(6)) > .service-card {
+    grid-column: span 6;
+  }
+
+  main[data-home] .reviews-track {
+    grid-auto-columns: calc((100% - 40px) / 2);
+  }
+
+  .section {
+    padding-block: 88px;
+  }
+
+  .section.page-section {
+    padding-block: 72px;
+  }
+}
+
+@media (max-width: 1000px) {
+  main[data-home] .about-preview .container.split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding-block: 64px;
+  }
+
+  .section.page-section {
+    padding-block: 56px;
+  }
+
+  .page-intro {
+    padding-block: 52px;
+  }
+
+  .closing-cta {
+    padding-block: 64px;
+  }
+
+  .service-grid:has(> :nth-child(6)) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .service-grid:has(> :nth-child(6)) > .service-card,
+  .service-grid:has(> :nth-child(6)) > .service-card:nth-child(-n + 2) {
+    grid-column: auto;
+    min-height: 440px;
+  }
+
+  .service-card {
+    min-height: 440px;
+    padding: 22px;
+  }
+
+  main[data-home] .metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  main[data-home] .metric {
+    padding: 24px 16px;
+  }
+
+  main[data-home] .metric:nth-child(odd) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  main[data-home] .metric:nth-child(n + 3) {
+    border-top: 1px solid var(--night-rule);
+  }
+
+  main[data-home] .metric:last-child {
+    grid-column: auto;
+    border-left: 1px solid var(--night-rule);
+    padding: 24px 16px;
+  }
+
+  main[data-home] .reviews-track {
+    gap: 24px;
+    grid-auto-columns: 88%;
+  }
+
+  main[data-home] .home-trust-badges {
+    gap: 20px 28px;
+  }
+
+  main[data-home] .home-trust-badges li {
+    width: 150px;
+  }
+
+  .tmi-chat-launcher > span {
+    display: none;
+  }
+
+  .photo-hero .hero-slide-progress {
+    margin-right: 64px;
+  }
+}

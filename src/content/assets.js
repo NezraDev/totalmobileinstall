@@ -197,18 +197,12 @@ export const slides = [
     category: 'Windshield replacement',
   },
   {
-    src: '/images/services/mobile-service-bentley.webp',
-    srcSmall: '/images/services/mobile-service-bentley-768.webp',
-    alt: 'A Bentley beside the Total Mobile Install service van.',
-    width: 1400,
-    height: 1050,
-    position: '50% 50%',
-    source: 'images/IMG_0586.HEIC, existing orientation-corrected preview',
-    id: 'mobileService',
+    // Replaces the van photo, which shows an old phone number.
+    ...photos.bmw,
+    id: 'bmw',
     title: 'Your vehicle. Our attention.',
-    caption:
-      'The Total Mobile Install service van alongside a Bentley.',
-    category: 'Mobile service',
+    caption: 'A new windshield on a gray BMW sedan, installed in a covered driveway.',
+    category: 'Windshield replacement',
   },
   {
     src: '/images/services/mobile-glass-work.webp',
@@ -246,7 +240,7 @@ export const beforeAfter = [
     title: 'Blue Corvette windshield',
     service: 'Windshield replacement',
     caseDescription:
-      'Matched photographs show the windshield before removal and after installation on the same blue Corvette. The camera viewpoints differ.',
+      'Matched photos show the same blue Corvette with the old windshield out and the new one in. The camera angles differ.',
     serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
@@ -270,14 +264,14 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/01-corvette-blue-before-after/after.webp, sourced from images/IMG_0543.HEIC',
     },
-    note: 'Matched photographs of the same supplied project. Camera viewpoints may differ.',
+    note: 'Photos of the same job. Camera angles may differ.',
   },
   {
     id: 'bentley',
     title: 'Bentley windshield',
     service: 'Windshield replacement',
     caseDescription:
-      'Matched photographs show a Bentley windshield replacement, from the removed glass to the completed installation. The camera viewpoints differ.',
+      'Matched photos show a Bentley windshield replacement, from the old glass out to the new glass in. The camera angles differ.',
     serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
@@ -301,15 +295,15 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/02-bentley-before-after/after.webp, sourced from images/IMG_0587.HEIC',
     },
-    note: 'Matched photographs of the same supplied project. Camera viewpoints may differ.',
+    note: 'Photos of the same job. Camera angles may differ.',
   },
   {
     id: 'truck-rear-window',
     title: 'Truck cab rear window',
     service: 'Rear glass replacement',
     caseDescription:
-      'The before-and-after photos document rear window replacement on a truck cab.',
-    serviceHref: '/services/side-rear-glass',
+      'Before-and-after photos show a new rear window on a truck cab.',
+    serviceHref: '/services/car-window-replacement',
     beforeLabel: 'Damaged rear window',
     afterLabel: 'Rear window installed',
     before: {
@@ -332,14 +326,14 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/03-truck-rear-window-before-after/after.webp, sourced from images/IMG_0923.HEIC',
     },
-    note: 'Matched photographs of the same supplied project. Camera viewpoints may differ.',
+    note: 'Photos of the same job. Camera angles may differ.',
   },
   {
     id: 'sedan',
     title: 'Sedan windshield',
     service: 'Windshield replacement',
     caseDescription:
-      'Matched photos document a sedan windshield replacement, with views before removal and after installation.',
+      'Matched photos show a sedan windshield replacement, before the old glass came out and after the new glass went in.',
     serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
@@ -363,14 +357,14 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/04-sedan-before-after/after.webp, sourced from images/IMG_1193.HEIC',
     },
-    note: 'Matched photographs of the same supplied project. Camera viewpoints may differ.',
+    note: 'Photos of the same job. Camera angles may differ.',
   },
   {
     id: 'isuzu',
     title: 'Isuzu truck windshield',
     service: 'Commercial auto glass',
     caseDescription:
-      'The photo pair shows commercial windshield work on an Isuzu box truck, before removal and after installation.',
+      'The photo pair shows windshield work on an Isuzu box truck, before and after.',
     serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
@@ -394,14 +388,14 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/05-isuzu-before-after/after.webp, sourced from images/IMG_2221.JPG',
     },
-    note: 'Matched photographs of the same supplied project. Camera viewpoints may differ.',
+    note: 'Photos of the same job. Camera angles may differ.',
   },
   {
     id: 'gmc',
     title: 'GMC pickup windshield',
     service: 'Windshield replacement',
     caseDescription:
-      'Matched photos document a GMC pickup windshield replacement from removal through installation.',
+      'Matched photos show a GMC pickup windshield replacement from start to finish.',
     serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
@@ -425,14 +419,14 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/06-gmc-before-after/after.webp, sourced from images/IMG_2236.JPG',
     },
-    note: 'Matched photographs of the same supplied project. Camera viewpoints may differ.',
+    note: 'Photos of the same job. Camera angles may differ.',
   },
   {
     id: 'peterbilt',
     title: 'Peterbilt truck windshield',
     service: 'Commercial auto glass',
     caseDescription:
-      'The photo pair shows windshield replacement work on a Peterbilt truck, before removal and after installation.',
+      'The photo pair shows a windshield replacement on a Peterbilt truck, before and after.',
     serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
@@ -456,15 +450,15 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/07-peterbilt-before-after/after.webp, sourced from images/IMG_2782.JPG',
     },
-    note: 'Matched photographs of the same supplied project. Camera viewpoints may differ.',
+    note: 'Photos of the same job. Camera angles may differ.',
   },
   {
     id: 'tesla',
     title: 'Tesla rear glass',
     service: 'Rear glass replacement',
     caseDescription:
-      'Matched photos document rear glass replacement on a Tesla, with views of the removed glass and completed installation.',
-    serviceHref: '/services/side-rear-glass',
+      'Matched photos show rear glass replacement on a Tesla, with the old glass out and the new glass in.',
+    serviceHref: '/services/car-window-replacement',
     beforeLabel: 'Rear glass removed',
     afterLabel: 'Rear glass installed',
     before: {
@@ -487,14 +481,14 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/08-tesla-before-after/after.webp, sourced from images/IMG_2836.JPG',
     },
-    note: 'Matched photographs of the same supplied project. Camera viewpoints may differ.',
+    note: 'Photos of the same job. Camera angles may differ.',
   },
   {
     id: 'corvette-red',
     title: 'Red Corvette windshield',
     service: 'Windshield replacement',
     caseDescription:
-      'Photos document windshield replacement on a red Corvette. The before image is taken from a different camera angle.',
+      'Photos show a windshield replacement on a red Corvette. The before photo is from a different camera angle.',
     serviceHref: '/services/windshield-replacement',
     beforeLabel: 'Windshield removed',
     afterLabel: 'Windshield installed',
@@ -518,6 +512,6 @@ export const beforeAfter = [
       source:
         'clean_pic_Services/02_before_after/separate_pairs/09-corvette-red-before-after/after.webp, sourced from images/C6628151-50AE-4029-BC97-B4797F231102.jpg',
     },
-    note: "Matched photographs of the same supplied project. Camera viewpoints may differ. Original before photo paired with a straightened detail from the collage's after panel; viewpoints differ.",
+    note: 'Photos of the same job. Camera angles may differ. The before photo is paired with a straightened detail from the after photo collage.',
   },
 ];

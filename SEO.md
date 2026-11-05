@@ -10,7 +10,7 @@ The approved production domain is `https://totalmobileinstall.com`. Both `src/co
 
 Page metadata remains in each page's existing `data.js` file. `src/seo/routes.js` is the build-only route catalog, including all six valid service slugs. `PageMeta` and the HTML generator share `src/seo/metadata.js`, so direct responses and client navigation have the same title, description, canonical, robots, Open Graph, Twitter Card, and JSON-LD tags. Add new public routes to the React routes and this catalog together. Unknown routes and unapproved policy placeholders are `noindex`; error pages have no canonical.
 
-The business source of truth is `src/content/business.js`: the supplied Tulane Avenue postal address, phone, email, hours, and verified map coordinates. Structured data includes applicable AutomotiveBusiness, WebSite, WebPage, and service details. It deliberately omits prices, aggregate ratings, customer addresses, badges, awards, unsupported reviews, and guarantees. No fabricated business claims were added.
+The business source of truth is `src/content/business.js`: the city-only address (New Orleans, LA, with no street address in the PostalAddress), phone, email, hours, and the rounded public center of the 40-mile service radius. Structured data includes applicable AutomotiveBusiness, WebSite, WebPage, and service details. It deliberately omits prices, aggregate ratings, customer addresses, badges, awards, unsupported reviews, and guarantees. No fabricated business claims were added.
 
 ## Hosting and HTTP behavior
 

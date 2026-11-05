@@ -86,7 +86,7 @@ await fs.writeFile(
 );
 await fs.writeFile(
   'dist/_headers',
-  `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Cache-Control: no-cache\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/images/*\n  Cache-Control: public, max-age=86400, stale-while-revalidate=604800\n/404.html\n  X-Robots-Tag: noindex\n/privacy-policy\n  X-Robots-Tag: noindex, follow\n/terms-of-use\n  X-Robots-Tag: noindex, follow\n`,
+  `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Cache-Control: no-cache\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/images/*\n  Cache-Control: public, max-age=86400, stale-while-revalidate=604800\n/404.html\n  X-Robots-Tag: noindex\n`,
 );
 await fs.writeFile(
   '.ssr-build/seo-routes.json',

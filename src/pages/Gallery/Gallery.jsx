@@ -19,6 +19,22 @@ export default function Gallery() {
           <Transformations all />
         </div>
       </section>
+      <section className="section page-section">
+        <div className="container">
+          <h2>{data.notesHeading}</h2>
+          <p className="area-intro">{data.notesDescription}</p>
+          <div className="location-services">
+            {data.transformations.map((project) => (
+              <div key={project.id}>
+                <h3>{project.title}</h3>
+                <p>
+                  {project.service}. {project.caseDescription}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="section section-soft">
         <div className="container">
           <div className="section-heading">

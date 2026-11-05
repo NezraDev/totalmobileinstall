@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Phone, ArrowUpRight } from 'lucide-react';
 import { business } from '../../content/business';
 import { services } from '../../content/services';
+import { locations, locationPath } from '../../content/locations';
 import { navigation, ui } from '../../content/navigation';
 import Brand from '../ui/Brand';
 export default function Footer() {
@@ -49,6 +50,12 @@ export default function Footer() {
                 {s.name}
               </Link>
             ))}
+            <h2 className="footer-subheading">{ui.areasHeading}</h2>
+            {locations.map((location) => (
+              <Link key={location.slug} to={locationPath(location.slug)}>
+                {location.linkLabel}
+              </Link>
+            ))}
           </div>
           <div>
             <h2>{ui.exploreHeading}</h2>
@@ -59,6 +66,7 @@ export default function Footer() {
                   {n.label}
                 </Link>
               ))}
+            <Link to="/guides">{ui.guidesLabel}</Link>
           </div>
           <div className="footer-contact">
             <h2>{ui.contactHeading}</h2>

@@ -8,6 +8,7 @@ export default function PageMeta({
   imageAlt,
   noindex = false,
   notFound = false,
+  faq,
 }) {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -19,8 +20,9 @@ export default function PageMeta({
         imageAlt,
         noindex,
         notFound,
+        faq,
       }),
     );
-  }, [title, description, image, imageAlt, noindex, notFound, pathname]);
+  }, [title, description, image, imageAlt, noindex, notFound, faq, pathname]);
   return null;
 }

@@ -17,6 +17,9 @@ const ServiceDetail = lazy(
   () => import('../pages/ServiceDetail/ServiceDetail'),
 );
 const ServiceAreas = lazy(() => import('../pages/ServiceAreas/ServiceAreas'));
+const LocationPage = lazy(() => import('../pages/LocationPage/LocationPage'));
+const Guides = lazy(() => import('../pages/Guides/Guides'));
+const GuideArticle = lazy(() => import('../pages/GuideArticle/GuideArticle'));
 const Projects = lazy(() => import('../pages/Projects/Projects'));
 const Gallery = lazy(() => import('../pages/Gallery/Gallery'));
 const FAQ = lazy(() => import('../pages/FAQ/FAQ'));
@@ -65,6 +68,9 @@ export function SiteContent() {
             <Route path="/services" element={<Services />} />
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/service-areas" element={<ServiceAreas />} />
+            <Route path="/auto-glass-repair/:slug" element={<LocationPage />} />
+            <Route path="/guides" element={<Guides />} />
+            <Route path="/guides/:slug" element={<GuideArticle />} />
             <Route path="/our-work" element={<Projects />} />
             <Route
               path="/home-service"

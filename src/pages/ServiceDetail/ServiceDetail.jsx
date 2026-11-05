@@ -1,49 +1,54 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { Check, ArrowUpRight } from 'lucide-react';
 import PageIntro from '../../components/ui/PageIntro';
 import PageMeta from '../../components/ui/PageMeta';
 import Photo from '../../components/ui/Photo';
 import ServiceGrid from '../../components/ui/ServiceGrid';
 import { business } from '../../content/business';
+import { currentServiceId } from '../../content/services';
+import { guides } from '../../content/guides';
 import { ui } from '../../content/navigation';
 import NotFound from '../NotFound/NotFound';
 import { data } from './data';
 
 const relatedServiceIds = {
-  'auto-glass-repair': [
+  'windshield-repair': [
     'windshield-replacement',
-    'side-rear-glass',
+    'car-window-replacement',
     'adas-calibration',
   ],
   'windshield-replacement': [
-    'auto-glass-repair',
+    'windshield-repair',
     'adas-calibration',
-    'side-rear-glass',
+    'car-window-replacement',
   ],
   'adas-calibration': [
     'windshield-replacement',
-    'auto-glass-repair',
-    'side-rear-glass',
+    'windshield-repair',
+    'car-window-replacement',
   ],
   'window-tinting': [
     'mobile-detailing',
-    'side-rear-glass',
+    'car-window-replacement',
     'windshield-replacement',
   ],
   'mobile-detailing': [
     'window-tinting',
-    'auto-glass-repair',
+    'windshield-repair',
     'windshield-replacement',
   ],
-  'side-rear-glass': [
+  'car-window-replacement': [
     'windshield-replacement',
-    'auto-glass-repair',
+    'windshield-repair',
     'window-tinting',
   ],
 };
 
 export default function ServiceDetail() {
   const { slug } = useParams();
+  // Production uses the 301s in public/_redirects; this covers the dev server.
+  const current = currentServiceId(slug);
+  if (current !== slug) return <Navigate replace to={`/services/${current}`} />;
   const service = data.records[slug];
   if (!service) return <NotFound />;
   return (
@@ -104,6 +109,14 @@ export default function ServiceDetail() {
           {service.guide.paragraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
+          {service.sections?.map((section) => (
+            <div className="service-section" key={section.heading}>
+              <h2>{section.heading}</h2>
+              {section.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          ))}
           <p>{service.areaNote}</p>
           <div className="button-row">
             <Link className="text-link" to="/service-areas">
@@ -112,6 +125,21 @@ export default function ServiceDetail() {
             <Link className="text-link" to="/faq">
               {data.faqLabel}
             </Link>
+            {guides
+              .filter(
+                (guide) =>
+                  guide.service === service.id ||
+                  guide.alsoFor?.includes(service.id),
+              )
+              .map((guide) => (
+                <Link
+                  key={guide.slug}
+                  className="text-link"
+                  to={`/guides/${guide.slug}`}
+                >
+                  {`Guide: ${guide.title}`}
+                </Link>
+              ))}
           </div>
         </div>
       </section>

@@ -15,7 +15,7 @@ export const data = {
     'Tell us what your vehicle needs. Our team can help confirm the service and next steps.',
   formHeading: 'Request your service',
   formDescription:
-    'A few details help us understand what your vehicle needs. Your preferred date is a request; our team will confirm the appointment time with you.',
+    'A few details help us understand what your vehicle needs. Your preferred date is a request. Our team will confirm the time with you.',
   image: photos.glassWork,
   helpHeading: 'Prefer a conversation?',
   helpCopy:
@@ -27,5 +27,5 @@ export const data = {
   hours: business.hours,
   timezoneNote: 'Hours are listed in New Orleans local time (Central Time).',
   detailingNote:
-    'All services can be requested as mobile service at your home or workplace. The team confirms availability for your address and vehicle.',
+    'Every service comes to your home or workplace. The team confirms the time for your address and vehicle.',
 };

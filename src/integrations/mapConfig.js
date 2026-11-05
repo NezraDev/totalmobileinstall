@@ -1,8 +1,11 @@
 import { business } from '../content/business';
-export const businessAddress = business.address;
 
-// Current shop pin supplied by the business on October 17, 2026.
-export const verifiedShopCoordinates = Object.freeze([
+export const serviceRadiusMiles = 40;
+export const serviceRadiusMeters = serviceRadiusMiles * 1609.344;
+
+// Center of the coverage circle: the public, rounded business center. The map
+// shows the coverage area only, with no pin, popup, or coordinates.
+export const serviceAreaCenter = Object.freeze([
   business.geo.longitude,
   business.geo.latitude,
 ]);
@@ -23,23 +26,21 @@ const validCoordinates =
   latitude <= 90;
 
 // A future deployment can override both coordinates together. Incomplete or
-// invalid overrides keep the confirmed shop pin, never a zero/approximate pin.
+// invalid overrides keep the public service-area center, never a zero center.
 const coordinates = validCoordinates
   ? [longitude, latitude]
-  : verifiedShopCoordinates;
+  : serviceAreaCenter;
 
+// The fallback link opens the whole coverage area, with no marker.
+const [[west, south], [east, north]] = serviceRadiusBounds(
+  createServiceRadiusFeature(coordinates, serviceRadiusMeters),
+);
 const embedUrl = new URL('https://www.openstreetmap.org/export/embed.html');
 embedUrl.searchParams.set(
   'bbox',
-  [
-    coordinates[0] - 0.008,
-    coordinates[1] - 0.005,
-    coordinates[0] + 0.008,
-    coordinates[1] + 0.005,
-  ].join(','),
+  [west, south, east, north].map((value) => value.toFixed(4)).join(','),
 );
 embedUrl.searchParams.set('layer', 'mapnik');
-embedUrl.searchParams.set('marker', `${coordinates[1]},${coordinates[0]}`);
 
 function rasterStyle(tileUrl) {
   return {
@@ -95,8 +96,6 @@ export function transformCartoRequest(url) {
   }
 }
 
-export const directionsUrl = business.directionsUrl;
-
 export const mapConfig = Object.freeze({
   configured: true,
   coordinates,
@@ -107,15 +106,9 @@ export const mapConfig = Object.freeze({
   osmAttribution,
   attribution: cartoAttribution,
   embedUrl: embedUrl.toString(),
-  zoom: 14.5,
-  address: businessAddress,
-  directionsUrl,
 });
 
-export const serviceRadiusMiles = 40;
-export const serviceRadiusMeters = serviceRadiusMiles * 1609.344;
-
-/** Build a geodesic GeoJSON circle around the selected shop coordinates. */
+/** Build a geodesic GeoJSON circle around the service-area center. */
 export function createServiceRadiusFeature(
   center = mapConfig.coordinates,
   radiusMeters = serviceRadiusMeters,

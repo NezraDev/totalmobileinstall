@@ -1,6 +1,8 @@
 import { site } from '../config/site';
 import { business } from '../content/business';
 import { services } from '../content/services';
+import { locations, locationPath } from '../content/locations';
+import { guides, guidesPublished } from '../content/guides';
 import { getResponsiveImageProps } from '../content/image-sources';
 
 export function normalizePath(value = '/') {
@@ -52,7 +54,11 @@ export function createPageMetadata(pathname, options = {}) {
       'Photo-documented auto glass work by Total Mobile Install in New Orleans.',
     noindex,
   };
-  metadata.structuredData = structuredData(metadata, options.notFound);
+  metadata.structuredData = structuredData(
+    metadata,
+    options.notFound,
+    options.faq,
+  );
   return metadata;
 }
 
@@ -65,16 +71,31 @@ const breadcrumbLabels = {
   contact: 'Contact',
   about: 'About',
   'book-service': 'Book Service',
+  'privacy-policy': 'Privacy Policy',
+  'terms-of-use': 'Terms of Use',
+  guides: 'Guides',
 };
+
+const locationForPath = (path) =>
+  locations.find((location) => path === locationPath(location.slug));
 
 function breadcrumbs(metadata) {
   const segments = metadata.path.split('/').filter(Boolean);
-  const pages = segments.map((segment, index) => ({
-    path: `/${segments.slice(0, index + 1).join('/')}`,
-    name:
-      breadcrumbLabels[segment] ||
-      services.find((item) => item.id === segment)?.name,
-  }));
+  const location = locationForPath(metadata.path);
+  // Location pages sit under Service Areas; /auto-glass-repair itself redirects there.
+  const pages = location
+    ? [
+        { path: '/service-areas', name: breadcrumbLabels['service-areas'] },
+        { path: metadata.path, name: location.name },
+      ]
+    : segments.map((segment, index) => ({
+        path: `/${segments.slice(0, index + 1).join('/')}`,
+        name:
+          breadcrumbLabels[segment] ||
+          (segments[0] === 'guides'
+            ? guides.find((item) => item.slug === segment)?.title
+            : services.find((item) => item.id === segment)?.name),
+      }));
   if (!pages.length || pages.some((page) => !page.name)) return null;
   return {
     '@type': 'BreadcrumbList',
@@ -90,7 +111,7 @@ function breadcrumbs(metadata) {
   };
 }
 
-function structuredData(metadata, notFound) {
+function structuredData(metadata, notFound, faq) {
   if (notFound) return null;
   const organizationId = absoluteUrl('/#business');
   const websiteId = absoluteUrl('/#website');
@@ -100,6 +121,10 @@ function structuredData(metadata, notFound) {
       geoMidpoint: { '@type': 'GeoCoordinates', ...business.geo },
       geoRadius: 64374,
     },
+    ...business.serviceAreas.map((area) => ({
+      '@type': 'AdministrativeArea',
+      name: `${area.name}, LA`,
+    })),
     ...business.serviceAreas.flatMap((area) =>
       area.places.map((place) => ({ '@type': 'City', name: `${place}, LA` })),
     ),
@@ -114,7 +139,7 @@ function structuredData(metadata, notFound) {
       email: business.email,
       address: { '@type': 'PostalAddress', ...business.postalAddress },
       geo: { '@type': 'GeoCoordinates', ...business.geo },
-      hasMap: 'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
+      hasMap: business.mapsUrl,
       image: absoluteUrl('/images/services/corvette-blue-windshield.webp'),
       logo: absoluteUrl(business.logo),
       sameAs: business.socialProfiles.map((profile) => profile.url),
@@ -146,12 +171,6 @@ function structuredData(metadata, notFound) {
           dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
           opens: '07:00',
           closes: '17:00',
-        },
-        {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: 'Saturday',
-          opens: '07:00',
-          closes: '12:00',
         },
       ],
       areaServed,
@@ -191,6 +210,50 @@ function structuredData(metadata, notFound) {
     });
     graph[2].mainEntity = { '@id': `${metadata.canonical}#service` };
   }
+  const guide = guides.find(
+    (item) => metadata.path === `/guides/${item.slug}`,
+  );
+  if (guide) {
+    graph.push({
+      '@type': 'Article',
+      '@id': `${metadata.canonical}#article`,
+      headline: guide.title,
+      description: metadata.description,
+      image: metadata.image,
+      datePublished: guidesPublished,
+      dateModified: guidesPublished,
+      author: { '@id': organizationId },
+      publisher: { '@id': organizationId },
+      mainEntityOfPage: { '@id': `${metadata.canonical}#webpage` },
+      inLanguage: 'en-US',
+    });
+    graph[2].mainEntity = { '@id': `${metadata.canonical}#article` };
+  }
+  const location = locationForPath(metadata.path);
+  if (location) {
+    graph.push({
+      '@type': 'Service',
+      '@id': `${metadata.canonical}#service`,
+      name: `Mobile auto glass repair in ${location.name === 'West Bank' ? 'the West Bank' : `${location.name}, LA`}`,
+      serviceType: 'Auto glass repair',
+      description: metadata.description,
+      url: metadata.canonical,
+      provider: { '@id': organizationId },
+      areaServed: location.areaServed,
+    });
+    graph[2].mainEntity = { '@id': `${metadata.canonical}#service` };
+  }
+  // Only questions shown on the page, passed in by that page.
+  if (faq?.length)
+    graph.push({
+      '@type': 'FAQPage',
+      '@id': `${metadata.canonical}#faq`,
+      mainEntity: faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    });
   const breadcrumb = breadcrumbs(metadata);
   if (breadcrumb) {
     graph.push(breadcrumb);

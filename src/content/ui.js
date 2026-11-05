@@ -62,10 +62,10 @@ export const transformationCopy = {
   nextLabel: 'Next result',
   previousLabel: 'Previous result',
   navigationHint:
-    'Use the buttons to explore our before-and-after transformations.',
+    'Use the buttons to see more before-and-after photos.',
   viewGallery: 'See more transformations',
   angleNote:
-    'Photographs show the same vehicle at different stages. Camera positions may vary.',
+    'Each pair shows the same vehicle before and after. Camera angles may vary.',
 };
 export const ctaCopy = {
   title: 'Your next clear view starts here.',

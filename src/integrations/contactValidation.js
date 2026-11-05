@@ -1,4 +1,4 @@
-import { services } from '../content/services.js';
+import { currentServiceId, services } from '../content/services.js';
 
 export const requestTypes = {
   urgent: 'Request a Service: Urgent / Rush',
@@ -20,9 +20,12 @@ export const limits = {
 };
 
 export function normalizedPayload(payload = {}) {
-  return Object.fromEntries(
+  const values = Object.fromEntries(
     Object.keys(limits).map((key) => [key, String(payload[key] ?? '').trim()]),
   );
+  // A page loaded before the service rename can still submit an old ID.
+  values.serviceId = currentServiceId(values.serviceId);
+  return values;
 }
 
 /** Returns a field-name -> readable error object. Endpoint validation remains required. */

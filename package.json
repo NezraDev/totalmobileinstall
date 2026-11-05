@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "dev:all": "node scripts/dev-all.mjs",
     "build": "node scripts/build.mjs",
     "preview": "node scripts/preview.mjs",
     "check:seo": "node scripts/seo-check.mjs",

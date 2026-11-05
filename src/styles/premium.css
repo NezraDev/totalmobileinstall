@@ -185,7 +185,6 @@ h2 {
 
 .service-guide > p:first-of-type,
 .section > .container > h2 + .faq-list,
-.section > .container > h2 + .area-groups,
 .section > .container > h2 + .service-grid {
   margin-top: 36px;
 }
@@ -547,6 +546,24 @@ h2 {
   }
 }
 
+.legal-copy > section + section h2 {
+  margin-top: 44px;
+}
+
+.legal-copy h3 {
+  margin: 26px 0 10px;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.legal-copy ul {
+  margin: 0 0 18px;
+  padding-left: 22px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
 /* Unavailable services stay findable but read as switched off. */
 .editorial-photo--unavailable,
 .service-card--unavailable .service-image > img {
@@ -742,8 +759,9 @@ main[data-home] .reviews-more {
     display: block;
   }
 
+  /* Sized so "New Orleans Auto Glass Repair," stays on one row (about 13.3em wide). */
   .photo-hero h1 {
-    font-size: clamp(64px, 8.2vw, 124px);
+    font-size: clamp(56px, 6.6vw, 100px);
     line-height: 0.98;
   }
 
@@ -813,6 +831,14 @@ main[data-home] .reviews-more {
 @media (max-width: 1000px) {
   main[data-home] .about-preview .container.split {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Two-column tablet hero: the narrow column breaks the first headline line as
+   "New Orleans Auto / Glass Repair," (it splits into three rows above 5.6vw). */
+@media (min-width: 701px) and (max-width: 1000px) {
+  .photo-hero h1 {
+    font-size: 5.4vw;
   }
 }
 
@@ -891,4 +917,192 @@ main[data-home] .reviews-more {
   .photo-hero .hero-slide-progress {
     margin-right: 64px;
   }
+}
+
+/* Service Areas: one row per parish, with its roads and bridges on the left
+   and its communities, alphabetical, on the right. */
+.area-intro {
+  margin-top: 20px;
+  max-width: 60ch;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.area-parishes {
+  margin-top: 44px;
+  border-bottom: 1px solid var(--line);
+}
+
+.area-parish {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 20px 64px;
+  padding-block: 36px;
+  border-top: 1px solid var(--line);
+}
+
+.area-parish__count {
+  margin-top: 8px;
+  color: var(--royal);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.area-parish__intro > p:last-child {
+  margin-top: 16px;
+  max-width: 52ch;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.area-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 3 150px;
+  column-gap: 32px;
+}
+
+.area-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding-block: 6px;
+  break-inside: avoid;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.area-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  margin-top: 0.6em;
+  border-radius: 50%;
+  background: var(--royal);
+}
+
+.area-parish__places h4 {
+  margin: 24px 0 8px;
+  font-size: 15px;
+}
+
+.area-note {
+  margin-top: 36px;
+}
+
+@media (max-width: 800px) {
+  .area-parish {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding-block: 28px;
+  }
+
+  .area-list {
+    columns: 2 130px;
+  }
+}
+
+/* Location pages and links to them. */
+.area-parish__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin-top: 18px;
+}
+
+.location-services {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 64px;
+  margin-top: 36px;
+  border-bottom: 1px solid var(--line);
+}
+
+.location-services > div {
+  padding-block: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.location-services p {
+  margin-block: 12px 16px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.location-nearby {
+  margin-top: 56px;
+  font-size: 18px;
+}
+
+.home-area-links {
+  margin-top: 32px;
+  color: var(--muted);
+}
+
+.footer-grid h2.footer-subheading {
+  margin-top: 28px;
+}
+
+@media (max-width: 800px) {
+  .location-services {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Phase 5: extra service sections and guides. */
+.service-section {
+  margin-top: 40px;
+}
+
+.service-section h2 {
+  font-size: clamp(26px, 2.6vw, 34px);
+}
+
+.service-section p {
+  margin-top: 14px;
+}
+
+.services-guide {
+  margin-top: 64px;
+}
+
+.services-guide p .text-link {
+  font-weight: 600;
+}
+
+/* Phase 6: guides. */
+.guide-card__title {
+  font-size: 23px;
+}
+
+.guide-article .guide-photo {
+  margin-bottom: 8px;
+  max-height: 480px;
+}
+
+.guide-steps {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding-left: 1.4em;
+  max-width: 72ch;
+}
+
+.guide-steps li {
+  padding-left: 6px;
+  line-height: 1.7;
+}
+
+.guide-steps li::marker {
+  color: var(--royal);
+  font-weight: 600;
+}
+
+.guide-related {
+  margin-top: 56px;
 }

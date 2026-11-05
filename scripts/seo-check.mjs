@@ -101,13 +101,34 @@ for (const route of [...report.routes, { ...report.notFound, path: '/404' }]) {
     const business = data['@graph'].find(
       (item) => item['@type'] === 'AutomotiveBusiness',
     );
-    assert.equal(business.address.streetAddress, '2642 Tulane Ave');
+    // City only: no street address, and only the rounded public center.
+    assert.equal(business.address.streetAddress, undefined, route.path);
+    assert.equal(business.address.addressLocality, 'New Orleans');
     assert.equal(business.address.postalCode, '70119');
-    assert.equal(business.geo.latitude, 29.961365651200683);
+    assert.deepEqual(
+      [business.geo.latitude, business.geo.longitude],
+      [29.96, -90.09],
+    );
+    assert.deepEqual(
+      [
+        business.areaServed[0].geoMidpoint.latitude,
+        business.areaServed[0].geoMidpoint.longitude,
+      ],
+      [29.96, -90.09],
+    );
     assert.ok(business.logo, `Business logo: ${route.path}`);
     assert.equal(business.sameAs.length, 2, `Social profiles: ${route.path}`);
     assert.equal(business.hasOfferCatalog.itemListElement.length, 5);
+    assert.equal(business.areaServed[0]['@type'], 'GeoCircle');
     assert.equal(business.areaServed[0].geoRadius, 64374);
+    // The 7 parishes and 57 places from the Service Areas list, each named once.
+    const areaTypes = business.areaServed.map((area) => area['@type']);
+    assert.equal(areaTypes.filter((type) => type === 'AdministrativeArea').length, 7);
+    assert.equal(areaTypes.filter((type) => type === 'City').length, 57);
+    assert.equal(
+      new Set(business.areaServed.slice(1).map((area) => area.name)).size,
+      64,
+    );
     assert.ok(await exists(path.join('dist', new URL(business.logo).pathname)));
     assert.ok(
       business.areaServed.some((area) => area.name === 'Metairie, LA') &&
@@ -124,8 +145,30 @@ for (const route of [...report.routes, { ...report.notFound, path: '/404' }]) {
     );
     assert.equal(
       data['@graph'].filter((item) => item['@type'] === 'Service').length,
-      route.path.startsWith('/services/') ? 1 : 0,
+      /^\/(services|auto-glass-repair)\//.test(route.path) ? 1 : 0,
     );
+    // FAQPage only where the questions are on the page, and every question is shown.
+    const faqPage = data['@graph'].find((item) => item['@type'] === 'FAQPage');
+    const hasFaq =
+      route.path === '/faq' ||
+      /^\/(services|auto-glass-repair)\//.test(route.path);
+    assert.equal(Boolean(faqPage), hasFaq, `FAQPage: ${route.path}`);
+    const pageText = html
+      .replace(/&#x27;|&#39;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, '&');
+    if (faqPage)
+      for (const item of faqPage.mainEntity) {
+        assert.ok(item.acceptedAnswer.text, route.path);
+        assert.ok(pageText.includes(item.name), `FAQ question not on page: ${item.name}`);
+      }
+    const articles = data['@graph'].filter((item) => item['@type'] === 'Article');
+    assert.equal(articles.length, route.path.startsWith('/guides/') ? 1 : 0, route.path);
+    if (articles.length)
+      assert.ok(
+        articles[0].headline && /^\d{4}-\d{2}-\d{2}$/.test(articles[0].datePublished),
+        route.path,
+      );
   }
   for (const [, href] of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {
     if (!href.startsWith('/')) continue;
@@ -187,6 +230,18 @@ assert.equal(
     .not_found_handling,
   '404-page',
 );
+// City only: no built file shows the street address or the exact base coordinates.
+for (const file of await fs.readdir('dist', { recursive: true })) {
+  if (!/\.(html|js|css|xml|txt|json)$/.test(file)) continue;
+  const text = await fs.readFile(path.join('dist', file), 'utf8');
+  assert.ok(!/tulane/i.test(text), `Street address in ${file}`);
+  assert.ok(
+    !/29\.96136565|90\.09014810/.test(text),
+    `Exact coordinates in ${file}`,
+  );
+  if (file.endsWith('.html'))
+    assert.ok(!/2642/.test(text), `Street number in ${file}`);
+}
 for (const sensitive of [
   '.env',
   '.git/config',
@@ -196,6 +251,50 @@ for (const sensitive of [
 ])
   assert.equal(await exists(path.join('dist', sensitive)), false);
 
+// Old domain: every totalmobileglass.com page 301s to the matching new page.
+// Netlify applies the first matching rule, so this follows the same order.
+{
+  const rules = (await fs.readFile('dist/_redirects', 'utf8'))
+    .split(/\r?\n/)
+    .filter((line) => /^https?:\/\/(www\.)?totalmobileglass\.com\//.test(line))
+    .map((line) => line.trim().split(/\s+/));
+  const resolve = (url) => {
+    for (const [from, to, status] of rules) {
+      const hit = from.endsWith('/*') ? url.startsWith(from.slice(0, -1)) : url === from;
+      if (hit) return { to, status };
+    }
+    return null;
+  };
+  const expected = {
+    '/': '/',
+    '/services': '/services',
+    '/auto-glass': '/',
+    '/adas-calibration': '/services/adas-calibration',
+    '/window-tint': '/services/window-tinting',
+    '/mobile-detailing': '/services/mobile-detailing',
+    '/service-areas': '/service-areas',
+    '/gallery': '/gallery',
+    '/about': '/about',
+    '/contact': '/contact',
+    '/faq': '/faq',
+    '/terms': '/terms-of-use',
+    '/privacy': '/privacy-policy',
+    '/some-old-page': '/',
+  };
+  for (const origin of [
+    'https://totalmobileglass.com',
+    'https://www.totalmobileglass.com',
+    'http://totalmobileglass.com',
+    'http://www.totalmobileglass.com',
+  ])
+    for (const [oldPath, newPath] of Object.entries(expected)) {
+      const rule = resolve(origin + oldPath);
+      assert.ok(rule, `No redirect for ${origin}${oldPath}`);
+      assert.equal(rule.status, '301!', origin + oldPath);
+      assert.equal(rule.to, `https://totalmobileinstall.com${newPath}`, origin + oldPath);
+      assert.ok(routePaths.has(newPath), `Redirect target is not a page: ${newPath}`);
+    }
+}
 const server = await createPreviewServer();
 await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
 try {
@@ -224,15 +323,36 @@ try {
     ['/contact.html', '/contact'],
     ['/services/window-tinting.html', '/services/window-tinting'],
     ['/index.html', '/'],
+    // /auto-glass-repair is not a page; the location pages sit under it.
+    ['/auto-glass-repair', '/service-areas'],
+    ['/auto-glass-repair/metairie/', '/auto-glass-repair/metairie'],
+    ['/auto-glass-repair/west-bank.html', '/auto-glass-repair/west-bank'],
+    // Pages renamed in November 2026.
+    ...['', '/', '.html', '/index.html'].flatMap((suffix) => [
+      [`/services/auto-glass-repair${suffix}`, '/services/windshield-repair'],
+      [
+        `/services/side-rear-glass${suffix}`,
+        '/services/car-window-replacement',
+      ],
+    ]),
   ]) {
     const response = await fetch(`${origin}${from}`, { redirect: 'manual' });
-    assert.equal(response.status, 301);
-    assert.equal(response.headers.get('location'), to);
+    assert.equal(response.status, 301, from);
+    assert.equal(response.headers.get('location'), to, from);
   }
   assert.equal(
     (await fetch(`${origin}/book-service?service=window-tinting`))
       .status,
     200,
+  );
+  const legacyQuery = await fetch(
+    `${origin}/services/auto-glass-repair?utm_source=gbp`,
+    { redirect: 'manual' },
+  );
+  assert.equal(
+    legacyQuery.headers.get('location'),
+    '/services/windshield-repair?utm_source=gbp',
+    'Redirects keep the query string',
   );
   assert.equal(
     (await fetch(`${origin}/sitemap.xml`)).headers.get('content-type'),

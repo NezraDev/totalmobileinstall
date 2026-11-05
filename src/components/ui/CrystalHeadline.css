@@ -1,11 +1,14 @@
-/* The headline keeps the hero's type scale and exact two-line composition. */
+/* The headline keeps the hero's type scale. Each line stays on one row where it
+   fits; on phones a long line wraps into balanced rows instead of overflowing. */
 .hero h1.crystal-headline .crystal-headline__line {
   --crystal-mid: #dceaff;
   --crystal-low: #b8d2f5;
   position: relative;
   display: block;
-  width: max-content;
+  width: fit-content;
   max-width: 100%;
+  white-space: normal;
+  text-wrap: balance;
   color: #f3f8ff;
   text-shadow: 0 2px 2px rgb(0 16 72 / 28%);
 }

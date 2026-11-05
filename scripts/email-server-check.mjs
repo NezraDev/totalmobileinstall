@@ -8,6 +8,7 @@ import {
   config as netlifyConfig,
   createNetlifyContactHandler,
 } from '../netlify/functions/contact.mjs';
+import { createActionToken } from '../server/requestActions.mjs';
 
 const origin = 'https://website.test';
 const env = {
@@ -111,6 +112,9 @@ assert.equal(
 assert.match(payload.html, /New service request/);
 assert.match(payload.html, /images\/brand\/logo\.png/);
 assert.match(payload.html, /requires confirmation/);
+// City only in the team email footer.
+assert.match(payload.html, /New Orleans, LA<br>/);
+assert.doesNotMatch(payload.html + payload.text, /2642|Tulane/i);
 const hostileResponse = await handle(
   request({
     ...valid,
@@ -175,6 +179,8 @@ assert.match(copies[0].html, />Urgent<\/a>/);
 assert.match(copies[0].html, />Quotation or Inquiry<\/a>/);
 assert.match(copies[0].html, /30 minutes to 1 hour/);
 assert.doesNotMatch(copies[0].html, /mailto:/);
+assert.match(copies[0].html, /New Orleans, Louisiana<br>/);
+assert.doesNotMatch(copies[0].html + copies[0].text, /2642|Tulane/i);
 const actionLinks = [
   ...copies[0].html.matchAll(/href="([^"]*\/api\/request-action\?t=[^"]*)"/g),
 ].map((match) => match[1]);
@@ -258,6 +264,50 @@ assert.equal(
   ).status,
   400,
   'Links expire after seven days',
+);
+// Buttons in customer emails sent before the service rename carry the old IDs.
+for (const [legacy, name] of [
+  ['auto-glass-repair', 'Windshield Repair'],
+  ['side-rear-glass', 'Car Window Replacement'],
+]) {
+  const legacySends = [];
+  const legacyToken = createActionToken({
+    secret: env.RESEND_API_KEY,
+    action: 'urgent',
+    values: { ...valid, serviceId: legacy },
+    now: Date.now() - 6 * 24 * 60 * 60 * 1000,
+  });
+  const legacyResult = await createContactHandler({
+    env,
+    send: async (_url, options) => {
+      legacySends.push(JSON.parse(options.body));
+      return Response.json({ id: 'legacy-action' });
+    },
+    sendCopy: async () => {},
+  })(
+    new Request('https://backend.test/api/request-action', {
+      method: 'POST',
+      body: new URLSearchParams({ t: legacyToken }),
+    }),
+  );
+  assert.equal(legacyResult.status, 303, legacy);
+  assert.equal(legacySends.length, 1, legacy);
+  assert.equal(legacySends[0].subject, `Urgent / Rush - ${name} - Test Customer`);
+}
+// A page loaded before the rename can still submit an old ID.
+const legacyContactSends = [];
+const legacyContactResponse = await createContactHandler({
+  env,
+  send: async (_url, options) => {
+    legacyContactSends.push(JSON.parse(options.body));
+    return Response.json({ id: 'legacy-contact' });
+  },
+  sendCopy: async () => {},
+})(request({ ...valid, serviceId: 'side-rear-glass' }));
+assert.equal(legacyContactResponse.status, 202);
+assert.equal(
+  legacyContactSends[0].subject,
+  'Appointment - Car Window Replacement - Test Customer',
 );
 assert.doesNotMatch(copies[0].html + copies[0].text, /PRIVATE FREE TEXT/);
 assert.doesNotMatch(copies[0].html, /<b>2022/);

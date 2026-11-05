@@ -122,25 +122,28 @@ try {
   });
   const map = page.locator('.location-map').first();
   await map.scrollIntoViewIfNeeded();
-  const marker = map.getByRole('button', {
-    name: 'Map marker for Total Mobile Install',
+  // Coverage only: the map loads with no pin, popup, or coordinates readout.
+  await expect(map.locator('.maplibregl-ctrl-attrib')).toBeVisible({
+    timeout: 30000,
   });
-  await expect(marker).toBeVisible({ timeout: 30000 });
-  const popup = map.locator('.map-popup');
-  await expect(popup).toBeVisible({ timeout: 30000 });
-  assert.match(await popup.innerText(), /2642 Tulane Ave/);
-  await expect(map.locator('.maplibregl-ctrl-attrib')).toBeVisible();
-  await map.screenshot({ path: `${out}/map-revision-desktop.png` });
+  await expect(map.locator('.map-loading')).toHaveCount(0, { timeout: 30000 });
+  assert.equal(await map.locator('.map-fallback').count(), 0);
   assert.equal(
-    await page
-      .getByRole('link', { name: 'Get directions', exact: true })
-      .last()
-      .getAttribute('href'),
-    'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
+    await map.locator('.maplibregl-marker, .maplibregl-popup').count(),
+    0,
   );
+  assert.equal(
+    await page.getByRole('link', { name: 'Get directions' }).count(),
+    0,
+  );
+  const mapText = await map.innerText();
+  assert.match(mapText, /40-mile mobile service radius/);
+  assert.match(mapText, /New Orleans, LA/);
+  assert.doesNotMatch(mapText, /2642|Tulane|\d+\.\d{4,}/);
+  await map.screenshot({ path: `${out}/map-revision-desktop.png` });
   assert.deepEqual(errors, []);
   console.log(
-    'Homepage revision checks pass: full-height hero, 4.5s rotation, no hero controls, coded wordmark, animated counters, labeled transformations, reduced motion, responsive widths.',
+    'Homepage revision checks pass: full-height hero, 4.5s rotation, no hero controls, coded wordmark, animated counters, labeled transformations, reduced motion, responsive widths, coverage-only map.',
   );
 } finally {
   await browser.close();

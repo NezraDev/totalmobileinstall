@@ -9,10 +9,10 @@ const photoMap = {
   rearGlass: photos.tesla,
 };
 const serviceSeo = {
-  'auto-glass-repair': {
-    title: 'Windshield Repair in New Orleans | Total Mobile Install',
+  'windshield-repair': {
+    title: 'Windshield & Chip Repair New Orleans | Total Mobile Install',
     description:
-      'Request windshield chip or crack assessment in New Orleans. Total Mobile Install offers mobile repair requests and guidance when replacement is needed.',
+      'Windshield chip and crack repair in New Orleans. Our mobile team comes to your home or work and can help with your insurance claim.',
   },
   'windshield-replacement': {
     title: 'Windshield Replacement in New Orleans | Total Mobile Install',
@@ -34,22 +34,22 @@ const serviceSeo = {
     description:
       'Request mobile interior detailing, hand washing, paint correction, polishing, or ceramic coating at your home or office in New Orleans.',
   },
-  'side-rear-glass': {
-    title: 'Side & Rear Glass in New Orleans | Total Mobile Install',
+  'car-window-replacement': {
+    title: 'Car Window Replacement in New Orleans | Total Mobile Install',
     description:
-      'Request door, quarter, or rear window glass replacement in New Orleans. Share your vehicle details so Total Mobile Install can confirm the correct glass.',
+      'Car window replacement in New Orleans for door, quarter, and rear glass. Our mobile team comes to you, including fleet trucks and RVs.',
   },
 };
 const mobileAreaNote = (work) =>
-  `Mobile ${work} requests are welcome across Greater New Orleans, including Metairie, Kenner, Gretna, Harvey, Chalmette, Slidell, Mandeville, and Covington. We confirm availability for your address before scheduling.`;
+  `We bring ${work} to you across Greater New Orleans. That includes Metairie, Kenner, Gretna, Harvey, Chalmette, Slidell, Mandeville, and Covington. We confirm your address before we book the visit.`;
 const areaNotes = {
-  'auto-glass-repair': mobileAreaNote('windshield repair'),
+  'windshield-repair': mobileAreaNote('windshield repair'),
   'windshield-replacement': mobileAreaNote('windshield replacement'),
   'adas-calibration': mobileAreaNote('calibration'),
   'window-tinting':
     'Window tinting is not available as of now. Our other services remain available across Greater New Orleans.',
   'mobile-detailing': mobileAreaNote('detailing'),
-  'side-rear-glass': mobileAreaNote('side and rear glass'),
+  'car-window-replacement': mobileAreaNote('car window replacement'),
 };
 export const data = {
   sourceStatus:
@@ -74,6 +74,7 @@ export const data = {
         seo: {
           ...serviceSeo[service.id],
           image: photoMap[service.imageKey].src,
+          faq: service.questions,
         },
         requestHref: `/book-service?service=${service.id}`,
       },

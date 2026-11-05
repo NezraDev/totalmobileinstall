@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { createRoot } from 'react-dom/client';
 import { ArrowUpRight, LoaderCircle, MapPin } from 'lucide-react';
 import {
   mapConfig,
@@ -11,11 +10,9 @@ import {
 import { mapCopy as c } from '../../content/ui';
 import { business } from '../../content/business';
 
-function formatCoordinates([longitude, latitude]) {
-  return `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
-}
-
-export default function LocationMap({ showCoverage = false }) {
+// Shows the 40-mile mobile coverage area only. There is no pin, popup, or
+// coordinates readout, so the map never pinpoints the business base.
+export default function LocationMap() {
   const host = useRef(null);
   const canvas = useRef(null);
   const [near, setNear] = useState(false);
@@ -42,17 +39,11 @@ export default function LocationMap({ showCoverage = false }) {
   useEffect(() => {
     if (!near) return;
     let map;
-    let marker;
-    let markerRoot;
-    let popup;
     let attributionControl;
     let loadTimeout;
     let disposed = false;
     let usingCarto = mapConfig.cartoConfigured;
-    let coverageFitted = false;
-    const serviceRadius = showCoverage
-      ? createServiceRadiusFeature(mapConfig.coordinates)
-      : null;
+    const serviceRadius = createServiceRadiusFeature(mapConfig.coordinates);
 
     setState('loading');
 
@@ -75,8 +66,9 @@ export default function LocationMap({ showCoverage = false }) {
           style: structuredClone(
             usingCarto ? mapConfig.cartoStyle : mapConfig.osmStyle,
           ),
-          center: mapConfig.coordinates,
-          zoom: mapConfig.zoom,
+          // Opens on the whole coverage area, never a street-level view.
+          bounds: serviceRadiusBounds(serviceRadius),
+          fitBoundsOptions: { padding: 36, maxZoom: 8.5 },
           attributionControl: false,
           maxPitch: 0,
           transformRequest: transformCartoRequest,
@@ -102,43 +94,6 @@ export default function LocationMap({ showCoverage = false }) {
           'bottom-left',
         );
 
-        const markerElement = document.createElement('button');
-        markerElement.type = 'button';
-        markerElement.className = 'shop-map-marker';
-        markerElement.setAttribute(
-          'aria-label',
-          `Map marker for ${business.name}`,
-        );
-        markerElement.title = `${business.name} business location`;
-        markerRoot = createRoot(markerElement);
-        markerRoot.render(
-          <MapPin size={30} fill="currentColor" aria-hidden="true" />,
-        );
-
-        const popupContent = document.createElement('div');
-        popupContent.className = 'map-popup';
-        const popupTitle = document.createElement('strong');
-        popupTitle.textContent = business.name;
-        const popupDescription = document.createElement('span');
-        popupDescription.textContent = business.address;
-        const popupCoordinates = document.createElement('small');
-        popupCoordinates.textContent = formatCoordinates(mapConfig.coordinates);
-        popupContent.append(popupTitle, popupDescription, popupCoordinates);
-        popup = new maplibre.Popup({
-          closeButton: true,
-          closeOnClick: false,
-          maxWidth: '280px',
-          offset: 28,
-        }).setDOMContent(popupContent);
-
-        marker = new maplibre.Marker({
-          element: markerElement,
-          anchor: 'bottom',
-        })
-          .setLngLat(mapConfig.coordinates)
-          .setPopup(popup)
-          .addTo(map);
-
         const switchToOsm = () => {
           if (disposed || !usingCarto) return;
           usingCarto = false;
@@ -151,48 +106,37 @@ export default function LocationMap({ showCoverage = false }) {
 
         map.on('style.load', () => {
           if (disposed) return;
-          if (serviceRadius) {
-            if (!map.getSource('tmi-service-radius')) {
-              map.addSource('tmi-service-radius', {
-                type: 'geojson',
-                data: serviceRadius,
-              });
-            }
-            if (!map.getLayer('tmi-service-radius-fill')) {
-              map.addLayer({
-                id: 'tmi-service-radius-fill',
-                type: 'fill',
-                source: 'tmi-service-radius',
-                paint: {
-                  'fill-color': '#1745c8',
-                  'fill-opacity': 0.16,
-                },
-              });
-            }
-            if (!map.getLayer('tmi-service-radius-outline')) {
-              map.addLayer({
-                id: 'tmi-service-radius-outline',
-                type: 'line',
-                source: 'tmi-service-radius',
-                paint: {
-                  'line-color': '#123db8',
-                  'line-opacity': 0.9,
-                  'line-width': 2.5,
-                },
-              });
-            }
-            if (!coverageFitted) {
-              map.fitBounds(serviceRadiusBounds(serviceRadius), {
-                padding: { top: 36, right: 36, bottom: 36, left: 36 },
-                maxZoom: 8.5,
-                duration: 0,
-              });
-              coverageFitted = true;
-            }
+          if (!map.getSource('tmi-service-radius')) {
+            map.addSource('tmi-service-radius', {
+              type: 'geojson',
+              data: serviceRadius,
+            });
+          }
+          if (!map.getLayer('tmi-service-radius-fill')) {
+            map.addLayer({
+              id: 'tmi-service-radius-fill',
+              type: 'fill',
+              source: 'tmi-service-radius',
+              paint: {
+                'fill-color': '#1745c8',
+                'fill-opacity': 0.16,
+              },
+            });
+          }
+          if (!map.getLayer('tmi-service-radius-outline')) {
+            map.addLayer({
+              id: 'tmi-service-radius-outline',
+              type: 'line',
+              source: 'tmi-service-radius',
+              paint: {
+                'line-color': '#123db8',
+                'line-opacity': 0.9,
+                'line-width': 2.5,
+              },
+            });
           }
           window.clearTimeout(loadTimeout);
           setState('ready');
-          if (!popup.isOpen()) popup.addTo(map);
         });
         map.on('error', (event) => {
           if (usingCarto && [401, 403].includes(event.error?.status))
@@ -211,37 +155,25 @@ export default function LocationMap({ showCoverage = false }) {
     return () => {
       disposed = true;
       window.clearTimeout(loadTimeout);
-      popup?.remove();
-      marker?.remove();
-      markerRoot?.unmount();
       map?.remove();
     };
-  }, [near, showCoverage]);
+  }, [near]);
 
   return (
-    <div
-      className={`location-map map-ready${showCoverage ? ' location-map--coverage' : ''}`}
-      ref={host}
-    >
+    <div className="location-map map-ready location-map--coverage" ref={host}>
       <div
         ref={canvas}
         className="map-canvas"
-        aria-label={
-          showCoverage
-            ? `${serviceRadiusMiles}-mile mobile service radius around ${business.name}`
-            : `${business.name} location map`
-        }
+        aria-label={`${serviceRadiusMiles}-mile mobile service radius around ${business.address}`}
         role="region"
       />
-      {showCoverage && (
-        <div className="map-coverage-legend">
-          <span className="map-coverage-legend__swatch" aria-hidden="true" />
-          <span>
-            <strong>{serviceRadiusMiles}-mile mobile service radius</strong>
-            <small>ZIP code availability is confirmed with each request.</small>
-          </span>
-        </div>
-      )}
+      <div className="map-coverage-legend">
+        <span className="map-coverage-legend__swatch" aria-hidden="true" />
+        <span>
+          <strong>{serviceRadiusMiles}-mile mobile service radius</strong>
+          <small>ZIP code availability is confirmed with each request.</small>
+        </span>
+      </div>
       {state === 'loading' && (
         <div className="map-loading" role="status">
           <LoaderCircle size={18} className="spin" />
@@ -252,7 +184,9 @@ export default function LocationMap({ showCoverage = false }) {
         <div className="map-fallback" role="status">
           <MapPin size={34} strokeWidth={1.5} />
           <strong>{c.unavailable}</strong>
-          <span>{business.address}</span>
+          <span>
+            {`Mobile service within ${serviceRadiusMiles} miles of ${business.address}.`}
+          </span>
           <a
             href={mapConfig.embedUrl}
             target="_blank"

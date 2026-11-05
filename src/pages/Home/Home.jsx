@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { data as d } from './data';
 import { business } from '../../content/business';
+import { locations, locationPath } from '../../content/locations';
 import { getResponsiveImageProps } from '../../content/image-sources';
 import PageMeta from '../../components/ui/PageMeta';
 import CrystalHeadline from '../../components/ui/CrystalHeadline';
@@ -121,6 +122,18 @@ export default function Home() {
             </Link>
           </div>
           <ServiceGrid />
+          <p className="home-area-links">
+            {d.services.areasLead}{' '}
+            {locations.map((location, index) => (
+              <span key={location.slug}>
+                {index === locations.length - 1 ? 'and ' : ''}
+                <Link className="text-link" to={locationPath(location.slug)}>
+                  {location.linkLabel.replace('Auto glass', 'auto glass')}
+                </Link>
+                {index < locations.length - 1 ? ', ' : '.'}
+              </span>
+            ))}
+          </p>
         </div>
       </section>
       <section className="why-section">
@@ -273,7 +286,7 @@ export default function Home() {
                 <small>{d.contact.hoursNote}</small>
               </div>
             </div>
-            <LocationMap showCoverage />
+            <LocationMap />
           </div>
           <BookingForm compact />
         </div>

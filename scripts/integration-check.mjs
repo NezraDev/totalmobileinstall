@@ -174,6 +174,32 @@ try {
   );
 
   await check(
+    'Service IDs from before the rename are accepted and sent as the current IDs',
+    async () => {
+      for (const [legacy, current] of [
+        ['auto-glass-repair', 'windshield-repair'],
+        ['side-rear-glass', 'car-window-replacement'],
+      ]) {
+        assert.deepEqual(
+          client.validateContactRequest({ ...valid, serviceId: legacy }),
+          {},
+        );
+        mockFetch(async (_url, options) => {
+          assert.equal(JSON.parse(options.body).serviceId, current);
+          return json({ accepted: true }, 202);
+        });
+        await client.submitContactRequest({ ...valid, serviceId: legacy });
+      }
+      // Inherited object keys are not service aliases.
+      for (const serviceId of ['constructor', '__proto__', 'toString'])
+        assert.equal(
+          client.validateContactRequest({ ...valid, serviceId }).serviceId,
+          'Choose a valid service.',
+        );
+    },
+  );
+
+  await check(
     'Only endpoint acceptance resolves; the JSON contract omits arbitrary routing and secrets',
     async () => {
       mockFetch(async (url, options) => {
@@ -334,37 +360,37 @@ try {
   );
 
   await check(
-    'The verified shop pin and no-key map work without environment configuration',
+    'The rounded service-area center and no-key map work without environment configuration',
     async () => {
       const map = await loadIntegration('mapConfig');
-      const expected = [-90.09014810481109, 29.961365651200683];
+      const expected = [-90.09, 29.96];
       assert.equal(map.mapConfig.configured, true);
       assert.equal(map.mapConfig.cartoConfigured, false);
       assert.deepEqual(map.mapConfig.coordinates, expected);
+      assert.deepEqual([...map.serviceAreaCenter], expected);
       const embed = new URL(map.mapConfig.embedUrl);
       assert.equal(embed.origin, 'https://www.openstreetmap.org');
       assert.equal(embed.pathname, '/export/embed.html');
       assert.equal(embed.searchParams.get('layer'), 'mapnik');
       assert.equal(
-        embed.searchParams.get('marker'),
-        `${expected[1]},${expected[0]}`,
+        embed.searchParams.has('marker'),
+        false,
+        'The fallback link never drops a pin',
       );
       const [west, south, east, north] = embed.searchParams
         .get('bbox')
         .split(',')
         .map(Number);
-      assert.ok(west < expected[0] && expected[0] < east);
-      assert.ok(south < expected[1] && expected[1] < north);
-      assert.equal(
-        map.directionsUrl,
-        'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
-      );
+      // The link opens the whole 40-mile area (about 0.58 degrees each way).
+      assert.ok(west < expected[0] - 0.5 && expected[0] + 0.5 < east);
+      assert.ok(south < expected[1] - 0.5 && expected[1] + 0.5 < north);
+      assert.equal(map.directionsUrl, undefined);
       assert.equal(embed.searchParams.has('key'), false);
     },
   );
 
   await check(
-    'The service coverage circle is exactly 40 miles around the shop',
+    'The service coverage circle is exactly 40 miles around the center',
     async () => {
       const map = await loadIntegration('mapConfig');
       const feature = map.createServiceRadiusFeature(map.mapConfig.coordinates);
@@ -391,7 +417,7 @@ try {
   );
 
   await check(
-    'Incomplete or invalid map overrides preserve the verified shop pin',
+    'Incomplete or invalid map overrides keep the rounded service-area center',
     async () => {
       for (const env of [
         { VITE_MAP_LONGITUDE: '', VITE_MAP_LATITUDE: '' },
@@ -413,14 +439,7 @@ try {
       ]) {
         const map = await loadIntegration('mapConfig', env);
         assert.equal(map.mapConfig.configured, true);
-        assert.deepEqual(
-          map.mapConfig.coordinates,
-          [-90.09014810481109, 29.961365651200683],
-        );
-        assert.equal(
-          map.directionsUrl,
-          'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
-        );
+        assert.deepEqual(map.mapConfig.coordinates, [-90.09, 29.96]);
       }
     },
   );
@@ -436,14 +455,13 @@ try {
       assert.equal(map.mapConfig.configured, true);
       assert.equal(map.mapConfig.cartoConfigured, true);
       assert.deepEqual(map.mapConfig.coordinates, [12, 34]);
-      assert.equal(
-        new URL(map.mapConfig.embedUrl).searchParams.get('marker'),
-        '34,12',
-      );
-      assert.equal(
-        map.directionsUrl,
-        'https://maps.app.goo.gl/RwCt2X5jmooMkDi8A',
-      );
+      const overrideEmbed = new URL(map.mapConfig.embedUrl);
+      assert.equal(overrideEmbed.searchParams.has('marker'), false);
+      const [west, south, east, north] = overrideEmbed.searchParams
+        .get('bbox')
+        .split(',')
+        .map(Number);
+      assert.ok(west < 12 && 12 < east && south < 34 && 34 < north);
       for (const path of [
         'gl/positron-gl-style/style.json',
         'tiles/1/2/3.pbf',

@@ -25,6 +25,8 @@ export const ui = {
   requestNote:
     'A request, not a confirmed appointment. Our team will contact you to confirm the details.',
   servicesHeading: 'Services',
+  areasHeading: 'Local service',
+  guidesLabel: 'Auto Glass Guides',
   exploreHeading: 'Explore',
   contactHeading: 'Let’s talk.',
   privacyLabel: 'Privacy Policy',

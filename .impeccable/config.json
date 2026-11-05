@@ -1,4 +1,19 @@
 {
   "buildPath": "code",
-  "decisionSource": "User delegated recommendations and implementation choices for this site. Code-first implementation follows the pinned visual brief."
+  "decisionSource": "User delegated recommendations and implementation choices for this site. Code-first implementation follows the pinned visual brief.",
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/components/ui/CrystalHeadline.css"
+        ],
+        "createdAt": "2026-11-05T06:29:30.180Z",
+        "reason": "Intentional crystal headline effect from the original design the owner chose to keep (reverted to original look; SEO_TOP1_PROMPT.md rule: keep the crystal headline). Phase 1 edit only changed line wrapping."
+      }
+    ]
+  }
 }

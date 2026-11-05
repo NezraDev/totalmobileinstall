@@ -107,7 +107,7 @@ export async function createPreviewServer(directory = 'dist') {
           ? 'public, max-age=31536000, immutable'
           : 'no-cache',
       };
-      if (notFound || ['/privacy-policy', '/terms-of-use'].includes(clean))
+      if (notFound)
         headers['X-Robots-Tag'] = 'noindex, follow';
       response.writeHead(notFound ? 404 : 200, headers);
       response.end(

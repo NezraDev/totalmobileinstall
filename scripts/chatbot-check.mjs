@@ -33,7 +33,7 @@ const cases = [
   ],
   [
     'I need a cracked windshield repaired',
-    'repair is suitable for your vehicle',
+    'tells you if a repair will work',
   ],
   ['What is your phone number?', '1-504-207-7742'],
   ['Do you service ZIP code 70119?', '40-mile radius'],
@@ -54,7 +54,7 @@ const cases = [
     'What is your privacy policy?',
     'final Privacy Policy has not been provided yet',
   ],
-  ['Are you open on holidays?', 'Sunday and holiday hours'],
+  ['Are you open on holidays?', 'holiday hours'],
   ['Do you work on a Ford?', 'range of makes and models'],
   ['How soon after replacement can I drive?', 'safe drive-away window'],
   ['Can you do mobile car detailing?', 'interior steam and shampoo'],
@@ -63,9 +63,9 @@ const cases = [
     'cannot review or assess customer photos',
   ],
   ['How many services do you offer?', 'We offer 5 services'],
-  ['What is your address?', '2642 Tulane Ave'],
+  ['What is your address?', 'based in New Orleans, LA'],
   ['How do I get directions to your shop?', 'mobile-only'],
-  ['Are you open on Saturdays?', 'Saturday: 7 AM to 12 PM'],
+  ['Are you open on Saturdays?', 'closed on weekends'],
   ['Do you charge to help with an insurance claim?', 'no additional charge'],
   [
     'Does windshield replacement include calibration?',
@@ -101,9 +101,9 @@ const cases = [
   ['services', 'We offer 5 services'],
   [
     'Can you fix a crack in my windshield?',
-    'repair is suitable for your vehicle',
+    'tells you if a repair will work',
   ],
-  ['How do you repair windshield cracks?', 'repair is suitable for your vehicle'],
+  ['How do you repair windshield cracks?', 'tells you if a repair will work'],
   [
     'Is windshield tint legal in Louisiana?',
     'windshield-specific tint availability',
@@ -163,6 +163,45 @@ for (const [question, expected] of cases) {
   );
 }
 
+// City only: no answer gives the street address.
+for (const question of [
+  ...cases.map(([question]) => question),
+  'Where are you located?',
+  'What is your street address?',
+  'Is your shop on Tulane Avenue?',
+  'Give me directions to the shop',
+  'Where is your business?',
+])
+  assert.doesNotMatch(getChatbotReply(question).text, /2642|tulane/i, question);
+
+// Service Areas: every listed place gets a direct answer; everyday words and streets do not.
+for (const [question, expected] of [
+  ['What areas do you serve?', '57 communities in Orleans, Jefferson, St. Bernard'],
+  ['Do you come to Luling?', 'Luling is in St. Charles Parish'],
+  ['Can you come to my house in Violet?', 'Violet is in St. Bernard Parish'],
+  ['Do you serve Reserve?', 'Reserve is in St. John the Baptist Parish'],
+  ['Do you service the French Quarter?', 'The French Quarter is a New Orleans neighborhood'],
+  ['Can you come to New Orleans East?', 'New Orleans East is a New Orleans neighborhood'],
+  ['Do you work in Jean Lafitte?', 'Jean Lafitte is in Jefferson Parish'],
+  ['Do you serve St. Tammany?', 'In St. Tammany Parish, we serve'],
+  ['Do you come to La Place?', 'LaPlace is in St. John the Baptist Parish'],
+  ['Can you do windshield replacement in Kenner?', 'Kenner is in Jefferson Parish'],
+  ['Do you go to Baton Rouge?', '40-mile radius'],
+]) {
+  const { text } = getChatbotReply(question);
+  assert.ok(text.includes(expected), `${question} -> ${text}`);
+}
+for (const [question, unexpected] of [
+  ['Can I reserve a time for Saturday?', 'Reserve is in'],
+  ['I want to reserve mobile service', 'Reserve is in'],
+  ['Do you have violet tint?', 'Violet is in'],
+  ['Can you come to my office on Poydras Street?', 'Poydras is in'],
+  ['Do you go to St. Charles Avenue?', 'In St. Charles Parish'],
+]) {
+  const { text } = getChatbotReply(question);
+  assert.ok(!text.includes(unexpected), `${question} -> ${text}`);
+}
+
 const unknown = getChatbotReply('Do you sell roof racks?');
 assert.match(unknown.text, /don’t have a confirmed answer/i);
 assert.deepEqual(
@@ -197,7 +236,7 @@ for (const service of [
   'ADAS Calibration',
   'Window Tinting',
   'Mobile Detailing',
-  'Side & Rear Glass Replacement',
+  'Car Window Replacement',
 ])
   assert.ok(
     serviceList.includes(service),

@@ -3,6 +3,9 @@ import { data as home } from '../pages/Home/data';
 import { data as services } from '../pages/Services/data';
 import { data as detail } from '../pages/ServiceDetail/data';
 import { data as areas } from '../pages/ServiceAreas/data';
+import { data as locationPages } from '../pages/LocationPage/data';
+import { data as guidesIndex } from '../pages/Guides/data';
+import { data as guideArticles } from '../pages/GuideArticle/data';
 import { data as projects } from '../pages/Projects/data';
 import { data as gallery } from '../pages/Gallery/data';
 import { data as faq } from '../pages/FAQ/data';
@@ -23,6 +26,17 @@ export const pageRoutes = [
     'ServiceDetail',
   ]),
   ['/service-areas', areas, 'ServiceAreas'],
+  ...Object.values(locationPages.records).map((record) => [
+    `/auto-glass-repair/${record.slug}`,
+    record,
+    'LocationPage',
+  ]),
+  ['/guides', guidesIndex, 'Guides'],
+  ...Object.values(guideArticles.records).map((record) => [
+    `/guides/${record.slug}`,
+    record,
+    'GuideArticle',
+  ]),
   ['/our-work', projects, 'Projects'],
   ['/gallery', gallery, 'Gallery'],
   ['/faq', faq, 'FAQ'],

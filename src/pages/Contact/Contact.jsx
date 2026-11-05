@@ -58,10 +58,18 @@ export default function Contact() {
           </div>
         </div>
       </section>
+      <section className="section page-section">
+        <div className="container service-guide">
+          <h2>{data.nextHeading}</h2>
+          {data.next.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      </section>
       <section className="section section-soft">
         <div className="container">
           <h2>{data.mapHeading}</h2>
-          <LocationMap showCoverage />
+          <LocationMap />
         </div>
       </section>
     </>

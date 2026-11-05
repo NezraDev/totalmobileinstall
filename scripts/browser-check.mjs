@@ -25,6 +25,11 @@ await desktop.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
 await desktop.evaluate(() => document.fonts.ready);
 assert.equal(await desktop.locator('h1').count(), 1);
 assert.ok((await desktop.locator('h1').innerText()).includes('At Your Door.'));
+assert.ok(
+  (await desktop.locator('h1').innerText()).includes(
+    'New Orleans Auto Glass Repair,',
+  ),
+);
 assert.equal(
   await desktop.locator('select[name="serviceMode"]').count(),
   0,
@@ -33,7 +38,7 @@ await settlePhotos(desktop);
 assert.ok(
   (
     await desktop.locator('.section-soft .section-heading h2').innerText()
-  ).includes('Six services'),
+  ).includes('Automobile glass repair'),
 );
 assert.equal(await desktop.locator('.section-soft .service-card').count(), 6);
 await desktop.screenshot({ path: `${out}/desktop.png`, fullPage: true });
@@ -51,7 +56,7 @@ const desktopChatAnswer = desktop
 await desktopChatAnswer.waitFor();
 assert.ok(
   (await desktopChatAnswer.innerText()).includes(
-    'repair is suitable for your vehicle',
+    'tells you if a repair will work',
   ),
 );
 assert.ok(
@@ -77,14 +82,22 @@ assert.notEqual(
 const paths = [
   '/services',
   ...[
-    'auto-glass-repair',
+    'windshield-repair',
     'windshield-replacement',
     'adas-calibration',
     'window-tinting',
     'mobile-detailing',
-    'side-rear-glass',
+    'car-window-replacement',
   ].map((s) => `/services/${s}`),
   '/service-areas',
+  '/auto-glass-repair/metairie',
+  '/auto-glass-repair/kenner',
+  '/auto-glass-repair/west-bank',
+  '/guides',
+  '/guides/windshield-chip-repair-or-replacement',
+  '/guides/cracked-windshield-what-to-do',
+  '/guides/adas-calibration-after-windshield-replacement',
+  '/guides/broken-car-window-what-to-do',
   '/our-work',
   '/home-service',
   '/gallery',
@@ -133,7 +146,7 @@ for (const service of [
   'ADAS Calibration',
   'Window Tinting',
   'Mobile Detailing',
-  'Side & Rear Glass Replacement',
+  'Car Window Replacement',
 ]) {
   assert.ok(
     (await desktop.locator('.service-card').allTextContents()).some((text) =>
@@ -146,9 +159,31 @@ await desktop.screenshot({
   path: `${out}/services-desktop.png`,
   fullPage: true,
 });
-await desktop.goto(`${baseUrl}/services/auto-glass-repair`, {
+for (const [from, to] of [
+  ['/services/auto-glass-repair', '/services/windshield-repair'],
+  ['/services/side-rear-glass', '/services/car-window-replacement'],
+]) {
+  await desktop.goto(`${baseUrl}${from}`, { waitUntil: 'networkidle' });
+  assert.equal(new URL(desktop.url()).pathname, to, from);
+  assert.equal(await desktop.locator('h1').count(), 1, from);
+}
+assert.ok(
+  (await desktop.locator('.service-card .text-link').allTextContents()).some(
+    (text) => text.includes('Explore windshield chip repair'),
+  ),
+);
+await desktop.goto(`${baseUrl}/services/windshield-repair`, {
   waitUntil: 'networkidle',
 });
+assert.equal(
+  await desktop.locator('h1').innerText(),
+  'Windshield Repair in New Orleans',
+);
+assert.ok(
+  (await desktop.locator('main h2').allTextContents()).includes(
+    'Windshield Chip Repair',
+  ),
+);
 const autoGlassCopy = await desktop.locator('main').innerText();
 assert.ok(
   autoGlassCopy.includes('Repair options for eligible chips and cracks'),
@@ -160,7 +195,7 @@ await desktop.goto(`${baseUrl}/services/windshield-replacement`, {
 });
 const replacementCopy = await desktop.locator('main').innerText();
 assert.ok(replacementCopy.includes('written warranty terms'));
-assert.ok(replacementCopy.includes('Vehicle-specific windshield selection'));
+assert.ok(replacementCopy.includes('The right windshield for your vehicle'));
 await desktop.goto(`${baseUrl}/services/adas-calibration`, {
   waitUntil: 'networkidle',
 });
@@ -197,11 +232,79 @@ const coverageCopy = await desktop.locator('main').innerText();
 assert.ok(coverageCopy.includes('40-mile mobile service radius'));
 assert.ok(coverageCopy.includes('North Shore'));
 assert.equal(await desktop.locator('.location-map--coverage').count(), 1);
+// The full Service Areas list: 7 parishes, 57 places, and 15 neighborhoods.
+assert.equal(await desktop.locator('.area-parish').count(), 7);
+assert.equal(await desktop.locator('.area-parish .area-list li').count(), 72);
+for (const name of [
+  'Pearl River',
+  'Des Allemands',
+  'Pleasure Bend',
+  'Tremé',
+  'Belle Chasse',
+  'Crescent City Connection',
+])
+  assert.ok(coverageCopy.includes(name), name);
+const coverageWords = coverageCopy.match(/[A-Za-z0-9’'.-]+/g).length;
+assert.ok(coverageWords >= 600, `Service Areas has ${coverageWords} words`);
+assert.equal(
+  await desktop.locator('.area-parish__links a[href^="/auto-glass-repair/"]').count(),
+  4,
+);
 assert.ok(
   (await desktop.locator('.map-coverage-legend').innerText()).includes(
     '40-mile mobile service radius',
   ),
 );
+// Content depth: 650+ words on service pages, 400+ on supporting pages (FAQ answers opened).
+for (const [route, minimum] of [
+  ['/services/windshield-repair', 650],
+  ['/services/windshield-replacement', 650],
+  ['/services/car-window-replacement', 650],
+  ['/services/adas-calibration', 650],
+  ['/services/mobile-detailing', 650],
+  ['/services', 400],
+  ['/gallery', 400],
+  ['/contact', 400],
+  ['/about', 400],
+]) {
+  await desktop.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle' });
+  const words = await desktop.locator('main').evaluate((main) => {
+    main.querySelectorAll('details').forEach((item) => (item.open = true));
+    return (main.innerText.match(/[A-Za-z0-9’'.-]+/g) || []).length;
+  });
+  assert.ok(words >= minimum, `${route} has ${words} words`);
+}
+// Guides: 700+ words each, linked to a service page and Book Service.
+for (const slug of [
+  'windshield-chip-repair-or-replacement',
+  'cracked-windshield-what-to-do',
+  'adas-calibration-after-windshield-replacement',
+  'broken-car-window-what-to-do',
+]) {
+  await desktop.goto(`${baseUrl}/guides/${slug}`, { waitUntil: 'networkidle' });
+  const text = `${await desktop.locator('.page-intro').innerText()} ${await desktop.locator('article').innerText()}`;
+  const words = text.match(/[A-Za-z0-9’'.-]+/g).length;
+  assert.ok(words >= 700 && words <= 1100, `${slug} has ${words} words`);
+  assert.ok(await desktop.locator('article a[href^="/services/"]').count(), slug);
+  assert.ok(await desktop.locator('article a[href^="/book-service"]').count(), slug);
+}
+// Location pages: 650+ words of main content each, and not near-duplicates.
+const locationTexts = [];
+for (const slug of ['metairie', 'kenner', 'west-bank']) {
+  await desktop.goto(`${baseUrl}/auto-glass-repair/${slug}`, { waitUntil: 'networkidle' });
+  const text = await desktop.locator('main').innerText();
+  const words = text.match(/[A-Za-z0-9’'.-]+/g).length;
+  assert.ok(words >= 650, `${slug} has ${words} words`);
+  assert.ok(!/2642|Tulane/i.test(text), slug);
+  assert.ok(await desktop.locator('a[href="/services/windshield-repair"]').count(), slug);
+  locationTexts.push(new Set(text.toLowerCase().match(/[a-z’'-]+/g)));
+}
+for (let a = 0; a < locationTexts.length; a++)
+  for (let b = a + 1; b < locationTexts.length; b++) {
+    const shared = [...locationTexts[a]].filter((w) => locationTexts[b].has(w)).length;
+    const overlap = shared / Math.min(locationTexts[a].size, locationTexts[b].size);
+    assert.ok(overlap < 0.8, `Location pages ${a} and ${b} share ${Math.round(overlap * 100)}% of words`);
+  }
 await desktop.goto(`${baseUrl}/home-service`, {
   waitUntil: 'networkidle',
 });
@@ -268,7 +371,7 @@ assert.ok(
 );
 assert.equal(await desktop.getByLabel('Preferred service mode').count(), 0);
 await desktop.goto(`${baseUrl}/faq`, { waitUntil: 'networkidle' });
-assert.equal(await desktop.locator('.faq-list details').count(), 8);
+assert.equal(await desktop.locator('.faq-list details').count(), 12);
 const faqQuestions = await desktop
   .locator('.faq-list summary')
   .allTextContents();
@@ -279,7 +382,7 @@ for (const detail of [
   'no additional charge',
   'confirm the next available time',
   '45 to 90 minutes',
-  'pre- and post-scan documentation',
+  'pre- and post-scan reports',
   '25% visible-light transmission',
   '12% on the rearmost window',
   'written terms that apply',
@@ -334,7 +437,7 @@ const mobileChatAnswer = mobile
 await mobileChatAnswer.waitFor();
 assert.ok(
   (await mobileChatAnswer.innerText()).includes(
-    'repair is suitable for your vehicle',
+    'tells you if a repair will work',
   ),
 );
 assert.ok(

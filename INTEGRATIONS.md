@@ -48,9 +48,9 @@ The operator needs a Resend account, a private sending API key scoped to `totalm
 
 The trusted service calls Resend's send-email API and handles its returned error or ID. A send API response is not evidence of final delivery. Any later delivery monitoring belongs to that service. [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email)
 
-## MapLibre, the shop pin, and CARTO
+## MapLibre, the coverage map, and CARTO
 
-The confirmed shop address is **2642 Tulane Ave, New Orleans, LA 70119**, with **latitude 29.961365651200683, longitude -90.09014810481109**. MapLibre uses longitude/latitude order and shares the business source of truth. Both optional coordinate overrides must be valid; incomplete or invalid overrides retain this pin. Directions use the business-supplied [Google Maps destination](https://maps.app.goo.gl/RwCt2X5jmooMkDi8A).
+The business is mobile-only, and the site shows its location as **New Orleans, LA** only. The service-area maps draw the 40-mile coverage circle around a public center rounded to 2 decimals (**latitude 29.96, longitude -90.09**), with no pin, popup, or coordinates readout, so they never pinpoint the base. MapLibre uses longitude/latitude order and shares the business source of truth in `src/content/business.js`. Both optional coordinate overrides (`VITE_MAP_LONGITUDE` and `VITE_MAP_LATITUDE`) must be valid; incomplete or invalid overrides keep the rounded center. If the map cannot load, the fallback links to an OpenStreetMap view of the whole coverage area, without a marker. The structured data links the [Google Maps listing](https://maps.app.goo.gl/RwCt2X5jmooMkDi8A) as `hasMap`.
 
 The portfolio map uses a generalized New Orleans overview marker. The supplied project records have no verified job-level locations; real photos remain the proof, and exact client locations are neither inferred nor published.
 

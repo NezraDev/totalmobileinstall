@@ -37,6 +37,7 @@
 .location-map .map-fallback > span {
   margin-top: 8px;
   max-width: 36ch;
+  text-wrap: balance;
 }
 
 .location-map .map-fallback > a {
@@ -64,53 +65,6 @@
   color: var(--blue);
   font-size: 13px;
   pointer-events: none;
-}
-
-.shop-map-marker {
-  display: grid;
-  place-items: center;
-  width: 45px;
-  height: 45px;
-  padding: 6px;
-  border: 3px solid #fff;
-  border-radius: 50%;
-  background: var(--blue);
-  box-shadow: 0 4px 14px rgb(8 25 60 / 0.3);
-  color: #fff;
-  cursor: pointer;
-  transition:
-    transform 0.2s var(--ease),
-    box-shadow 0.2s var(--ease);
-}
-
-.shop-map-marker:hover,
-.shop-map-marker:focus-visible {
-  box-shadow: 0 7px 18px rgb(8 25 60 / 0.36);
-  transform: translateY(-2px) scale(1.04);
-}
-
-.map-popup {
-  display: grid;
-  gap: 5px;
-  min-width: 180px;
-  color: var(--ink);
-  font-family: var(--font);
-}
-
-.map-popup strong {
-  color: var(--blue);
-  font-size: 13px;
-}
-
-.map-popup span {
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.map-popup small {
-  color: var(--muted);
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
 }
 
 .maplibregl-popup-content {
@@ -605,7 +559,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .shop-map-marker,
   .projects-map-marker,
   .project-card,
   .project-card__proof img,

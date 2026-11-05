@@ -11,14 +11,17 @@ export const data = {
   eyebrow: 'The work speaks for itself',
   title: 'Real vehicles. Careful work.',
   description:
-    'See the vehicles and glass work entrusted to Total Mobile Install through matched before-and-after photos and completed projects.',
+    'See the cars and trucks our team has worked on, with matched before-and-after photos.',
   transformationHeading: 'See the transformation',
   transformationDescription:
-    'Matched photographs show the same vehicle before and after the work. Camera viewpoints may differ.',
+    'Each pair shows the same vehicle before and after the work. Camera angles may differ.',
   photoHeading: 'More from our project gallery',
   photoDescription:
     'Explore more vehicles and glass work from our project photos.',
   transformations: beforeAfter,
+  notesHeading: 'Every project in the gallery',
+  notesDescription:
+    'Each pair below shows the same vehicle before and after the work. These are photos of our own jobs, not stock images. We leave out client names and exact job locations. Camera angles can differ between the before and after photos.',
   gallery: [
     {
       id: 'redCorvette',

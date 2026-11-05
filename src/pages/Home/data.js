@@ -1,16 +1,16 @@
 import { slides, photos } from '../../content/assets';
 export const data = {
   seo: {
-    title: 'New Orleans Windshield & Auto Glass | Total Mobile Install',
+    title: 'Mobile Auto Glass Repair New Orleans | Total Mobile Install',
     description:
-      'Mobile windshield repair and replacement, side and rear glass, ADAS calibration, tint, and detailing at your home or work across Greater New Orleans.',
+      'Mobile auto glass repair in New Orleans, LA. Windshield chip repair, windshield replacement, and car window replacement at your home or work.',
     image: '/images/services/corvette-red-windshield.webp',
   },
   hero: {
-    title: ['Windshield Repair,', 'At Your Door.'],
-    label: 'New Orleans · Mobile services',
+    title: ['New Orleans Auto Glass Repair,', 'At Your Door.'],
+    label: 'New Orleans, LA · Mobile services',
     description:
-      'Auto glass, calibration, tint, and detailing from a local, family-owned team. We bring eligible services to your home or workplace.',
+      'Automobile glass repair, calibration, and detailing from a local, family-owned team. We come to your home or workplace.',
     primary: 'Book Mobile Service',
     secondary: 'Call 1-504-207-7742',
     note: 'Your vehicle. Your place. Our precision.',
@@ -77,9 +77,9 @@ export const data = {
   about: {
     title: 'Family-owned care. A higher standard.',
     description:
-      'Total Mobile Install Auto Glass & Tint has proudly served New Orleans and surrounding communities for more than nine years. We’re a family-operated business focused on careful work, safety, and clear service options for your vehicle.',
+      'Total Mobile Install has served New Orleans and nearby towns for more than nine years. We are a family business that cares about careful work, safety, and clear choices for your car.',
     secondary:
-      'From windshield and side or rear glass to calibration, tint, and detailing, we put care into every step.',
+      'From windshields and car windows to calibration and detailing, we put care into every step.',
     image: photos.redCorvette,
     caption: 'A little extra care. A lot of pride in the finish.',
     action: 'Get to know our team',
@@ -90,10 +90,11 @@ export const data = {
     ],
   },
   services: {
-    title: 'Six services. Four specialties.',
+    title: 'Automobile glass repair, brought to you.',
     description:
-      'Windshield repair and replacement, side and rear glass, ADAS calibration, ceramic window tint, and detailing from a local, family-owned team in New Orleans.',
+      'Windshield repair and replacement, car window replacement, ADAS calibration, and mobile detailing from a local, family-owned team in New Orleans.',
     action: 'Explore all services',
+    areasLead: 'We come to you across Greater New Orleans, including',
   },
   why: {
     title: 'Good work starts with people who care.',
@@ -116,7 +117,7 @@ export const data = {
           'Request mobile service at your home or workplace.',
       },
     ],
-    image: photos.mobileService,
+    image: photos.glassWork,
   },
   transformation: {
     title: 'See the transformation.',
@@ -166,7 +167,7 @@ export const data = {
         name: 'Boulonguise Beaute',
         location: 'New Orleans, LA',
         quote:
-          'I scheduled last-minute on a Friday for Saturday morning. They repaired my window before 8:30am and even worked around my car door locking. Seamless and stress-free. Definitely recommend!',
+          'They repaired my window before 8:30am and even worked around my car door locking. Seamless and stress-free. Definitely recommend!',
       },
       {
         id: 'ellen',
@@ -204,7 +205,6 @@ export const data = {
       'Tell us what your vehicle needs. Our team can help you choose a service and confirm the next steps.',
     phoneLabel: 'Give us a call',
     emailLabel: 'Send us a note',
-    addressLabel: 'Business address',
     hoursLabel: 'Business hours',
     hoursNote: 'All hours are Central Time. Please call to confirm your appointment.',
   },

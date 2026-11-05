@@ -46,6 +46,15 @@ const serviceAreaAction = {
   href: '/service-areas',
   icon: 'map',
 };
+// The Service Areas list, shared with the page and the structured data.
+const areaPlaceCount = business.serviceAreas.reduce(
+  (total, area) => total + area.places.length,
+  0,
+);
+const parishShortNames = business.serviceAreas.map((area) =>
+  area.name.replace(/ Parish$/, ''),
+);
+const parishList = `${parishShortNames.slice(0, -1).join(', ')}, and ${parishShortNames.at(-1)} parishes`;
 const privacyAction = {
   label: 'Privacy information',
   href: '/privacy-policy',
@@ -353,7 +362,7 @@ const rules = [
       'boat windshield',
     ],
     reply: () => ({
-      text: 'The published service list covers auto windshield repair and replacement plus side and rear window glass, but it does not specify sunroof, panoramic roof, mirror, wiper, motorcycle, or boat glass service. Please contact the team with your vehicle details to confirm.',
+      text: 'The published service list covers auto windshield repair and replacement plus car window replacement for side and rear glass, but it does not specify sunroof, panoramic roof, mirror, wiper, motorcycle, or boat glass service. Please contact the team with your vehicle details to confirm.',
       actions: contactActions,
     }),
   },
@@ -574,13 +583,11 @@ const rules = [
       'address',
       'your address',
       'find your address',
-      'tulane avenue',
-      '2642 tulane',
       'your location',
       'shop located',
     ],
     reply: () => ({
-      text: `Our business address is ${business.address}. We are a mobile-only service, so we come to your home or workplace within 40 miles of New Orleans.`,
+      text: `We are a mobile-only service based in ${business.address}, so there is no shop to visit. We come to your home or workplace within 40 miles of New Orleans.`,
       actions: [serviceAreaAction, mobileBookingAction, ...contactActions],
     }),
   },
@@ -602,6 +609,10 @@ const rules = [
       'postal code',
       'zip code do you cover',
       'do you travel to',
+      'do you go to',
+      'can you go to',
+      'will you go to',
+      'do you drive to',
       'come to my location',
       'do you come to',
       'work in my area',
@@ -641,7 +652,7 @@ const rules = [
       'does mobile service include my area',
     ],
     reply: () => ({
-      text: 'Mobile service can be requested at homes, offices, fleet yards, and dealerships within a 40-mile radius of New Orleans. The area includes Greater New Orleans, the West Bank, and the North Shore. Exact ZIP-code availability depends on the service, so the team will confirm your location.',
+      text: `Mobile service can be requested at homes, offices, fleet yards, and dealerships within a 40-mile radius of New Orleans. That covers ${areaPlaceCount} communities in ${parishList}, including Metairie, Kenner, Chalmette, LaPlace, Belle Chasse, the West Bank, and the North Shore. Exact ZIP-code availability depends on the service, so the team will confirm your location.`,
       actions: [serviceAreaAction, mobileBookingAction, ...contactActions],
     }),
   },
@@ -688,7 +699,7 @@ const rules = [
       'friday',
     ],
     reply: () => ({
-      text: `Our published hours are ${publishedHours}, New Orleans local time (Central Time). The website does not list 24/7 service or Sunday and holiday hours, so please call to confirm a visit.`,
+      text: `Our published hours are ${publishedHours}, New Orleans local time (Central Time). We are closed on weekends, and the website does not list 24/7 service or holiday hours, so please call to confirm a visit.`,
       actions: contactActions,
     }),
   },
@@ -707,7 +718,7 @@ const rules = [
     ],
     reply: () => ({
       text: 'Repair time depends on the damage and your vehicle. The technician will first confirm whether the chip or crack is suitable for repair.',
-      actions: [serviceAction('auto-glass-repair'), ...contactActions],
+      actions: [serviceAction('windshield-repair'), ...contactActions],
     }),
   },
   {
@@ -724,11 +735,11 @@ const rules = [
       'glass',
     ],
     reply: () => ({
-      text: 'Auto glass service includes windshield chip and crack repair, OEM-equivalent windshield replacement, and side or rear window glass replacement. The team assesses damage, confirms the correct vehicle-specific glass, and confirms mobile service availability for your request.',
+      text: 'Auto glass service includes windshield chip and crack repair, OEM-equivalent windshield replacement, and car window replacement for door, quarter, and rear glass. The team assesses damage, confirms the correct vehicle-specific glass, and confirms mobile service availability for your request.',
       actions: [
-        serviceAction('auto-glass-repair'),
+        serviceAction('windshield-repair'),
         serviceAction('windshield-replacement'),
-        serviceAction('side-rear-glass'),
+        serviceAction('car-window-replacement'),
         bookingAction,
       ],
     }),
@@ -779,7 +790,7 @@ const rules = [
     }),
   },
   {
-    id: 'side-rear-glass',
+    id: 'car-window-replacement',
     priority: 88,
     triggers: [
       'side glass',
@@ -807,9 +818,9 @@ const rules = [
       'shattered window',
     ],
     reply: () => ({
-      text: `${serviceFacts('side-rear-glass')} Requests are for mobile service; the team will confirm glass availability for your vehicle and location.`,
+      text: `${serviceFacts('car-window-replacement')} Requests are for mobile service; the team will confirm glass availability for your vehicle and location.`,
       actions: [
-        serviceAction('side-rear-glass'),
+        serviceAction('car-window-replacement'),
         bookingAction,
         ...contactActions,
       ],
@@ -885,9 +896,9 @@ const rules = [
       'wind screen repair',
     ],
     reply: () => ({
-      text: `${serviceFacts('auto-glass-repair')} Repair time depends on the damage and your vehicle. The team can assess whether you need repair or replacement.`,
+      text: `${serviceFacts('windshield-repair')} Repair time depends on the damage and your vehicle. The team can assess whether you need repair or replacement.`,
       actions: [
-        serviceAction('auto-glass-repair'),
+        serviceAction('windshield-repair'),
         bookingAction,
         ...contactActions,
       ],
@@ -1132,7 +1143,7 @@ const rules = [
       'how long in business',
     ],
     reply: () => ({
-      text: 'Total Mobile Install is a family-operated New Orleans business that has served New Orleans and surrounding communities for more than nine years. Services include windshield repair and replacement, side and rear glass, ADAS calibration, window tinting, and detailing.',
+      text: 'Total Mobile Install is a family-operated New Orleans business that has served New Orleans and surrounding communities for more than nine years. Services include windshield repair and replacement, car window replacement, ADAS calibration, and mobile detailing. Window tinting is not available as of now.',
       actions: [
         { label: 'About the team', href: '/about', icon: 'arrow' },
         ...contactActions,
@@ -1612,6 +1623,115 @@ function matchScore(query, triggers, ruleId) {
   return best;
 }
 
+// Any parish, community, or New Orleans neighborhood on the Service Areas page
+// gets a direct answer, for questions such as "Do you come to Luling?".
+const parishAliases = {
+  'st-bernard': ['St. Bernard'],
+  'st-charles': ['St. Charles'],
+  'st-john': ['St. John the Baptist', 'St. John Parish', 'St. John'],
+  'st-tammany': ['St. Tammany'],
+  plaquemines: ['Plaquemines'],
+};
+const placeAliases = {
+  LaPlace: ['La Place'],
+  'Central Business District': ['CBD'],
+  'Lower Ninth Ward': ['Lower 9th Ward', 'Lower Ninth', 'Lower 9th'],
+};
+// Neighborhoods people name with "the", such as "the French Quarter".
+const neighborhoodsWithThe = new Set([
+  'Bywater',
+  'Central Business District',
+  'French Quarter',
+  'Garden District',
+  'Irish Channel',
+  'Lower Ninth Ward',
+  'Marigny',
+]);
+// These names are also everyday words, so they count only when capitalized
+// after the start of the question ("Do you come to Reserve?").
+const everydayWordPlaces = new Set(['Reserve', 'Violet']);
+// "Poydras Street" or "St. Charles Avenue" is a street in New Orleans, not the place.
+const streetAfterPlace =
+  /^(?:street|st|avenue|ave|road|rd|boulevard|blvd|highway|hwy|drive|dr|parkway|pkwy|expressway|lane|ln)\b/;
+const placeIntent =
+  /\b(?:service|services|serve|serving|cover|covers|covered|come|coming|go|going|travel|area|areas|available|availability|mobile|visit|near|nearby|drive|out|in|at|to|from|around|live)\b/;
+const servicePlaces = business.serviceAreas
+  .flatMap((area) => [
+    ...[area.name, ...(parishAliases[area.id] || [])].map((phrase) => ({
+      kind: 'parish',
+      name: area.name,
+      area,
+      phrase,
+    })),
+    ...area.places.flatMap((name) =>
+      [name, ...(placeAliases[name] || [])].map((phrase) => ({
+        kind: 'place',
+        name,
+        area,
+        phrase,
+      })),
+    ),
+    ...(area.neighborhoods || []).flatMap((name) =>
+      [name, ...(placeAliases[name] || [])].map((phrase) => ({
+        kind: 'neighborhood',
+        name,
+        area,
+        phrase,
+      })),
+    ),
+  ])
+  .map((entry) => ({ ...entry, phrase: normalize(entry.phrase) }))
+  .sort((a, b) => b.phrase.length - a.phrase.length);
+
+function findServicePlace(question, query) {
+  const paddedQuery = ` ${query} `;
+  for (const entry of servicePlaces) {
+    const index = paddedQuery.indexOf(` ${entry.phrase} `);
+    if (index < 0) continue;
+    if (
+      streetAfterPlace.test(
+        paddedQuery.slice(index + entry.phrase.length + 2),
+      )
+    )
+      continue;
+    if (
+      everydayWordPlaces.has(entry.name) &&
+      !String(question).trim().slice(1).includes(entry.name)
+    )
+      continue;
+    if (query !== entry.phrase && !placeIntent.test(query)) continue;
+    return entry;
+  }
+  return null;
+}
+
+function servicePlaceSentence(entry) {
+  const { area } = entry;
+  if (entry.kind === 'neighborhood')
+    return `${neighborhoodsWithThe.has(entry.name) ? 'The ' : ''}${entry.name} is a New Orleans neighborhood inside our 40-mile mobile service area.`;
+  if (area.neighborhoods)
+    return entry.kind === 'parish'
+      ? `${area.name} is the city of New Orleans, our home base, and every neighborhood is inside our 40-mile mobile service area.`
+      : 'New Orleans is our home base. We cover every neighborhood in the city and the rest of Greater New Orleans within 40 miles.';
+  if (entry.kind === 'parish') {
+    const shown = area.places.slice(0, 6);
+    const more = area.places.length - shown.length;
+    let list = shown[0];
+    if (more > 0) list = `${shown.join(', ')}, and ${more} more communities`;
+    else if (shown.length > 1)
+      list = `${shown.slice(0, -1).join(', ')}, and ${shown.at(-1)}`;
+    return `In ${area.name}, we serve ${list}.`;
+  }
+  return `${entry.name} is in ${area.name}, inside our 40-mile mobile service area.`;
+}
+
+function servicePlaceReply(entry) {
+  return {
+    text: `Yes. ${servicePlaceSentence(entry)} We come to your home or workplace, and the team confirms availability for your exact address.`,
+    actions: [serviceAreaAction, mobileBookingAction, ...contactActions],
+  };
+}
+
 export function getChatbotReply(question) {
   const query = normalize(question);
   if (!query) {
@@ -1664,6 +1784,10 @@ export function getChatbotReply(question) {
   )
     return zipAreaRule.reply();
 
+  const place = includesZipCode ? null : findServicePlace(question, query);
+  if (place && (!match || match.rule.id === 'service-area'))
+    return servicePlaceReply(place);
+
   if (match) {
     const response = match.rule.reply();
     if (includesZipCode && match.rule.id !== 'service-area') {
@@ -1680,6 +1804,16 @@ export function getChatbotReply(question) {
         ),
       };
     }
+    // Another answer matched; keep it and confirm the place is covered.
+    if (place)
+      return {
+        ...response,
+        text: `${response.text} ${servicePlaceSentence(place)}`,
+        actions: [...response.actions, serviceAreaAction].filter(
+          (action, index, all) =>
+            all.findIndex((item) => item.href === action.href) === index,
+        ),
+      };
     return response;
   }
 

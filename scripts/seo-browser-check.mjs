@@ -57,6 +57,20 @@ try {
     true,
   );
   assert.equal(await page.getByLabel('Preferred service mode').count(), 0);
+  // Links shared before the service rename still preselect the right service.
+  for (const [legacy, current] of [
+    ['auto-glass-repair', 'windshield-repair'],
+    ['side-rear-glass', 'car-window-replacement'],
+  ]) {
+    await page.goto(`${base}/book-service?service=${legacy}`, {
+      waitUntil: 'networkidle',
+    });
+    assert.equal(
+      await page.getByLabel('Service needed').inputValue(),
+      current,
+      legacy,
+    );
+  }
   assert.equal(
     await page.locator('link[rel="canonical"]').getAttribute('href'),
     `${report.origin}/book-service`,
@@ -110,7 +124,7 @@ try {
     await motionPage.waitForTimeout(1100);
     assert.equal(
       await motionPage.locator('.crystal-headline').getAttribute('aria-label'),
-      'Windshield Repair, At Your Door.',
+      'New Orleans Auto Glass Repair, At Your Door.',
     );
     assert.equal(
       await motionPage.locator('.crystal-headline').getAttribute('data-motion'),

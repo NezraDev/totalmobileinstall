@@ -1,7 +1,11 @@
 import { useId, useRef, useState } from 'react';
 import { ArrowUpRight, Phone, CheckCircle2, LoaderCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { services, serviceSpecialties } from '../../content/services';
+import {
+  findService,
+  services,
+  serviceSpecialties,
+} from '../../content/services';
 import { business } from '../../content/business';
 import { formCopy as c } from '../../content/ui';
 import {
@@ -30,9 +34,11 @@ export default function BookingForm({
   initialService = '',
   initialLocation = '',
 }) {
-  const selectedInitialService = services.find(
-    (service) => service.id === initialService && !service.unavailable,
-  );
+  // Old ?service= links use pre-rename IDs; findService maps them to current ones.
+  const initialMatch = findService(initialService);
+  const selectedInitialService = initialMatch?.unavailable
+    ? undefined
+    : initialMatch;
   const formId = useId(),
     formRef = useRef(null),
     pendingRef = useRef(false);

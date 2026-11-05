@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { photos, slides, beforeAfter, brand } from '../src/content/assets.js';
 import { services } from '../src/content/services.js';
+import { business } from '../src/content/business.js';
 const localImages = [
   ...Object.values(photos),
   ...slides,
@@ -26,6 +27,21 @@ for (const file of Object.values(brand))
   assert.ok(fs.existsSync(path.join('public', file)));
 assert.equal(services.length, 6);
 assert.ok(beforeAfter.length >= 1);
+// Service Areas: the 57 places the owner chose, by parish, plus New Orleans neighborhoods.
+const areaPlaces = business.serviceAreas.flatMap((area) => area.places);
+const areaNeighborhoods = business.serviceAreas.flatMap(
+  (area) => area.neighborhoods || [],
+);
+assert.equal(business.serviceAreas.length, 7);
+assert.equal(areaPlaces.length, 57);
+assert.equal(areaNeighborhoods.length, 15);
+assert.equal(
+  new Set([...areaPlaces, ...areaNeighborhoods]).size,
+  72,
+  'Service area names are unique',
+);
+for (const area of business.serviceAreas)
+  assert.ok(area.id && / Parish$/.test(area.name) && area.places.length, area.name);
 for (const folder of fs.readdirSync('src/pages')) {
   const base = path.join('src/pages', folder);
   assert.ok(fs.existsSync(path.join(base, 'data.js')));
@@ -43,5 +59,5 @@ assert.ok(
   !fs.readFileSync('.env.example', 'utf8').includes('VITE_RESEND_API_KEY'),
 );
 console.log(
-  `Content checks passed: ${services.length} services, ${beforeAfter.length} matched photo pairs, ${Object.keys(photos).length} photos, 12 page data files.`,
+  `Content checks passed: ${services.length} services, ${beforeAfter.length} matched photo pairs, ${Object.keys(photos).length} photos, 12 page data files, ${areaPlaces.length} service-area places in ${business.serviceAreas.length} parishes.`,
 );

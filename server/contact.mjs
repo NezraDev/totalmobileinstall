@@ -6,7 +6,7 @@ import {
   normalizedPayload,
   validateContactRequest,
 } from '../src/integrations/contactValidation.js';
-import { services } from '../src/content/services.js';
+import { findService } from '../src/content/services.js';
 import { buildCustomerCopyEmail, buildRequestEmail } from './requestEmail.mjs';
 import { createGmailCopySender, withCopyTimeout } from './customerCopy.mjs';
 import {
@@ -63,9 +63,8 @@ export function createContactHandler({
       token,
       now: now(),
     });
-    const service = services.find(
-      (item) => item.id === payload?.values.serviceId,
-    );
+    // Links emailed before the service rename carry old IDs for up to 7 days.
+    const service = findService(payload?.values.serviceId);
     if (!payload || !service) return unavailable();
     const action = requestActions[payload.action];
     const cooldownId = createHash('sha256')
@@ -225,7 +224,7 @@ export function createContactHandler({
       )
     )
       return reply(429, { accepted: false });
-    const service = services.find((item) => item.id === values.serviceId);
+    const service = findService(values.serviceId);
     const email = buildRequestEmail({ values, service, receivedAt: now() });
     // Stable for identical submissions within a 15-minute window; provider deduplicates retries.
     const idempotencyKey = createHash('sha256')

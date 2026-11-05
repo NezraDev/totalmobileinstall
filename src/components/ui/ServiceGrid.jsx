@@ -33,7 +33,7 @@ export default function ServiceGrid({ items = services, className = '' }) {
             <span className="service-unavailable">{ui.notAvailable}</span>
           ) : (
             <span className="text-link">
-              {ui.learnMore}
+              {s.linkLabel || ui.learnMore}
               <ArrowUpRight size={16} />
             </span>
           )}

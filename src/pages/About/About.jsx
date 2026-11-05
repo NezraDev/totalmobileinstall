@@ -53,6 +53,22 @@ export default function About() {
           <Photo photo={data.secondImage} className="editorial-photo" />
         </div>
       </section>
+      <section className="section page-section">
+        <div className="container service-guide">
+          <h2>{data.moreHeading}</h2>
+          {data.more.map(([title, copy]) => (
+            <div className="service-section" key={title}>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </div>
+          ))}
+          <div className="button-row">
+            <Link className="text-link" to="/service-areas">
+              {data.areasLabel}
+            </Link>
+          </div>
+        </div>
+      </section>
       <CTA />
     </>
   );

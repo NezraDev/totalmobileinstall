@@ -13,7 +13,7 @@ export default function Photo({
   return (
     <img
       className={className}
-      {...getResponsiveImageProps(photo, { sizes })}
+      {...getResponsiveImageProps(photo, { sizes, fallbackWidth: 768 })}
       alt={photo.alt || ''}
       style={{ objectPosition: photo.position || 'center', ...style }}
       loading={priority ? 'eager' : 'lazy'}

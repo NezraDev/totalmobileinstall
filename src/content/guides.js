@@ -87,7 +87,7 @@ export const guides = [
         ],
       },
       {
-        heading: 'What to tell us when you book',
+        heading: 'What to tell us about the chip',
         paragraphs: [
           'Share your vehicle year, make, and model, where the chip is on the glass, and whether you see any lines running from it. Tell us the address where the car will be parked. Choose Urgent / Rush if the chip is spreading, or Appointment if you want to pick a date.',
         ],
@@ -153,7 +153,7 @@ export const guides = [
         ],
       },
       {
-        heading: 'What to tell us when you book',
+        heading: 'What to tell us about the crack',
         list: [
           'Your vehicle year, make, and model.',
           'Where the crack starts and about how long it looks.',
@@ -218,7 +218,7 @@ export const guides = [
         ],
       },
       {
-        heading: 'Why the windshield matters',
+        heading: 'Why the windshield camera matters',
         paragraphs: [
           'On many vehicles, a forward-facing camera sits near the rearview mirror and looks through the windshield. When the windshield is replaced, the camera is moved to the new glass. Calibration makes sure it is aimed the way the automaker intended.',
           'Even a new windshield of the right type can sit very slightly differently from the old one. A small change in angle at the camera becomes a bigger error far down the road, which is why the aim is checked against the automaker specification.',
@@ -261,7 +261,7 @@ export const guides = [
         ],
       },
       {
-        heading: 'What the scan reports show',
+        heading: 'What pre- and post-scan reports tell you',
         paragraphs: [
           'A pre-scan checks the vehicle systems before the work begins. A post-scan checks them again afterward. With our calibration service, both reports are included, so you have a record of the work.',
         ],
@@ -296,7 +296,7 @@ export const guides = [
         ],
       },
       {
-        heading: 'After the work',
+        heading: 'After your new windshield',
         paragraphs: [
           'Pay attention to dashboard warning lights and to how lane keeping feels on the road. If something seems off after a windshield replacement, contact the team so they can check it.',
           'A standard replacement takes 45 to 90 minutes on site, followed by a 30 to 60 minute safe drive-away window. The team will tell you when the vehicle is ready to drive.',

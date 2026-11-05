@@ -10,8 +10,10 @@ export function getResponsiveImageProps(
   if (!image?.src) return {};
   const metadata = imageVariants[image.src];
   const sources = metadata?.sources;
+  // The largest file no wider than fallbackWidth (e.g. a 720 px portrait for 768).
   const fallback = fallbackWidth
-    ? sources?.find((source) => source.width >= fallbackWidth)
+    ? sources?.filter((source) => source.width <= fallbackWidth).at(-1) ||
+      sources?.[0]
     : null;
   return {
     src: fallback?.src || image.src,

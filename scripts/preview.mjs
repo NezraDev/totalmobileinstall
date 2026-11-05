@@ -102,6 +102,9 @@ export async function createPreviewServer(directory = 'dist') {
       const headers = {
         'Content-Type': types[path.extname(file)] || 'application/octet-stream',
         'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'SAMEORIGIN',
+        'Content-Security-Policy':
+          "frame-ancestors 'self'; base-uri 'self'; object-src 'none'",
         'Referrer-Policy': 'strict-origin-when-cross-origin',
         'Cache-Control': pathname.startsWith('/assets/')
           ? 'public, max-age=31536000, immutable'

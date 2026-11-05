@@ -64,7 +64,7 @@ export default function LocationPage() {
       </section>
       <section className="section page-section section-soft">
         <div className="container">
-          <h2>{data.questionsHeading}</h2>
+          <h2>{`${data.questionsHeading} ${page.slug === 'west-bank' ? 'on the West Bank' : `in ${page.name}`}`}</h2>
           <div className="faq-list">
             {page.questions.map((item) => (
               <details key={item.question}>

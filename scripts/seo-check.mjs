@@ -172,6 +172,7 @@ for (const route of [...report.routes, { ...report.notFound, path: '/404' }]) {
   }
   for (const [, href] of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {
     if (!href.startsWith('/')) continue;
+    assert.ok(!href.includes('?'), `Internal link with a query string: ${route.path} -> ${href}`);
     const target = new URL(href.replace(/&amp;/g, '&'), report.origin).pathname;
     assert.ok(
       routePaths.has(target) || target === '/home-service',
@@ -241,6 +242,11 @@ for (const file of await fs.readdir('dist', { recursive: true })) {
   );
   if (file.endsWith('.html'))
     assert.ok(!/2642/.test(text), `Street number in ${file}`);
+}
+{
+  const headers = await fs.readFile('dist/_headers', 'utf8');
+  assert.ok(headers.includes('X-Frame-Options: SAMEORIGIN'));
+  assert.ok(headers.includes("Content-Security-Policy: frame-ancestors 'self'"));
 }
 for (const sensitive of [
   '.env',

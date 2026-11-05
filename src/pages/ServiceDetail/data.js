@@ -76,7 +76,7 @@ export const data = {
           image: photoMap[service.imageKey].src,
           faq: service.questions,
         },
-        requestHref: `/book-service?service=${service.id}`,
+        requestHref: `/book-service#service=${service.id}`,
       },
     ]),
   ),

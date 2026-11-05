@@ -183,7 +183,7 @@ export const data = {
     'car-window-replacement': 'Car window replacement',
     'adas-calibration': 'ADAS calibration',
   },
-  questionsHeading: 'Common questions',
+  questionsHeading: 'Common auto glass questions',
   nearbyHeading: 'Nearby service areas',
   allAreasLabel: 'See all 57 communities we serve',
   requestLabel: 'Request mobile service',
@@ -201,7 +201,7 @@ export const data = {
           imageAlt: copy[location.slug].photo.alt,
           faq: copy[location.slug].questions,
         },
-        requestHref: `/book-service?location=${encodeURIComponent(
+        requestHref: `/book-service#location=${encodeURIComponent(
           location.slug === 'west-bank' ? 'West Bank' : `${location.name}, LA`,
         )}`,
       },

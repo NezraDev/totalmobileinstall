@@ -15,7 +15,7 @@ export const data = {
           seo: { ...guide.seo, image: guide.photo.src, imageAlt: guide.photo.alt },
           serviceName: service.name,
           serviceHref: `/services/${service.id}`,
-          requestHref: `/book-service?service=${service.id}`,
+          requestHref: `/book-service#service=${service.id}`,
         },
       ];
     }),

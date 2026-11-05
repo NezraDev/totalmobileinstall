@@ -57,6 +57,12 @@ try {
     true,
   );
   assert.equal(await page.getByLabel('Preferred service mode').count(), 0);
+  // Site links pre-fill the form after "#".
+  await page.goto(`${base}/book-service#service=windshield-replacement&location=Kenner%2C%20LA`, {
+    waitUntil: 'networkidle',
+  });
+  assert.equal(await page.getByLabel('Service needed').inputValue(), 'windshield-replacement');
+  assert.equal(await page.getByLabel('Service address or ZIP code').inputValue(), 'Kenner, LA');
   // Links shared before the service rename still preselect the right service.
   for (const [legacy, current] of [
     ['auto-glass-repair', 'windshield-repair'],

@@ -32,10 +32,11 @@ const NotFound = lazy(() => import('../pages/NotFound/NotFound'));
 export function SiteContent() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
-    if (hash) {
-      requestAnimationFrame(() =>
-        document.getElementById(hash.slice(1))?.scrollIntoView(),
-      );
+    const target = hash && document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (target) {
+      requestAnimationFrame(() => target.scrollIntoView());
+    } else if (hash) {
+      requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
     } else {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }

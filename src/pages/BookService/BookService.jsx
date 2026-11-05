@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import PageIntro from '../../components/ui/PageIntro';
 import PageMeta from '../../components/ui/PageMeta';
@@ -8,17 +8,21 @@ import { data } from './data';
 export default function BookService() {
   const [params] = useSearchParams();
   const query = params.toString();
+  // Site links pass the pre-fill after "#" (one crawlable URL); older ?service= links still work.
+  const { hash } = useLocation();
   const [request, setRequest] = useState({
     service: '',
     location: '',
   });
   useEffect(() => {
     const search = new URLSearchParams(query);
+    const fromHash = new URLSearchParams(hash.replace(/^#/, ''));
+    const read = (key) => search.get(key) || fromHash.get(key) || '';
     setRequest({
-      service: search.get('service') || '',
-      location: (search.get('location') || '').slice(0, 180),
+      service: read('service'),
+      location: read('location').slice(0, 180),
     });
-  }, [query]);
+  }, [query, hash]);
   return (
     <>
       <PageMeta {...data.seo} />
